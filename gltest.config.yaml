@@ -1,0 +1,3 @@
+networks:
+  studionet:
+    rpc_url: "https://studio.genlayer.com/api"

@@ -1,0 +1,12 @@
+{
+  "project": "DeltaProof",
+  "network": "studionet",
+  "chain_id": 61999,
+  "rpc_url": "https://studio.genlayer.com/api",
+  "explorer": "https://explorer-studio.genlayer.com",
+  "status": "NOT_DEPLOYED",
+  "contract_address": null,
+  "deployment_tx_hash": null,
+  "verified_source_sha256": null,
+  "live_tests": "NOT_RUN"
+}
