@@ -6,7 +6,7 @@
   "explorer": "https://explorer-studio.genlayer.com",
   "contract_source": "contracts/deltaproof_v2.py",
   "contract_name": "DeltaProofV2",
-  "status": "THREE_LIVE_AGENTS_ONE_RELEASE_TWO_ADJUDICATIONS_CHECKOUT_BLOCKED_ANALYTICS_ALLOWED",
+  "status": "THREE_LIVE_AGENTS_ONE_RELEASE_THREE_ADJUDICATIONS_CHECKOUT_BLOCKED_ANALYTICS_ALLOWED_REFUND_BLOCKED",
   "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
   "deployment_tx_hash": "0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e",
   "source_sha256": "72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0",
@@ -29,7 +29,7 @@
     "get_protocol": "deltaproof/2.0",
     "get_overview": {
       "agents": 3,
-      "decisions": 2,
+      "decisions": 3,
       "releases": 1,
       "protocol": "deltaproof/2.0"
     },
@@ -222,6 +222,54 @@
       "passport_hash": "523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb",
       "passport_currently_authorized": true,
       "gas_limit": 2931,
+      "transaction_value_gen": "0",
+      "settled_fee_gen": null,
+      "fee_note": "Transaction value was zero; settled protocol fee is not exposed."
+    },
+    {
+      "scenario": "Refund semantic compatibility adjudication",
+      "method": "adjudicate",
+      "transaction_hash": "0xa94d0375e5b09e4949af6a7aefaa236cafef17928bb9bbd0c417c8b11a61e81c",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0xa94d0375e5b09e4949af6a7aefaa236cafef17928bb9bbd0c417c8b11a61e81c",
+      "created_at": "2026-10-20T18:07:38Z",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "consensus": "MAJORITY_AGREE",
+      "rounds": 1,
+      "validators_revealed": 5,
+      "validator_votes": [
+        "AGREE",
+        "AGREE",
+        "IDLE",
+        "AGREE",
+        "IDLE"
+      ],
+      "successful_validator_executions": 2,
+      "idle_after_quorum": 2,
+      "execution_hash": "0x35b5a08f8c509e6670af8894067f509fb9992da500d1b9d2fd976befdd281447",
+      "return_value": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b",
+      "release_id": "v2api-20261020",
+      "agent_id": "refund-live-20261020",
+      "decision": "BLOCKED",
+      "mode": "GENLAYER_INDEPENDENT_CONSENSUS",
+      "risk": "HIGH",
+      "revision": 1,
+      "violations": [
+        "idempotent refund requests",
+        "retries may issue duplicate refunds"
+      ],
+      "evidence_profile": [
+        {
+          "characters": 1111,
+          "sha256": "17014b71c97c5b08cda20058e7b68747a2c17930c9e9a1f37e30b02e0cefd6a9",
+          "status": "VERIFIED"
+        }
+      ],
+      "authorization_allow": false,
+      "authorization_status": "BLOCKED",
+      "passport_hash": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b",
+      "passport_currently_authorized": false,
+      "gas_limit": 2936,
       "transaction_value_gen": "0",
       "settled_fee_gen": null,
       "fee_note": "Transaction value was zero; settled protocol fee is not exposed."
@@ -424,6 +472,28 @@
     "authorization_status": "ALLOW",
     "passport_currently_authorized": true,
     "passport_hash": "523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb",
+    "verified_read_variant": "LATEST_FINAL"
+  },
+  "latest_final_refund_adjudication": {
+    "decision": "BLOCKED",
+    "mode": "GENLAYER_INDEPENDENT_CONSENSUS",
+    "risk": "HIGH",
+    "revision": 1,
+    "violations": [
+      "idempotent refund requests",
+      "retries may issue duplicate refunds"
+    ],
+    "evidence_profile": [
+      {
+        "characters": 1111,
+        "sha256": "17014b71c97c5b08cda20058e7b68747a2c17930c9e9a1f37e30b02e0cefd6a9",
+        "status": "VERIFIED"
+      }
+    ],
+    "authorization_allow": false,
+    "authorization_status": "BLOCKED",
+    "passport_currently_authorized": false,
+    "passport_hash": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b",
     "verified_read_variant": "LATEST_FINAL"
   }
 }

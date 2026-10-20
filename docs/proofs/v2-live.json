@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-20T18:10:00Z",
+  "recorded_at_utc": "2026-10-20T18:15:00Z",
   "network": {
     "name": "GenLayer StudioNet",
     "chain_id": 61999,
@@ -280,6 +280,82 @@
       "transaction_value_gen": "0",
       "settled_fee_gen": null,
       "fee_note": "Explorer transaction value is 0 GEN; settled protocol fee is not exposed in the receipt."
+    },
+    {
+      "scenario": "Refund semantic compatibility adjudication",
+      "hash": "0xa94d0375e5b09e4949af6a7aefaa236cafef17928bb9bbd0c417c8b11a61e81c",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0xa94d0375e5b09e4949af6a7aefaa236cafef17928bb9bbd0c417c8b11a61e81c",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "method": "adjudicate",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "consensus": "MAJORITY_AGREE",
+      "rounds": 1,
+      "initial_validators": 5,
+      "validator_votes": [
+        "AGREE",
+        "AGREE",
+        "IDLE",
+        "AGREE",
+        "IDLE"
+      ],
+      "successful_validator_executions": 2,
+      "idle_after_quorum": 2,
+      "execution_hash": "0x35b5a08f8c509e6670af8894067f509fb9992da500d1b9d2fd976befdd281447",
+      "return_value": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b",
+      "arguments": [
+        {
+          "index": 0,
+          "name": "release_id",
+          "type": "string",
+          "value": "v2api-20261020"
+        },
+        {
+          "index": 1,
+          "name": "agent_id",
+          "type": "string",
+          "value": "refund-live-20261020"
+        }
+      ],
+      "decision": {
+        "revision": 1,
+        "result": "BLOCKED",
+        "risk": "HIGH",
+        "mode": "GENLAYER_INDEPENDENT_CONSENSUS",
+        "reason": "The proposed change explicitly breaks the idempotency guarantee and allows duplicate refunds on retries.",
+        "violations": [
+          "idempotent refund requests",
+          "retries may issue duplicate refunds"
+        ],
+        "migration": [
+          "Revert change to idempotency logic",
+          "Ensure POST /refunds remains idempotent",
+          "Verify idempotency key enforcement",
+          "Prevent duplicate refund operations",
+          "Maintain unique refund identifier mapping"
+        ]
+      },
+      "evidence_profile": [
+        {
+          "characters": 1111,
+          "sha256": "17014b71c97c5b08cda20058e7b68747a2c17930c9e9a1f37e30b02e0cefd6a9",
+          "status": "VERIFIED"
+        }
+      ],
+      "authorization": {
+        "allow": false,
+        "status": "BLOCKED",
+        "revision": 1
+      },
+      "passport": {
+        "hash": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b",
+        "currently_authorized": false
+      },
+      "gas_limit": 2936,
+      "nonce": 2936,
+      "transaction_value_gen": "0",
+      "settled_fee_gen": null,
+      "fee_note": "Explorer transaction value is 0 GEN; settled protocol fee is not exposed in the receipt."
     }
   ],
   "latest_final_state_after_registration": {
@@ -441,7 +517,7 @@
     "evidence_hash": "7ca7f285d0c1bd846472eebcae4dc2f2bda799b182be791093d2688860b38bb7",
     "evidence_profile_status": "NOT_YET_RETRIEVED_BY_ADJUDICATION"
   },
-  "lifecycle_status": "CHECKOUT_BLOCKED_AND_ANALYTICS_APPROVED_DETERMINISTIC_ADJUDICATIONS_FINALIZED; REFUND_SEMANTIC_ADJUDICATION_PENDING; EVIDENCE_RETRIEVAL_NOT_YET_VERIFIED",
+  "lifecycle_status": "CHECKOUT_BLOCKED_AND_ANALYTICS_APPROVED_DETERMINISTIC_ADJUDICATIONS_FINALIZED; REFUND_BLOCKED_SEMANTIC_GENLAYER_CONSENSUS_FINALIZED; EVIDENCE_DIGEST_VERIFIED; APPEALS_CHALLENGES_FREEZE_AND_HISTORY_WORKFLOWS_PENDING",
   "signer_diagnostic": {
     "authorized_public_address": "0xaffe15eec45b68835cc9e5b4ab85dd5deae8e70b",
     "unlocked_in_user_codex_terminal": true,
@@ -533,6 +609,47 @@
     "passport": {
       "commitment": "523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb",
       "currently_authorized": true
+    }
+  },
+  "latest_final_state_after_refund_adjudication": {
+    "verified_at_utc": "2026-10-20T18:15:00Z",
+    "read_variant": "LATEST_FINAL",
+    "overview": {
+      "agents": 3,
+      "releases": 1,
+      "decisions": 3,
+      "protocol": "deltaproof/2.0"
+    },
+    "decision": {
+      "release_id": "v2api-20261020",
+      "agent_id": "refund-live-20261020",
+      "revision": 1,
+      "decision": "BLOCKED",
+      "risk": "HIGH",
+      "mode": "GENLAYER_INDEPENDENT_CONSENSUS",
+      "reason": "The proposed change explicitly breaks the idempotency guarantee and triggers a defined unacceptable change by allowing duplicate refunds on retries.",
+      "violations": [
+        "idempotent refund requests",
+        "retries may issue duplicate refunds"
+      ],
+      "evidence_profile": [
+        {
+          "characters": 1111,
+          "sha256": "17014b71c97c5b08cda20058e7b68747a2c17930c9e9a1f37e30b02e0cefd6a9",
+          "status": "VERIFIED"
+        }
+      ]
+    },
+    "authorization": {
+      "release_id": "v2api-20261020",
+      "agent_id": "refund-live-20261020",
+      "status": "BLOCKED",
+      "allow": false,
+      "revision": 1
+    },
+    "passport": {
+      "commitment": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b",
+      "currently_authorized": false
     }
   }
 }
