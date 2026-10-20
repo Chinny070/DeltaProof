@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-20T22:33:12Z",
+  "recorded_at_utc": "2026-10-20T22:45:02Z",
   "network": {
     "name": "GenLayer StudioNet",
     "chain_id": 61999,
@@ -469,6 +469,59 @@
       "settled_fee_gen": null,
       "fee_note": "Explorer shows 0 GEN transaction value and no gas limit; total/settled protocol fee is not established.",
       "source": "User-provided StudioNet Explorer transaction details; latest-final state independently queried via GenLayerJS."
+    },
+    {
+      "scenario": "Resolve evidence-backed Refund appeal",
+      "hash": "0x368bfe2894ea2ff715cfdd3a401a7aaa08bc40c461b5c2d0824285dba2e542ab",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0x368bfe2894ea2ff715cfdd3a401a7aaa08bc40c461b5c2d0824285dba2e542ab",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "method": "resolve_appeal",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "explorer_consensus": "ACCEPTED",
+      "sdk_consensus": "MAJORITY_AGREE",
+      "rounds": 1,
+      "initial_validators": 5,
+      "validator_votes": [
+        "AGREE",
+        "IDLE",
+        "AGREE",
+        "IDLE",
+        "AGREE"
+      ],
+      "successful_validator_executions_observed": 2,
+      "idle_executions_cancelled_after_quorum": 2,
+      "execution_hash": "0x35b5a08f8c509e6670af8894067f509fb9992da500d1b9d2fd976befdd281447",
+      "return_value": "4b56cc9093f26cec77636246f20cc1df451d462755be21039ca9ece89f8e0514",
+      "appeal_outcome": "UPHELD",
+      "revised_decision": "BLOCKED",
+      "evidence_profile": [
+        {
+          "characters": 967,
+          "sha256": "d962e37957fc5ac424b2e8fb2cf2f0fa3a33aaf6a9a5b91fd9d0b8e17421bbc0",
+          "status": "VERIFIED",
+          "kind": "counterevidence"
+        },
+        {
+          "characters": 1077,
+          "sha256": "08447a5517b38801586b18b71e502a79b2108963c2396fc4f8d6a7a74912ef00",
+          "status": "VERIFIED",
+          "kind": "publisher_response"
+        },
+        {
+          "characters": 1111,
+          "sha256": "17014b71c97c5b08cda20058e7b68747a2c17930c9e9a1f37e30b02e0cefd6a9",
+          "status": "VERIFIED",
+          "kind": "original_release_evidence"
+        }
+      ],
+      "value_gen": "0",
+      "gas_limit": 3008,
+      "nonce": 3008,
+      "settled_fee_gen": null,
+      "fee_note": "Explorer value is 0 GEN; SDK gas limit is 3008; settled protocol fee is not exposed.",
+      "source": "User-provided StudioNet transaction details plus independently queried GenLayerJS 1.1.8 receipt and latest-final contract reads."
     }
   ],
   "latest_final_state_after_registration": {
@@ -630,7 +683,7 @@
     "evidence_hash": "7ca7f285d0c1bd846472eebcae4dc2f2bda799b182be791093d2688860b38bb7",
     "evidence_profile_status": "NOT_YET_RETRIEVED_BY_ADJUDICATION"
   },
-  "lifecycle_status": "CHECKOUT_BLOCKED_AND_ANALYTICS_APPROVED; REFUND_BLOCKED_SEMANTIC_CONSENSUS; TARGETED_FREEZE_RESOLVED_AND_REASSESSED; REFUND_APPEAL_OPEN_WITH_FINALIZED_PUBLISHER_RESPONSE; APPEAL_RESOLUTION_PENDING",
+  "lifecycle_status": "CHECKOUT_BLOCKED_AND_ANALYTICS_APPROVED; REFUND_BLOCKED_SEMANTIC_CONSENSUS; TARGETED_FREEZE_RESOLVED_AND_REASSESSED; REFUND_APPEAL_RESOLVED_UPHELD_WITH_ALL_EVIDENCE_VERIFIED",
   "signer_diagnostic": {
     "authorized_public_address": "0xaffe15eec45b68835cc9e5b4ab85dd5deae8e70b",
     "unlocked_in_user_codex_terminal": true,
@@ -1018,6 +1071,55 @@
       "counterevidence_hash": "539752911ca0b525f600987b51bd4fb0b8120f2a1b81fba13b9417178f3279dc",
       "response_hash": "eb92b20ac55750bfc2ef259cb88bd24f3d6cc87a4bda43381f9c1a4ecbde95df",
       "response_deadline": 1792707695
+    }
+  },
+  "latest_final_state_after_refund_appeal_resolution": {
+    "verified_at_utc": "2026-10-20T22:45:02Z",
+    "read_variant": "LATEST_FINAL",
+    "appeal": {
+      "status": "RESOLVED",
+      "outcome": "UPHELD",
+      "revised_decision": "BLOCKED",
+      "risk": "HIGH",
+      "sufficient": true,
+      "evidence_status": "VERIFIED",
+      "resolved_at": 1792536063,
+      "revised_decision_hash": "4b56cc9093f26cec77636246f20cc1df451d462755be21039ca9ece89f8e0514",
+      "evidence_profile": [
+        {
+          "characters": 967,
+          "sha256": "d962e37957fc5ac424b2e8fb2cf2f0fa3a33aaf6a9a5b91fd9d0b8e17421bbc0",
+          "status": "VERIFIED"
+        },
+        {
+          "characters": 1077,
+          "sha256": "08447a5517b38801586b18b71e502a79b2108963c2396fc4f8d6a7a74912ef00",
+          "status": "VERIFIED"
+        },
+        {
+          "characters": 1111,
+          "sha256": "17014b71c97c5b08cda20058e7b68747a2c17930c9e9a1f37e30b02e0cefd6a9",
+          "status": "VERIFIED"
+        }
+      ],
+      "resolved_event_snapshot_hash": "8d0694c0bc3e743ea2cff16696679c594d7d09ec6b98246e3a99c83e7a838e09"
+    },
+    "decision": {
+      "agent_id": "refund-live-20261020",
+      "revision": 1,
+      "decision": "BLOCKED",
+      "risk": "HIGH",
+      "mode": "GENLAYER_INDEPENDENT_CONSENSUS"
+    },
+    "authorization": {
+      "status": "BLOCKED",
+      "allow": false,
+      "revision": 1,
+      "passport_hash": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b"
+    },
+    "passport": {
+      "commitment": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b",
+      "currently_authorized": false
     }
   }
 }
