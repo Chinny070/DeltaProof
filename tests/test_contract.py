@@ -41,6 +41,29 @@ def test_register_and_lookup(fixture):
     assert inst.get_overview()['total']==1
 
 
+def test_live_additive_fixture_requires_json_text_and_registers_when_stringified(fixture):
+    mod, inst, _ = fixture
+    baseline = '{"endpoints":[{"behavior":"Returns the current quote for a symbol.","method":"GET","path":"/v1/quote","request_required":["symbol"],"response_required":["price"]}]}'
+    candidate = '{"endpoints":[{"behavior":"Returns the current quote for a symbol.","method":"GET","path":"/v1/quote","request_required":["symbol"],"response_required":["price"]},{"behavior":"Returns service availability.","method":"GET","path":"/v1/status","request_required":[],"response_required":["status"]}]}'
+    assert (len(baseline), len(candidate)) == (164, 297)
+    assert isinstance(baseline, str) and isinstance(candidate, str)
+    assert len(mod._parse_spec(baseline)[0]) == 1
+    assert len(mod._parse_spec(candidate)[0]) == 2
+
+    # GenLayer CLI --args auto-parses JSON objects; reproducing that decoded
+    # dict input hits the exact guard/error seen in the finalized live receipt.
+    with pytest.raises(UserError, match='specification too large or empty'):
+        mod._parse_spec(json.loads(baseline))
+    with pytest.raises(UserError, match='specification too large or empty'):
+        mod._parse_spec(json.loads(candidate))
+
+    rid = inst.register_release('DeltaProof-test-20261020', '1.0.0', '1.1.0', baseline, candidate,
+                                'https://example.com/baseline.json', 'https://example.com/candidate.json')
+    record = inst.get_release(rid)
+    assert record['status'] == 'REGISTERED'
+    assert record['baseline_json'] != '' and record['candidate_json'] != ''
+
+
 def test_duplicate_release_rejected(fixture):
     _,inst,_=fixture
     register(inst)

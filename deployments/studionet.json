@@ -28,7 +28,41 @@
     "get_overview": {"finalized": 0, "total": 0, "protocol": "deltaproof/1.0"},
     "list_releases_0_20": []
   },
-  "live_tests": "READ_ONLY_VIEWS_VERIFIED;PAID_CONSENSUS_TESTS_NOT_RUN",
+  "live_tests": "PAUSED_AFTER_FINALIZED_REGISTER_ROLLBACK;NO_REPLACEMENT_TRANSACTION_SUBMITTED",
+  "application_transactions": [
+    {
+      "test": "A1_additive_register_fixture",
+      "transaction_hash": "0x561f6a78654804dc68a7453bd2d2657d8e61bb11f903a56ee460c36e0e93cc170",
+      "status": "FINALIZED",
+      "consensus_result": "Accepted",
+      "execution_result": "ERROR",
+      "result_code": "Rollback",
+      "error": "specification too large or empty",
+      "method": "register_release",
+      "arguments": [
+        {"index": 0, "name": "project", "expected_type": "string", "value": "DeltaProof-test-20261020"},
+        {"index": 1, "name": "base_version", "expected_type": "string", "value": "1.0.0"},
+        {"index": 2, "name": "candidate_version", "expected_type": "string", "value": "1.1.0"},
+        {"index": 3, "name": "baseline_json", "expected_type": "string", "actual_type": "object/map", "characters": 164, "value": "{\"endpoints\":[{\"behavior\":\"Returns the current quote for a symbol.\",\"method\":\"GET\",\"path\":\"/v1/quote\",\"request_required\":[\"symbol\"],\"response_required\":[\"price\"]}]}"},
+        {"index": 4, "name": "candidate_json", "expected_type": "string", "actual_type": "object/map", "characters": 297, "value": "{\"endpoints\":[{\"behavior\":\"Returns the current quote for a symbol.\",\"method\":\"GET\",\"path\":\"/v1/quote\",\"request_required\":[\"symbol\"],\"response_required\":[\"price\"]},{\"behavior\":\"Returns service availability.\",\"method\":\"GET\",\"path\":\"/v1/status\",\"request_required\":[],\"response_required\":[\"status\"]}]}"},
+        {"index": 5, "name": "baseline_url", "expected_type": "string", "value": "https://example.com/baseline.json"},
+        {"index": 6, "name": "candidate_url", "expected_type": "string", "value": "https://example.com/candidate.json"}
+      ],
+      "diagnosis": "The installed GenLayer CLI --args parser JSON.parse'd the two object-shaped JSON text arguments and coerced them to maps. The deployed method expects baseline_json and candidate_json to be strings. The contract's shared type/length guard therefore raised this message even though the JSON texts themselves were within bounds.",
+      "fee_observation": {
+        "transaction_value_gen": "0",
+        "protocol_fee_gen": null,
+        "protocol_fee_status": "NOT_EXPOSED_BY_EXPLORER",
+        "note": "Zero transaction value does not establish zero protocol fees."
+      },
+      "evidence": "https://explorer-studio.genlayer.com/tx/0x561f6a78654804dc68a7453bd2d2657d8e61bb11f903a56ee460c36e0e93cc170"
+    }
+  ],
+  "post_failure_reads": {
+    "variant": "LATEST_FINAL",
+    "get_overview": {"finalized": 0, "total": 0, "protocol": "deltaproof/1.0"},
+    "list_releases_0_20": []
+  },
   "frontend_deployment": {
     "provider": "Vercel",
     "project": "deltaproof",
@@ -36,7 +70,7 @@
     "deployment_id": "dpl_8xfFce1pQpRBNSUqRkDm75cQvxGh",
     "production_url": "https://deltaproof-ebon.vercel.app",
     "deployment_url": "https://deltaproof-c9459469e-chinny070s-projects.vercel.app",
-    "verified_live_reads": "Connected; overview totals 0/0/0; registry empty"
+    "verified_live_reads": "Connected; latest-final overview totals 0/0/0; registry empty after failed register rollback"
   },
   "evidence": {
     "transaction": "https://explorer-studio.genlayer.com/tx/0x38d85b62148f0538bd672f60d5150e31a54d6edc96f326b313cf08341e409535",

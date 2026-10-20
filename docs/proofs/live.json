@@ -1,0 +1,62 @@
+{
+  "network": {
+    "name": "GenLayer StudioNet",
+    "chain_id": 61999,
+    "rpc_url": "https://studio.genlayer.com/api",
+    "contract_address": "0x50D7C07A081A56dBd30fB3a244C11A8105E4faA6"
+  },
+  "status": "PAUSED_AFTER_FINALIZED_ROLLBACK",
+  "transactions_submitted": 1,
+  "transaction_limit_authorized": 6,
+  "transaction": {
+    "scenario": "A1 additive compatibility registration fixture",
+    "hash": "0x561f6a78654804dc68a7453bd2d2657d8e61bb11f903a56ee460c36e0e93cc170",
+    "explorer_url": "https://explorer-studio.genlayer.com/tx/0x561f6a78654804dc68a7453bd2d2657d8e61bb11f903a56ee460c36e0e93cc170",
+    "status": "FINALIZED",
+    "consensus_result": "Accepted",
+    "execution_result": "ERROR",
+    "result_code": "Rollback",
+    "error": "specification too large or empty",
+    "method": "register_release",
+    "argument_count": 7,
+    "arguments": [
+      {"index": 0, "name": "project", "expected_type": "str", "actual_type": "str", "value": "DeltaProof-test-20261020"},
+      {"index": 1, "name": "base_version", "expected_type": "str", "actual_type": "str", "value": "1.0.0"},
+      {"index": 2, "name": "candidate_version", "expected_type": "str", "actual_type": "str", "value": "1.1.0"},
+      {"index": 3, "name": "baseline_json", "expected_type": "str", "actual_type": "dict/map", "characters_in_json_text": 164, "value": "{\"endpoints\":[{\"method\":\"GET\",\"path\":\"/v1/quote\",\"request_required\":[\"symbol\"],\"response_required\":[\"price\"],\"behavior\":\"Returns the current quote for a symbol.\"}]}"},
+      {"index": 4, "name": "candidate_json", "expected_type": "str", "actual_type": "dict/map", "characters_in_json_text": 297, "value": "{\"endpoints\":[{\"method\":\"GET\",\"path\":\"/v1/quote\",\"request_required\":[\"symbol\"],\"response_required\":[\"price\"],\"behavior\":\"Returns the current quote for a symbol.\"},{\"method\":\"GET\",\"path\":\"/v1/status\",\"request_required\":[],\"response_required\":[\"status\"],\"behavior\":\"Returns service availability.\"}]}"},
+      {"index": 5, "name": "baseline_url", "expected_type": "str", "actual_type": "str", "value": "https://example.com/baseline.json"},
+      {"index": 6, "name": "candidate_url", "expected_type": "str", "actual_type": "str", "value": "https://example.com/candidate.json"}
+    ],
+    "validator_evidence": {"consensus": "Accepted", "initial_validators": 5, "rotations": 0},
+    "fee_observation": {
+      "transaction_value_gen": "0",
+      "protocol_fee_gen": null,
+      "protocol_fee_status": "NOT_EXPOSED",
+      "note": "Zero transaction value is not evidence that protocol fees were zero."
+    }
+  },
+  "diagnosis": {
+    "root_cause": "The installed GenLayer CLI --args parser calls JSON.parse on each argument. For object or array JSON it passes the parsed object/map instead of the original text. The contract's register_release signature expects baseline_json and candidate_json as strings, so _parse_spec rejects both values at the shared type/length guard.",
+    "length_check": "Both JSON texts meet the contract's 2 through 10000 character limit.",
+    "argument_order_matches_contract": true,
+    "contract_source_changed": false,
+    "contract_redeploy_needed": false,
+    "correct_serialization": "Use the genlayer-js typed writeContract path with the original JSON text values as JavaScript strings. Do not submit these object-shaped JSON strings via this CLI --args parser."
+  },
+  "post_failure_read_only_state": {
+    "read_variant": "LATEST_FINAL",
+    "get_protocol": "deltaproof/1.0",
+    "get_overview": {"total": 0, "finalized": 0},
+    "list_releases_0_20": [],
+    "conclusion": "The failed finalized transaction did not change the finalized registry."
+  },
+  "offline_regression": {
+    "status": "PASS",
+    "python_tests": "88 passed: python -m pytest -q tests/test_contract.py tests/test_parity.py",
+    "frontend_tests": "32 passed: npm test",
+    "frontend_build": "PASS: npm run build; Vite 7.3.7; 460 modules; 5.05 seconds",
+    "coverage": "Exact fixture strings pass parsing and registration; reproducing CLI-decoded dict inputs raises the exact live error; frontend argument helper preserves string types and seven-argument order."
+  },
+  "additional_paid_transactions": "NONE;PAUSED_PENDING_USER_APPROVAL"
+}

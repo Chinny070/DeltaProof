@@ -10,12 +10,12 @@ DeltaProof is **not** a software testing oracle. It checks declared compatibilit
 - One responsive frontend (`frontend/`) with release creation, local structural diff preview, live registry, release inspection, permissionless evaluation, and certificate verification. It reads only from the configured contract and does not use mock chain data.
 - Injected EIP-1193 wallet: connect, copy address, disconnect from **site session**, silent authorized-session restore on refresh, accounts/chain listeners, and wrong-network switch/add for StudioNet 61999.
 - Finalization-aware GenLayer SDK transaction handling. Transactions are not reported successful until both finalized and successfully executed; pending hashes survive refresh for tracking, not blind retries.
-- 87 offline Python tests including 100 structural parity fixtures; 30 Node JS tests; optional real StudioNet integration test; GitHub Actions pipeline.
+- 88 offline Python tests including 100 structural parity fixtures; 32 Node JS tests; optional real StudioNet integration test; GitHub Actions pipeline.
 - Documentation: architecture, threat model, verification guide, protocol, deployment, Codex handoff.
 
 ## Current verification status
 
-**The Intelligent Contract is deployed and its read-only interface is verified on StudioNet.** The frontend is pinned to `genlayer-js@1.1.8`, the stable SDK line used with StudioNet chain 61999. The deployed address is [`0x50D7C07A081A56dBd30fB3a244C11A8105E4faA6`](https://explorer-studio.genlayer.com/address/0x50D7C07A081A56dBd30fB3a244C11A8105E4faA6); its deployment transaction [`0x38d85b62148f0538bd672f60d5150e31a54d6edc96f326b313cf08341e409535`](https://explorer-studio.genlayer.com/tx/0x38d85b62148f0538bd672f60d5150e31a54d6edc96f326b313cf08341e409535) finalized with execution result `SUCCESS`. The exact deployed source matches SHA-256 `f0f8ccef0263aca4cf0d8553ae117d3fdf0f80bc895b547c691c933f81c2d240`. Read-only `get_protocol`, `get_overview`, and `list_releases(0, 20)` calls succeeded. The public [Vercel app](https://deltaproof-ebon.vercel.app) is READY and its live contract reads show the empty registry. The explorer does not expose protocol fee settlement; its displayed transaction value is 0 GEN, which is not a total-fee measurement. Paid register/evaluate tests remain pending separate approval.
+**The Intelligent Contract is deployed and its read-only interface is verified on StudioNet.** The frontend is pinned to `genlayer-js@1.1.8`, the stable SDK line used with StudioNet chain 61999. The deployed address is [`0x50D7C07A081A56dBd30fB3a244C11A8105E4faA6`](https://explorer-studio.genlayer.com/address/0x50D7C07A081A56dBd30fB3a244C11A8105E4faA6); its deployment transaction [`0x38d85b62148f0538bd672f60d5150e31a54d6edc96f326b313cf08341e409535`](https://explorer-studio.genlayer.com/tx/0x38d85b62148f0538bd672f60d5150e31a54d6edc96f326b313cf08341e409535) finalized with execution result `SUCCESS`. The exact deployed source matches SHA-256 `f0f8ccef0263aca4cf0d8553ae117d3fdf0f80bc895b547c691c933f81c2d240`. Read-only `get_protocol`, `get_overview`, and `list_releases(0, 20)` calls succeeded. The first approved application registration finalized with rollback because the GenLayer CLI `--args` parser converted the JSON snapshot strings into maps; the failed transaction and zero-state follow-up reads are recorded in [`docs/proofs/live.md`](docs/proofs/live.md). No replacement or follow-on transaction has been submitted. The public [Vercel app](https://deltaproof-ebon.vercel.app) reads the empty finalized registry. The explorer does not expose protocol fee settlement; its displayed transaction value is 0 GEN, which is not a total-fee measurement. Further paid tests are paused pending renewed approval.
 
 ## Quick start
 
@@ -44,7 +44,7 @@ npm run build
 ## Actual user journey
 
 1. Connect injected wallet and switch to the exact StudioNet chain (61999).
-2. Register a release with `project`, `from`, `to`, two HTTPS provenance labels and two bounded JSON snapshots (see below).
+2. Register a release with `project`, `from`, `to`, two HTTPS provenance labels and two bounded JSON snapshot strings (see below). The frontend sends these as typed JavaScript strings through genlayer-js. Do not pass object-shaped JSON text to the GenLayer CLI `--args` parser: it decodes JSON objects into maps.
 3. A write signs and submits using genlayer-js. Wait for finality, not only an optimistic status.
 4. Anyone can evaluate a registered release. Hard structural breaks are determined by code. Otherwise each changed behavior is independently classified by GenLayer consensus.
 5. Contract binds issuer, snapshots, findings and outcome into a 64-character certificate SHA-256 digest.
@@ -88,7 +88,7 @@ Rules: removed endpoints, new required request fields and removed required respo
 
 ## Operational / security notes
 
-This remains a **prototype** until paid live consensus scenarios and public frontend smoke tests complete. The contract has no admin takeover, mutable release or private central database. The issuer controls input snapshots, not verdict logic. Threat model and residual risks: [`docs/SECURITY.md`](docs/SECURITY.md). Deployment record and remaining live test plan: [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md), [`deployments/studionet.json`](deployments/studionet.json). Codex work: [`DELTA_CODEX_FINISH_PROMPT.md`](DELTA_CODEX_FINISH_PROMPT.md).
+This remains a **prototype** until paid live consensus scenarios and public frontend smoke tests complete. One approved registration attempt finalized with an execution error and rollback due to CLI argument type coercion; further paid testing is paused. The contract has no admin takeover, mutable release or private central database. The issuer controls input snapshots, not verdict logic. Threat model and residual risks: [`docs/SECURITY.md`](docs/SECURITY.md). Deployment record and live test evidence: [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md), [`deployments/studionet.json`](deployments/studionet.json), [`docs/proofs/live.md`](docs/proofs/live.md). Codex work: [`DELTA_CODEX_FINISH_PROMPT.md`](DELTA_CODEX_FINISH_PROMPT.md).
 
 ## Dependencies / references
 

@@ -23,6 +23,17 @@ export function ensureDeployment() {
   if (!HAS_CONTRACT) throw Error('No deployed DeltaProof contract is configured. Set VITE_CONTRACT_ADDRESS after deployment.');
 }
 
+// register_release expects the two JSON snapshots as strings. Keep their
+// serialization explicit when preparing the typed SDK calldata; the GenLayer
+// CLI's --args parser auto-decodes JSON object arguments into maps.
+export function buildRegisterReleaseArgs(draft) {
+  const args = [draft.project, draft.from, draft.to, draft.baseline_json, draft.candidate_json, draft.baseline_url, draft.candidate_url];
+  if (typeof args[3] !== 'string' || typeof args[4] !== 'string') {
+    throw TypeError('Baseline and candidate specifications must be JSON strings.');
+  }
+  return args;
+}
+
 export async function callRead(functionName, args = []) {
   ensureDeployment();
   const [{ TransactionHashVariant }, client] = await Promise.all([loadSdk(), getReadClient()]);

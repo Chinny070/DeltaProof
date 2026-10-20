@@ -3,7 +3,7 @@ import { CHAIN, ADDRESS, HAS_CONTRACT, EXPLORER } from './config.js';
 import { shorten, escapeHtml as esc, labels, riskClass, formatNumber, validateDraft, deriveStructural } from './format.js';
 import { oldSpec, newSpec } from './examples.js';
 import { createWalletController } from './wallet.js';
-import { callRead, callWrite, trackTransaction } from './genlayer.js';
+import { callRead, callWrite, trackTransaction, buildRegisterReleaseArgs } from './genlayer.js';
 
 const PENDING_KEY='deltaproof.pending.tx.v1';
 const state={route:'overview',records:[],overview:null,selected:null,loading:false,online:false,readError:'',notice:'',noticeType:'info',tx:'',txStatus:'',tab:'all',menu:false,verifyId:'',verifyDigest:'',verifyResult:null,
@@ -80,7 +80,7 @@ async function handleAction(action){try{
  if(action==='load-more'){if(state.loading||!state.overview)return;state.loading=true;render();try{const remaining=Number(state.overview.total)-state.records.length;const next=await callRead('list_releases',[state.records.length,Math.min(remaining,20)]);if(!Array.isArray(next))throw Error('Unexpected registry page response');state.records.push(...next);if(state.records.length<Number(state.overview.total)&&next.length===0)throw Error('Registry returned an empty page before its reported total');}finally{state.loading=false;render();}}
  if(action==='dismiss'){state.notice='';render();}
  if(action==='fill-example'){state.draft={project:'Mercury Transfer API',from:'1.4.2',to:'2.0.0',baseline_url:'https://example.com/docs/mercury/v1.json',candidate_url:'https://example.com/docs/mercury/v2.json',baseline_json:oldSpec,candidate_json:newSpec};notify('Example loaded — this is illustrative, not an on-chain release.');}
- if(action==='register'){validateDraft(state.draft);const d=state.draft;const done=await writeAction('register_release',[d.project,d.from,d.to,d.baseline_json,d.candidate_json,d.baseline_url,d.candidate_url]);if(done){state.route='registry';render();}}
+ if(action==='register'){validateDraft(state.draft);const done=await writeAction('register_release',buildRegisterReleaseArgs(state.draft));if(done){state.route='registry';render();}}
  if(action==='evaluate'){if(!state.selected)return;const done=await writeAction('evaluate_release',[state.selected.id]);if(done){state.selected=await callRead('get_release',[state.selected.id]);render();}}
  if(action==='go-verify'){state.verifyId=state.selected.id;state.verifyDigest=state.selected.certificate;state.verifyResult=null;state.route='verify';render();}
  if(action==='verify'){state.verifyResult=null;const id=state.verifyId.trim(),sha=state.verifyDigest.trim();if(!/^[0-9a-f]{32}$/.test(id)||!/^[0-9a-f]{64}$/.test(sha))throw Error('Enter a 32-character release ID and 64-character lowercase SHA-256 digest');state.loading=true;render();try{state.verifyResult=Boolean(await callRead('verify_certificate',[id,sha]));}finally{state.loading=false;render();}}

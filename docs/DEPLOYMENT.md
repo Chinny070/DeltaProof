@@ -31,9 +31,11 @@ Machine-readable evidence: [`deployments/studionet.json`](../deployments/studion
 
 The deployment was performed with the user's configured StudioNet signer after the user unlocked it locally. Never export or print a private key. The command used was `genlayer deploy --contract contracts/deltaproof.py --rpc https://studio.genlayer.com/api`. The deployment receipt and source were verified through StudioNet Explorer. Do not redeploy this contract.
 
-## Paid live consensus test plan (not yet authorized or run)
+## Paid live test status and plan
 
-Paid writes require separate user approval. Once approved, run and retain evidence for:
+One paid application write was authorized and submitted. It finalized with consensus `Accepted` but GenVM execution `ERROR`, result `Rollback`, and message `specification too large or empty`. The CLI converted the two JSON snapshot arguments into maps before submission, while the contract method requires strings. The specifications themselves were 164 and 297 characters, within contract bounds. The exact hash and fee evidence are in [`proofs/live.md`](proofs/live.md). Read-only latest-final calls after the rollback still show `total: 0`, `finalized: 0`, and an empty registry. No follow-up write or retry has been submitted; further paid writes are paused until renewed user approval.
+
+When live testing is authorized to resume, use the frontend/genlayer-js typed `writeContract` path for string JSON arguments. Do not use GenLayer CLI `--args` for these object-shaped strings; its installed parser JSON-decodes them into maps. Then retain evidence for:
 
 1. Deterministic compatibility: unchanged/additive snapshot yields a deterministic `COMPATIBLE` record.
 2. Deterministic breakage: removed endpoint, newly required request field, and removed required response field are each `BREAKING`.
@@ -42,7 +44,7 @@ Paid writes require separate user approval. Once approved, run and retain eviden
 5. Certificate verification: query the actual certificate successfully, then verify a wrong digest returns false. Also confirm duplicate registration and second evaluation are rejected.
 6. For every write, capture the real hash, `FINALIZED` status, execution result, validator/consensus evidence, and fees where exposed. Never retry a submitted transaction; resume tracking its hash.
 
-No paid application writes have been run. The deployed empty-state views have been verified as recorded above.
+The first application write failed as recorded above. The deployed contract remains reusable; no contract source modification or redeployment is warranted by this CLI serialization error.
 
 ## Frontend deployment preparation
 
