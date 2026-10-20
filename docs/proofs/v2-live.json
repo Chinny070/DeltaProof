@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-20T19:55:37Z",
+  "recorded_at_utc": "2026-10-20T20:18:19Z",
   "network": {
     "name": "GenLayer StudioNet",
     "chain_id": 61999,
@@ -708,5 +708,44 @@
       "Watchtower transition capture",
       "real-browser wallet acceptance"
     ]
+  },
+  "public_frontend_readonly_acceptance": {
+    "verified_at_utc": "2026-10-20T20:18:19Z",
+    "url": "https://deltaproof-v2.vercel.app/v2/",
+    "page_loaded": true,
+    "network": "StudioNet",
+    "chain_id": 61999,
+    "counts": {
+      "agents": 3,
+      "releases": 1,
+      "decisions": 3
+    },
+    "authorization_gate": {
+      "read_state": "LATEST_FINAL",
+      "results": [
+        {
+          "agent_id": "analytics-live-20261020",
+          "release_id": "v2api-20261020",
+          "status": "ALLOW",
+          "allow": true,
+          "revision": 1,
+          "passport_hash": "523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb"
+        },
+        {
+          "agent_id": "checkout-live-20261020",
+          "release_id": "v2api-20261020",
+          "status": "BLOCKED",
+          "allow": false,
+          "revision": 1,
+          "passport_hash": "ff515fb61c0c511b7628dcb3b11946bb51beb7a23956d90308b73d84be5c8cbc"
+        }
+      ]
+    },
+    "wallet": {
+      "connection_attempted": false,
+      "window_ethereum": "undefined",
+      "console_observation": "MetaMask could not install window.ethereum because the property was getter-only.",
+      "connection_signing_and_responsive_qa": "NOT_VERIFIED"
+    }
   }
 }

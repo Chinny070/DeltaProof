@@ -51,6 +51,15 @@ Latest-final decision revision 1 is `BLOCKED`, HIGH risk, mode `GENLAYER_INDEPEN
 
 A read-only call through `frontend/integrations/ci-gate.mjs` checked each exact release-agent pair at `LATEST_FINAL` on StudioNet chain 61999. Checkout returned identity-bound `BLOCKED` / `allow: false`; Analytics returned `ALLOW` / `allow: true`; Refund returned `BLOCKED` / `allow: false`. All three responses reported revision 1. These results match the latest-final decision and passport reads above; no transaction was submitted.
 
+## Public Vercel read-only acceptance
+
+At 2026-10-20 20:18 UTC, the deployed page at https://deltaproof-v2.vercel.app/v2/ loaded in the browser and displayed StudioNet V2 contract counts of 3 agents, 1 release, and 3 decisions. Refresh finalized state was used, and the Authorization Gate returned these real LATEST_FINAL results:
+
+- Analytics (v2api-20261020): ALLOW, allow true, revision 1, passport 523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb.
+- Checkout (v2api-20261020): BLOCKED, allow false, revision 1, passport ff515fb61c0c511b7628dcb3b11946bb51beb7a23956d90308b73d84be5c8cbc.
+
+No wallet connection or transaction was attempted. Page JavaScript reported window.ethereum as undefined. The browser console recorded a MetaMask provider-injection error because window.ethereum was getter-only. Browser wallet connection, signing, and responsive viewport behavior therefore remain unverified; resolve the provider-extension conflict and retest in a browser with one working injected provider.
+
 ## Remaining live lifecycle work and current execution boundary
 
 No new lifecycle transaction was submitted during this checkpoint. The authorized wallet was shown unlocked in the user's PowerShell screenshot, but the separate workspace execution process could not read a key from the GenLayer CLI Windows keychain service (service genlayer-cli, account my-studionet-wallet). The staged freeze runner's read-only preflight passed for StudioNet chain 61999, contract 0x367C2B9f8B52EEd57977B84c458eaD4c3105E718, and the Analytics pair; each preflight reported transactionSent false. No private key was requested or displayed.
