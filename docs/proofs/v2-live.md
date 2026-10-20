@@ -72,7 +72,11 @@ Public V2 Authorization Gate latest-final reads confirmed Analytics is DENY / FR
 
 
 
-Next, run only the resolve step in the wallet-unlocked PowerShell terminal:
+Freeze resolution is now complete. Explorer confirms [`0xfe963b610a6ad70a71a93ac06dddfd16dedc179cfe3870e22d632cae235448af`](https://explorer-studio.genlayer.com/tx/0xfe963b610a6ad70a71a93ac06dddfd16dedc179cfe3870e22d632cae235448af) is FINALIZED with SUCCESS execution and Accepted consensus (nonce 3004; transaction value 0 GEN; settled fee not exposed). The call was resolve_freeze(v2api-20261020, analytics-live-20261020). Latest-final gate now returns REASSESSMENT_REQUIRED / allow false for Analytics with the prior revision 1 passport retained; it did not restore stale approval. Checkout and Refund remain BLOCKED / allow false at revision 1 with their original passport hashes.
+
+
+
+Next, run only the reassessment step in the wallet-unlocked PowerShell terminal:
 
 
 
@@ -80,13 +84,13 @@ Next, run only the resolve step in the wallet-unlocked PowerShell terminal:
 
 cd C:\Users\USERpc\Desktop\DeltaProof-upload\DeltaProof\frontend
 
-node .\integrations\live-freeze-cycle.mjs --step resolve-freeze
+node .\integrations\live-freeze-cycle.mjs --step reassess
 
 ```
 
 
 
-Proceed to reassess only after that step finalizes and latest-final state reports REASSESSMENT_REQUIRED. If it errors, stop and share the output; do not repeat the transaction.
+Proceed only after the reassessment transaction finalizes successfully. The script verifies revision increment, immutable prior decision and passport linkage, current authorization, and unchanged Checkout/Refund pairs. If it errors, stop and share the output; do not repeat the transaction.
 
 
 
