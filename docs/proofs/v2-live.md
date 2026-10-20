@@ -1,6 +1,6 @@
 # DeltaProof V2 live proof
 
-**Snapshot:** 2026-10-20 18:15:00 UTC  
+**Snapshot:** 2026-10-20 18:18:00 UTC  
 **Network:** GenLayer StudioNet, chain 61999  
 **Active V2 contract:** [`0x367C2B9f8B52EEd57977B84c458eaD4c3105E718`](https://explorer-studio.genlayer.com/address/0x367c2b9f8b52eed57977b84c458ead4c3105e718)  
 **Deployment:** [`0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e`](https://explorer-studio.genlayer.com/tx/0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e), finalized with majority agreement. Embedded source SHA-256: `72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0`.
@@ -39,7 +39,7 @@ The user-provided `adjudicate("v2api-20261020", "checkout-live-20261020")` trans
 
 ## Analytics adjudication
 
-The `adjudicate("v2api-20261020", "analytics-live-20261020")` transaction [`0x3b9a613967877d63aee180e943905312728aac0449008597acc3fe19447ba140`](https://explorer-studio.genlayer.com/tx/0x3b9a613967877d63aee180e943905312728aac0449008597acc3fe19447ba140) was independently verified through GenLayerJS 1.1.8: `FINALIZED`, `MAJORITY_AGREE`, one round, votes `AGREE, AGREE, IDLE, IDLE, AGREE`, execution hash `0xb5d92aa4044eb34fd44363c2b9656eb99a85e76abe96141cd647d6dd83eb25aa`, return value `6`. Latest-final reads show revision 1 `APPROVED`, LOW risk, mode `DETERMINISTIC_UNAFFECTED`, with no impacted dependencies or violations. The identity-bound authorization is `allow: true`, status `ALLOW`; passport `523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb` reports `currently_authorized: true`. The overview now reports three agents, one release, and two decisions. This is a deterministic unaffected-pair path; it does not demonstrate semantic consensus or evidence retrieval. Gas limit and nonce were 2931; explorer transaction value was 0 GEN; settled fee was not exposed.
+The `adjudicate("v2api-20261020", "analytics-live-20261020")` transaction [`0x3b9a613967877d63aee180e943905312728aac0449008597acc3fe19447ba140`](https://explorer-studio.genlayer.com/tx/0x3b9a613967877d63aee180e943905312728aac0449008597acc3fe19447ba140) was independently verified through GenLayerJS 1.1.8: `FINALIZED`, `MAJORITY_AGREE`, one round, votes `AGREE, AGREE, IDLE, IDLE, AGREE`, execution hash `0xb5d92aa4044eb34fd44363c2b9656eb99a85e76abe96141cd647d6dd83eb25aa`, return value `523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb`. Latest-final reads show revision 1 `APPROVED`, LOW risk, mode `DETERMINISTIC_UNAFFECTED`, with no impacted dependencies or violations. The identity-bound authorization is `allow: true`, status `ALLOW`; passport `523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb` reports `currently_authorized: true`. The overview now reports three agents, one release, and two decisions. This is a deterministic unaffected-pair path; it does not demonstrate semantic consensus or evidence retrieval. Gas limit and nonce were 2931; explorer transaction value was 0 GEN; settled fee was not exposed.
 
 ## Refund semantic adjudication
 
@@ -47,6 +47,14 @@ The `adjudicate("v2api-20261020", "refund-live-20261020")` transaction [`0xa94d0
 
 Latest-final decision revision 1 is `BLOCKED`, HIGH risk, mode `GENLAYER_INDEPENDENT_CONSENSUS`; findings cite the broken idempotency guarantee and duplicate refunds on retry. The identity-bound authorization is `allow: false`, status `BLOCKED`. Passport `5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b` is not currently authorized. Overview counts are now 3 agents, 1 release, and 3 decisions. Receipt gas limit and nonce were 2936; transaction value shown by explorer was 0 GEN; settled protocol fee was not exposed.
 
+## Live CI authorization matrix
+
+A read-only call through `frontend/integrations/ci-gate.mjs` checked each exact release-agent pair at `LATEST_FINAL` on StudioNet chain 61999. Checkout returned identity-bound `BLOCKED` / `allow: false`; Analytics returned `ALLOW` / `allow: true`; Refund returned `BLOCKED` / `allow: false`. All three responses reported revision 1. These results match the latest-final decision and passport reads above; no transaction was submitted.
+
+## Live CI authorization matrix
+
+A read-only call through `frontend/integrations/ci-gate.mjs` checked each exact release-agent pair at `LATEST_FINAL` on StudioNet chain 61999. Checkout returned identity-bound `BLOCKED` / `allow: false`; Analytics returned `ALLOW` / `allow: true`; Refund returned `BLOCKED` / `allow: false`. All three responses reported revision 1. These results match the latest-final decision and passport reads; no transaction was submitted.
+
 ## Remaining live lifecycle work
 
-Checkout's deterministic block, Analytics' unaffected approval, and Refund's semantic BLOCKED result with a verified evidence profile are now confirmed. Pair-specific freeze, safety challenge, appeal, reassessment, passport history, Watchtower lifecycle, and independent end-to-end CI gate demonstrations remain unverified. The command runner cannot access the user's terminal OS-keychain entry, so the next adjudication must be run in the already-unlocked user PowerShell session and then reconciled by hash.
+Checkout's deterministic block, Analytics' unaffected approval, and Refund's semantic BLOCKED result with a verified evidence profile are now confirmed. Pair-specific freeze, safety challenge, appeal, reassessment, passport history, Watchtower lifecycle, and independent end-to-end CI gate demonstrations remain unverified. Further paid lifecycle writes must use the user's unlocked terminal wallet and be checked by transaction hash and latest-final reads.

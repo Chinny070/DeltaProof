@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-20T18:15:00Z",
+  "recorded_at_utc": "2026-10-20T18:18:00Z",
   "network": {
     "name": "GenLayer StudioNet",
     "chain_id": 61999,
@@ -243,7 +243,7 @@
         "AGREE"
       ],
       "execution_hash": "0xb5d92aa4044eb34fd44363c2b9656eb99a85e76abe96141cd647d6dd83eb25aa",
-      "return_value": 6,
+      "return_value": "523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb",
       "arguments": [
         {
           "index": 0,
@@ -651,5 +651,32 @@
       "commitment": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b",
       "currently_authorized": false
     }
+  },
+  "latest_final_ci_gate_matrix": {
+    "network": "studionet",
+    "chain_id": 61999,
+    "release_id": "v2api-20261020",
+    "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+    "read_state": "LATEST_FINAL",
+    "results": [
+      {
+        "agent_id": "checkout-live-20261020",
+        "allow": false,
+        "status": "BLOCKED",
+        "revision": 1
+      },
+      {
+        "agent_id": "analytics-live-20261020",
+        "allow": true,
+        "status": "ALLOW",
+        "revision": 1
+      },
+      {
+        "agent_id": "refund-live-20261020",
+        "allow": false,
+        "status": "BLOCKED",
+        "revision": 1
+      }
+    ]
   }
 }
