@@ -88,10 +88,8 @@ Explorer shows 0 GEN transaction value for these calls; it does not expose settl
 
 ## Remaining live lifecycle work
 
-
-
-Fresh reassessment and passport revision history, an eligible evidence-backed appeal, safety challenge on a genuinely approved affected pair, Watchtower transition capture, CI rejection exercise, and injected-wallet browser QA remain unverified. Analytics cannot be safety-challenged while it has no impacted dependency; no eligible approved affected consumer is currently documented. The user's browser console previously showed MetaMask failing to inject window.ethereum because the property was getter-only, so wallet connection/signing still requires fixing the browser provider conflict. 
+Freeze, resolution, and fresh reassessment are complete and verified at latest-final state. Remaining work includes an eligible evidence-backed appeal, a safety challenge only if a genuinely approved affected pair exists, Watchtower transition capture, CI gate rejection exercise, and injected-wallet browser QA. Analytics currently has no impacted dependency, so it is not eligible for a safety challenge. The browser console showed MetaMask failing to inject window.ethereum because the property was getter-only; wallet connection and signing remain unverified.
 
 ## Current assessment
 
-PARTIAL. The prior deployment, three consumer records, release, Checkout deterministic block, Analytics unaffected approval, Refund independent semantic BLOCKED result, evidence digest, correct/incorrect passport checks, and read-only CI matrix remain verified as documented. Targeted freeze, appeal, safety challenge, fresh reassessment, state-transition observation, and real-wallet browser acceptance remain unverified.
+PARTIAL. The V2 deployment, three consumer records, release, Checkout deterministic BLOCKED result, Refund semantic-consensus BLOCKED result, Analytics revision 2 APPROVED after targeted freeze and reassessment, passport history, and unaffected Checkout/Refund authorizations are verified. Evidence-backed appeal, eligible safety challenge, Watchtower transition capture, CI rejection exercise, and wallet browser acceptance remain unverified.
