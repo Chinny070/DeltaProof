@@ -20,7 +20,7 @@
 - HTTP smoke: `/` and `/v2/` both returned 200; V2 title and JavaScript bundle loaded, and the V2 bundle contains the corrected address. A browser smoke showed the live latest-final counts as zero agents, releases, and decisions.
 - The existing V1 project and its production URL [`https://deltaproof-ebon.vercel.app`](https://deltaproof-ebon.vercel.app) remain unchanged and return the V1 title.
 
-Wallet signing and live V2 write flows have not been browser-tested; the public smoke verifies page load and real read-only state only.
+Wallet signing and live V2 write flows have not been browser-tested; the public smoke verifies page load and real read-only state only. A fresh workspace check still reports the authorized CLI account locked, and the available browser session has no injected signer. No lifecycle transaction was submitted. See the timestamped [`V2 live proof`](proofs/v2-live.md) for the read snapshot and exact next action.
 
 The first deployment at `0x8addd2bC124C276130a8CAF4ED1341C7F42432a7` (transaction `0xdc6aff4084463b68b94e5e5c277dee266df4f1935d0c5437961b3ae9b7ca65a6`, source SHA-256 `20ee871691c4fd3ce5b44250d815082b4bf25bf38327a6b1f8b20607bf22b1f7`) was superseded after a live CI read exposed that `NO_DECISION` omitted the requested agent and release IDs. The corrected contract binds that denial to both IDs; the regression test passes. The old deployment remains immutable and must not be used by clients.
 
