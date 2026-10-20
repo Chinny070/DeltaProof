@@ -76,13 +76,13 @@ Rules: removed endpoints, new required request fields and removed required respo
 
 ## V2 development branch — Agent Upgrade Court
 
-Fresh V2 latest-final reads and live lifecycle status are recorded in [`docs/proofs/v2-live.md`](docs/proofs/v2-live.md) and [`docs/proofs/v2-live.json`](docs/proofs/v2-live.json). The current registry is empty and lifecycle writes remain pending because the configured signer is locked in the workspace execution environment.
+Fresh V2 latest-final reads and live lifecycle status are recorded in [`docs/proofs/v2-live.md`](docs/proofs/v2-live.md) and [`docs/proofs/v2-live.json`](docs/proofs/v2-live.json). Three controlled agent fixtures (Checkout, Analytics, Refund) are confirmed at latest-final state; the Checkout and Refund transaction receipts are verified. Release registration and all adjudication workflows remain pending.
 
 The dedicated [`codex/deltaproof-v2`](https://github.com/Chinny070/DeltaProof/tree/codex/deltaproof-v2) branch adds a separate V2 contract at `contracts/deltaproof_v2.py`, a V2 console build at `/v2/`, and a read-only CI authorization gate. The corrected V2 contract is deployed on StudioNet at [`0x367C2B9f8B52EEd57977B84c458eaD4c3105E718`](https://explorer-studio.genlayer.com/address/0x367c2b9f8b52eed57977b84c458ead4c3105e718), in finalized transaction [`0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e`](https://explorer-studio.genlayer.com/tx/0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e). The deployed source hash matches the corrected local V2 source, and the full 34-method ABI is retrievable. The live read-only CI gate now returns a structured identity-bound denial for an unknown pair. V1's address and root frontend remain untouched.
 
 V2 records per-agent dependencies and immutable charter versions, performs direct consumer-specific impact checks, retrieves and digest-checks evidence during independent GenLayer evaluation, and exposes a structured fail-closed `get_authorization(release_id, agent_id)` gate. Appeals and safety challenges independently retrieve evidence contents; a targeted safety hold opens only after validator screening confirms relevant new counterevidence. The `frontend/integrations/ci-gate.mjs` gate and read-only `watchtower.mjs` observer require a separately verified V2 address. V2 code and test results are documented in [`docs/V2_STATUS.md`](docs/V2_STATUS.md), [`docs/ARCHITECTURE_V2.md`](docs/ARCHITECTURE_V2.md), [`docs/SECURITY_V2.md`](docs/SECURITY_V2.md), and [`docs/DEPLOYMENT_V2.md`](docs/DEPLOYMENT_V2.md).
 
-The deployment transactions have real GenLayer consensus evidence, and the corrected V2 deployment’s deployed schema and read-only deny gate are verified. No application lifecycle writes have yet been submitted. Semantic adjudication, appeals, safety challenges, freeze handling, passports, authorization allow paths, and public V2 frontend behavior remain unverified. See [`docs/V2_STATUS.md`](docs/V2_STATUS.md) for verification totals and remaining gates.
+The deployment, Checkout registration, and Refund registration transactions have real GenLayer consensus evidence, and the corrected V2 deployment’s schema and read-only deny gate are verified. The Analytics record exists at latest-final state, but its transaction hash has not been captured. Semantic adjudication, appeals, safety challenges, freeze handling, passports, authorization allow paths, and current public V2 frontend behavior remain unverified. See [`docs/V2_STATUS.md`](docs/V2_STATUS.md) for verification totals and remaining gates.
 
 ## Methods
 
@@ -107,3 +107,4 @@ The frontend targets `genlayer-js@1.1.8` with StudioNet chain 61999. GenLayer's 
 ## Originality
 
 DeltaProof analyzes compatibility of publisher-declared software interfaces and produces upgrade attestations. It does not use the KeyWitness property-dispute concept, terms negotiation, evidence roles, escrow, challenge bonds, or settlement. The benchmark informed the quality bar, not the implementation.
+

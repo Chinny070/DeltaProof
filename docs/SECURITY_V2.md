@@ -20,7 +20,7 @@
 
 ## Important residual risks and limits
 
-1. **Deployed, with application runtime still unverified.** The corrected source is deployed on StudioNet; deployment reached finalized majority agreement and latest-final ABI reads work. No V2 application lifecycle write or semantic adjudication has yet been executed, so storage serialization, model/web retrieval, and validator behavior for application calls still need live verification. Offline state-machine tests use a lightweight harness and do not replace those checks.
+1. **Deployed; only registration runtime is verified so far.** The corrected source is deployed on StudioNet; deployment reached finalized majority agreement and latest-final ABI reads work. Three controlled agent records and charters are present at latest-final state, and two registration receipts were independently verified. This confirms basic write finality and storage serialization, but release registration, model/web retrieval, semantic decisions, appeals, safety challenges, and other application adjudications still need live verification. Offline state-machine tests use a lightweight harness and do not replace those checks.
 2. **Evidence integrity is not evidence authenticity.** Retrieval confirms that bytes returned by a public URL match the submitted digest at evaluation time. It does not prove the publisher, test environment, completeness, or truth of the content. A malicious source can publish misleading evidence and a compromised domain can change content.
 3. **Network content can change between validators.** V2 compares evidence status/profile and consequential AI fields; changing or unavailable evidence can prevent finalization or require validator rotation. This is fail-safe but may reduce liveness.
 4. **Public URL retrieval has residual network-layer exposure.** The contract rejects obvious private/local host forms, but it cannot resolve DNS or guarantee against DNS rebinding. StudioNet validator web-access policy must be confirmed before deployment.
@@ -37,3 +37,4 @@
 ## Deployment gate
 
 Do not describe V2 as production-ready until a separately authorized StudioNet deployment passes current GenVM storage/model/web execution, live deterministic cases, real independent semantic consensus, validator dissent/rotation handling, evidence retrieval/hash cases, appeal and safety-challenge screening/resolution, freeze timeout/recovery, passport/history verification, transaction finality, Watchtower polling against the deployed ABI, and the V2 read-only CI gate. Keep V1 as the production system until those checks are complete.
+

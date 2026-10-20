@@ -2,7 +2,7 @@ import { createRequire } from 'node:module';
 import { join } from 'node:path';
 import { createAccount, createClient } from 'genlayer-js';
 import { studionet } from 'genlayer-js/chains';
-import { ExecutionResult, TransactionHashVariant, TransactionStatus } from 'genlayer-js/types';
+import { TransactionHashVariant, TransactionStatus } from 'genlayer-js/types';
 
 const contractAddress = '0x367C2B9f8B52EEd57977B84c458eaD4c3105E718';
 const expectedSigner = '0xaffe15eec45b68835cc9e5b4ab85dd5deae8e70b';
@@ -64,9 +64,23 @@ async function main() {
     retries: 100,
     fullTransaction: true,
   });
-  console.log(`RECEIPT=${JSON.stringify(receipt)}`);
+  const successfulAgreeExecutions = (receipt?.consensus_data?.validators ?? [])
+    .filter((validator) => validator?.vote === 'agree' && validator?.execution_result === 'SUCCESS').length;
+  const agreeVotes = (receipt?.last_round?.validator_votes_name ?? []).filter((vote) => vote === 'AGREE').length;
+  console.log(`RECEIPT=${JSON.stringify({
+    hash: receipt?.hash,
+    status: receipt?.statusName,
+    consensus: receipt?.result_name,
+    agreeVotes,
+    successfulAgreeExecutions,
+    executionHash: receipt?.tx_execution_hash,
+    gasLimit: receipt?.gaslimit,
+    nonce: receipt?.nonce,
+  })}`);
   if (receipt?.statusName !== 'FINALIZED') throw new Error(`Transaction did not reach FINALIZED (${receipt?.statusName ?? 'unknown'}); do not retry before reconciling ${hash}.`);
-  if (receipt?.txExecutionResultName !== ExecutionResult.FINISHED_WITH_RETURN) throw new Error(`Finalized transaction execution failed (${receipt?.txExecutionResultName ?? 'unknown'}); reconcile ${hash} before any retry.`);
+  if (receipt?.result_name !== 'MAJORITY_AGREE' || agreeVotes < 3 || successfulAgreeExecutions < 2) {
+    throw new Error(`Finalized transaction lacks verified successful majority execution (consensus=${receipt?.result_name ?? 'unknown'}, agrees=${agreeVotes}, successful_agree_executions=${successfulAgreeExecutions}); reconcile ${hash} before any retry.`);
+  }
 
   const registered = await client.readContract({
     address: contractAddress,
@@ -84,3 +98,4 @@ main().catch((error) => {
   console.error(`LIVE_REGISTRATION_FAILED=${error?.message ?? String(error)}`);
   process.exitCode = 1;
 });
+
