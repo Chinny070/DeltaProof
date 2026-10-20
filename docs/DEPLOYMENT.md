@@ -9,6 +9,19 @@
 
 Do not confuse with Studio Next / Studio Devnet chain ID 61997. Use matching `genlayer-js/chains` `studionet` definition.
 
+## Verified deployment
+
+DeltaProof is deployed to the stable GenLayer StudioNet (chain ID `61999`). The signer was `0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b`.
+
+- Contract: [`0x50D7C07A081A56dBd30fB3a244C11A8105E4faA6`](https://explorer-studio.genlayer.com/address/0x50D7C07A081A56dBd30fB3a244C11A8105E4faA6)
+- Deployment transaction: [`0x38d85b62148f0538bd672f60d5150e31a54d6edc96f326b313cf08341e409535`](https://explorer-studio.genlayer.com/tx/0x38d85b62148f0538bd672f60d5150e31a54d6edc96f326b313cf08341e409535)
+- Status: `FINALIZED`; GenVM execution `SUCCESS`; consensus `Accepted` in one round, five initial validators, zero rotations.
+- Deployed source SHA-256: `f0f8ccef0263aca4cf0d8553ae117d3fdf0f80bc895b547c691c933f81c2d240` (matches `contracts/deltaproof.py` and source shown in the explorer deployment input).
+- Read-only calls at `latest-final`: `get_protocol` returned `deltaproof/1.0`; `get_overview` returned `total: 0`, `finalized: 0`; `list_releases(0, 20)` returned `[]`.
+- Fee record: transaction value shown as `0 GEN`; explorer showed no EVM gas limit and did not expose protocol fee settlement. The protocol fee is therefore recorded as unavailable, not zero.
+
+Machine-readable evidence: [`deployments/studionet.json`](../deployments/studionet.json).
+
 ## Local prerequisites
 
 1. Python 3.12+ and `pytest` for offline tests.
@@ -16,39 +29,25 @@ Do not confuse with Studio Next / Studio Devnet chain ID 61997. Use matching `ge
 3. GenLayer CLI, `genlayer-test`, GenVM linter; Docker only if choosing localnet rather than StudioNet.
 4. A funded StudioNet wallet under **your own** control. Never paste its seed/private key into repository, terminal transcript, screenshots or ChatGPT.
 
-The verified StudioNet account currently selected in this environment is locked. Before any deployment, unlock it through the user's secure OS wallet flow, verify `genlayer network info` reports chain `61999`, and confirm the public address with `genlayer account show`. Never export or print a private key. The installed stable CLI uses `genlayer deploy --contract contracts/deltaproof.py --rpc https://studio.genlayer.com/api`; its help does not expose a dry-run or fee-estimate command. The stable `genlayer-js@1.1.8` SDK estimates consensus transaction gas and `eth_gasPrice` as part of `writeContract`, while a read-only preflight returned 500,000 gas and 0 wei/gas (0 GEN outer transaction estimate) for the deployment payload. That RPC quote does not prove there are no protocol-level costs. Obtain explicit user approval before running the deploy command, and show the chain, public signer, measured quote, and fee limitation in the approval request.
+The deployment was performed with the user's configured StudioNet signer after the user unlocked it locally. Never export or print a private key. The command used was `genlayer deploy --contract contracts/deltaproof.py --rpc https://studio.genlayer.com/api`. The deployment receipt and source were verified through StudioNet Explorer. Do not redeploy this contract.
 
-## Step-by-step
+## Paid live consensus test plan (not yet authorized or run)
 
-```bash
-python -m pytest -q tests/test_contract.py
-python -m compileall -q contracts
-# Install required official GenLayer tools per docs.
-genvm-lint check contracts/deltaproof.py --json
-# StudioNet read/write tools require your configured signer and network:
-genlayer network set studionet
-# Check current CLI syntax before executing:
-genlayer deploy --help
-# Deploy contracts/deltaproof.py with no constructor arguments.
-```
+Paid writes require separate user approval. Once approved, run and retain evidence for:
 
-Use **observed** output, not an invented address. After deployment:
+1. Deterministic compatibility: unchanged/additive snapshot yields a deterministic `COMPATIBLE` record.
+2. Deterministic breakage: removed endpoint, newly required request field, and removed required response field are each `BREAKING`.
+3. Semantic compatibility: behavior-only change goes through `gl.vm.run_nondet_unsafe`, with independent validator evaluation; record the actual consensus label without predicting it.
+4. Validator agreement: record leader and validator outcomes/dissent from Explorer or trace; verify disagreement fails closed and does not mint a `COMPATIBLE` certificate.
+5. Certificate verification: query the actual certificate successfully, then verify a wrong digest returns false. Also confirm duplicate registration and second evaluation are rejected.
+6. For every write, capture the real hash, `FINALIZED` status, execution result, validator/consensus evidence, and fees where exposed. Never retry a submitted transaction; resume tracking its hash.
 
-1. Record real address and tx hash in `deployments/studionet.json`, with source hash from `sha256sum contracts/deltaproof.py`.
-2. `gltest tests/integration/ -v -s --network studionet` with `DELTAPROOF_LIVE_TESTS=1` and correctly configured wallet signer. If the installed CLI has different syntax, document exact changes.
-3. Confirm `get_protocol`, `get_overview`, `list_releases`, `get_release` against address and return types.
-4. Create at least three genuine transactions with evidence: unchanged snapshot (`COMPATIBLE`, deterministic), removed required field (`BREAKING`, deterministic), behavioral change (validator-model consensus decision). Capture full hashes and final status/execution result.
-5. Attempt direct RPC duplicate registration, unauthorized modification (should be impossible because no write method exists), invalid JSON, malformed behavior response, and mismatched certificate; record results.
-6. For semantic consensus, capture each node's risk classifications or available consensus evidence, and verify that the independent validator is actually invoked. Fix any GenVM serialization/runner/provider issue rather than claiming tests are complete.
-7. Set `frontend/.env.local` with `VITE_CONTRACT_ADDRESS=0x...` exactly. Run `npm ci`, `npm test`, `npm run build`, `npm run dev`.
-8. Test wallet connect, copy, site disconnect, browser refresh restoration, manual switch from Ethereum mainnet to StudioNet, account change, rejected switch, and retry-free tx finality tracking.
-9. Deploy static `frontend/dist` to Vercel/Netlify; Vercel root `frontend`, build `npm run build`, output `dist`. Set the same `VITE_CONTRACT_ADDRESS` environment variable in Production; build again after changing it.
-10. Verify real public URL at 375px/768px/1440px widths, browser console clean, all tabs functional, no mocked data. Test nested URL reload. Document any remaining blockers.
+No paid application writes have been run. The deployed empty-state views have been verified as recorded above.
 
-## Fee estimation warning
+## Frontend deployment preparation
 
-The frontend currently calls `estimateTransactionFeesForWrite` for every write. This is suitable for development testing only, not an optimized production UX; the estimate may be costly or error depending on network policy. Codex should profile actual usage, check in reviewed fee policy values or integrate Transaction Kit, and keep accurate live fee estimates. Never hardcode an unmeasured fee preset.
+The frontend defaults to the verified public contract address and allows a `VITE_CONTRACT_ADDRESS` override. It is deployed to [deltaproof-ebon.vercel.app](https://deltaproof-ebon.vercel.app) (Vercel deployment `dpl_8xfFce1pQpRBNSUqRkDm75cQvxGh`). The public page was checked against live StudioNet state and showed `CONNECTED`, zero totals, and an empty registry. The remaining frontend acceptance work is injected-wallet testing in MetaMask/Rabby at target widths, nested-route refresh, and interaction-focused console checks. Do not enable write testing until its separate transaction-spending approval is given.
 
 ## Security/finality reporting
 
-Store `docs/proofs/live.md` and `docs/proofs/live.json` **only after** the actual transaction suite. A truthful partial report beats fictitious `78/78 live` numbers. Do not backfill fabricated addresses, screenshots or transaction hashes.
+The verified deployment details are recorded in `deployments/studionet.json`. Add a separate live test report only after paid consensus tests have been authorized and actually run; keep deployment evidence distinct from application transaction evidence.

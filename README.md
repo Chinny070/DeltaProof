@@ -7,7 +7,7 @@ DeltaProof is **not** a software testing oracle. It checks declared compatibilit
 ## What is implemented
 
 - One GenLayer Intelligent Contract (`contracts/deltaproof.py`) with immutable release records, canonical JSON snapshots, fingerprinted provenance, deterministic structural rules, independent semantic validator evaluation, four outcome classes and SHA-256 certificate verification.
-- One responsive frontend (`frontend/`) with release creation, local structural diff preview, live registry, release inspection, permissionless evaluation, and certificate verification. No mock chain data, fabricated transactions or invented deployed address.
+- One responsive frontend (`frontend/`) with release creation, local structural diff preview, live registry, release inspection, permissionless evaluation, and certificate verification. It reads only from the configured contract and does not use mock chain data.
 - Injected EIP-1193 wallet: connect, copy address, disconnect from **site session**, silent authorized-session restore on refresh, accounts/chain listeners, and wrong-network switch/add for StudioNet 61999.
 - Finalization-aware GenLayer SDK transaction handling. Transactions are not reported successful until both finalized and successfully executed; pending hashes survive refresh for tracking, not blind retries.
 - 87 offline Python tests including 100 structural parity fixtures; 30 Node JS tests; optional real StudioNet integration test; GitHub Actions pipeline.
@@ -15,7 +15,7 @@ DeltaProof is **not** a software testing oracle. It checks declared compatibilit
 
 ## Current verification status
 
-**Offline source checks pass. NOT YET DEPLOYED.** The frontend is locked to `genlayer-js@1.1.8`, the stable SDK line verified for StudioNet chain 61999. The v2.0 release candidate targets the separate Studio-dev chain 61997 and is not used here. StudioNet writes require a configured wallet and fees; this repository has no verified DeltaProof contract address, live validator vote, confirmed application transaction, or deployed frontend. These must be obtained, not manufactured.
+**The Intelligent Contract is deployed and its read-only interface is verified on StudioNet.** The frontend is pinned to `genlayer-js@1.1.8`, the stable SDK line used with StudioNet chain 61999. The deployed address is [`0x50D7C07A081A56dBd30fB3a244C11A8105E4faA6`](https://explorer-studio.genlayer.com/address/0x50D7C07A081A56dBd30fB3a244C11A8105E4faA6); its deployment transaction [`0x38d85b62148f0538bd672f60d5150e31a54d6edc96f326b313cf08341e409535`](https://explorer-studio.genlayer.com/tx/0x38d85b62148f0538bd672f60d5150e31a54d6edc96f326b313cf08341e409535) finalized with execution result `SUCCESS`. The exact deployed source matches SHA-256 `f0f8ccef0263aca4cf0d8553ae117d3fdf0f80bc895b547c691c933f81c2d240`. Read-only `get_protocol`, `get_overview`, and `list_releases(0, 20)` calls succeeded. The public [Vercel app](https://deltaproof-ebon.vercel.app) is READY and its live contract reads show the empty registry. The explorer does not expose protocol fee settlement; its displayed transaction value is 0 GEN, which is not a total-fee measurement. Paid register/evaluate tests remain pending separate approval.
 
 ## Quick start
 
@@ -31,7 +31,7 @@ npm run build
 npm run dev
 ```
 
-Create `frontend/.env.local` using `frontend/.env.example`, set `VITE_CONTRACT_ADDRESS` to a **real deployed address** after verification, and restart the app. Without it, the app explicitly shows "Deployment required" and disables contract reads/writes. All on-chain data must be real.
+The verified StudioNet address is the frontend default; `VITE_CONTRACT_ADDRESS` can override it for another deployment. For local development, create `frontend/.env.local` using `frontend/.env.example` if you need an override, and restart the app. All on-chain data must be real.
 
 Production frontend build:
 
@@ -88,7 +88,7 @@ Rules: removed endpoints, new required request fields and removed required respo
 
 ## Operational / security notes
 
-This is a **prototype** until lint, GenVM schema checks, live consensus and public frontend smoke tests complete. There is no paid escrow, transfer, admin takeover, mutable release or private central database. The issuer controls input snapshots, not verdict logic. Threat model and residual risks: [`docs/SECURITY.md`](docs/SECURITY.md). Live execution checklist: [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md). Codex work: [`DELTA_CODEX_FINISH_PROMPT.md`](DELTA_CODEX_FINISH_PROMPT.md).
+This remains a **prototype** until paid live consensus scenarios and public frontend smoke tests complete. The contract has no admin takeover, mutable release or private central database. The issuer controls input snapshots, not verdict logic. Threat model and residual risks: [`docs/SECURITY.md`](docs/SECURITY.md). Deployment record and remaining live test plan: [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md), [`deployments/studionet.json`](deployments/studionet.json). Codex work: [`DELTA_CODEX_FINISH_PROMPT.md`](DELTA_CODEX_FINISH_PROMPT.md).
 
 ## Dependencies / references
 

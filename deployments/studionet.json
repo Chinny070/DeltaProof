@@ -4,9 +4,42 @@
   "chain_id": 61999,
   "rpc_url": "https://studio.genlayer.com/api",
   "explorer": "https://explorer-studio.genlayer.com",
-  "status": "NOT_DEPLOYED",
-  "contract_address": null,
-  "deployment_tx_hash": null,
-  "verified_source_sha256": null,
-  "live_tests": "NOT_RUN"
+  "status": "DEPLOYED",
+  "contract_address": "0x50D7C07A081A56dBd30fB3a244C11A8105E4faA6",
+  "deployment_tx_hash": "0x38d85b62148f0538bd672f60d5150e31a54d6edc96f326b313cf08341e409535",
+  "deployer": "0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b",
+  "deployed_at": "2026-10-20T08:00:28+01:00",
+  "finalized_at": "2026-10-20T08:01:02+01:00",
+  "transaction_status": "FINALIZED",
+  "execution_result": "SUCCESS",
+  "consensus_result": "Accepted",
+  "consensus_rounds": 1,
+  "initial_validators": 5,
+  "rotations": 0,
+  "verified_source_sha256": "f0f8ccef0263aca4cf0d8553ae117d3fdf0f80bc895b547c691c933f81c2d240",
+  "fee_observation": {
+    "transaction_value_gen": "0",
+    "protocol_fee_gen": null,
+    "protocol_fee_status": "NOT_EXPOSED_BY_EXPLORER",
+    "note": "The explorer receipt shows zero transaction value and no EVM gas limit; it does not expose protocol-fee settlement. Zero value is not evidence that total fees were zero."
+  },
+  "verified_reads": {
+    "get_protocol": "deltaproof/1.0",
+    "get_overview": {"finalized": 0, "total": 0, "protocol": "deltaproof/1.0"},
+    "list_releases_0_20": []
+  },
+  "live_tests": "READ_ONLY_VIEWS_VERIFIED;PAID_CONSENSUS_TESTS_NOT_RUN",
+  "frontend_deployment": {
+    "provider": "Vercel",
+    "project": "deltaproof",
+    "status": "READY",
+    "deployment_id": "dpl_8xfFce1pQpRBNSUqRkDm75cQvxGh",
+    "production_url": "https://deltaproof-ebon.vercel.app",
+    "deployment_url": "https://deltaproof-c9459469e-chinny070s-projects.vercel.app",
+    "verified_live_reads": "Connected; overview totals 0/0/0; registry empty"
+  },
+  "evidence": {
+    "transaction": "https://explorer-studio.genlayer.com/tx/0x38d85b62148f0538bd672f60d5150e31a54d6edc96f326b313cf08341e409535",
+    "contract": "https://explorer-studio.genlayer.com/address/0x50D7C07A081A56dBd30fB3a244C11A8105E4faA6"
+  }
 }
