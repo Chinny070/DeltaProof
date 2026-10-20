@@ -356,6 +356,30 @@
       "transaction_value_gen": "0",
       "settled_fee_gen": null,
       "fee_note": "Explorer transaction value is 0 GEN; settled protocol fee is not exposed in the receipt."
+    },
+    {
+      "scenario": "Targeted Analytics authorization freeze",
+      "hash": "0xcb3b5d88301abc713d0da43da9aa6889c5bd86aadc41b9f77b35a7c7b0d0e0c5",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0xcb3b5d88301abc713d0da43da9aa6889c5bd86aadc41b9f77b35a7c7b0d0e0c5",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9e5b4ab85dd5dea8e70b",
+      "method": "freeze_authorization",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "consensus": "ACCEPTED",
+      "initial_validators": 5,
+      "arguments": [
+        "v2api-20261020",
+        "analytics-live-20261020",
+        "Authorized targeted live freeze lifecycle verification",
+        1800
+      ],
+      "value_gen": "0",
+      "gas_limit": null,
+      "nonce": 3003,
+      "settled_fee_gen": null,
+      "fee_note": "Explorer shows 0 GEN transaction value and no gas limit; settled protocol fee is not exposed, so total expenditure is unknown.",
+      "source": "Explorer transaction page and public frontend latest-final gate reads."
     }
   ],
   "latest_final_state_after_registration": {
@@ -747,5 +771,33 @@
       "console_observation": "MetaMask could not install window.ethereum because the property was getter-only.",
       "connection_signing_and_responsive_qa": "NOT_VERIFIED"
     }
+  },
+  "latest_final_state_after_targeted_freeze": {
+    "verified_at_utc": "2026-10-20T20:18:19Z",
+    "read_variant": "LATEST_FINAL",
+    "release_id": "v2api-20261020",
+    "target_agent_id": "analytics-live-20261020",
+    "target_authorization": {
+      "status": "FROZEN",
+      "allow": false,
+      "revision": 1,
+      "passport_hash": "523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb"
+    },
+    "unaffected_pairs": [
+      {
+        "agent_id": "checkout-live-20261020",
+        "status": "BLOCKED",
+        "allow": false,
+        "revision": 1,
+        "passport_hash": "ff515fb61c0c511b7628dcb3b11946bb51beb7a23956d90308b73d84be5c8cbc"
+      },
+      {
+        "agent_id": "refund-live-20261020",
+        "status": "BLOCKED",
+        "allow": false,
+        "revision": 1,
+        "passport_hash": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b"
+      }
+    ]
   }
 }

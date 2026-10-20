@@ -60,26 +60,41 @@ At 2026-10-20 20:18 UTC, the deployed page at https://deltaproof-v2.vercel.app/v
 
 No wallet connection or transaction was attempted. Page JavaScript reported window.ethereum as undefined. The browser console recorded a MetaMask provider-injection error because window.ethereum was getter-only. Browser wallet connection, signing, and responsive viewport behavior therefore remain unverified; resolve the provider-extension conflict and retest in a browser with one working injected provider.
 
-## Remaining live lifecycle work and current execution boundary
+## Targeted freeze lifecycle
 
-No new lifecycle transaction was submitted during this checkpoint. The authorized wallet was shown unlocked in the user's PowerShell screenshot, but the separate workspace execution process could not read a key from the GenLayer CLI Windows keychain service (service genlayer-cli, account my-studionet-wallet). The staged freeze runner's read-only preflight passed for StudioNet chain 61999, contract 0x367C2B9f8B52EEd57977B84c458eaD4c3105E718, and the Analytics pair; each preflight reported transactionSent false. No private key was requested or displayed.
 
-The next live action is to run the staged lifecycle runner from a terminal that can access the unlocked CLI account, one step at a time:
+
+The user submitted freeze_authorization for v2api-20261020 / analytics-live-20261020. Explorer confirms transaction [`0xcb3b5d88301abc713d0da43da9aa6889c5bd86aadc41b9f77b35a7c7b0d0e0c5`](https://explorer-studio.genlayer.com/tx/0xcb3b5d88301abc713d0da43da9aa6889c5bd86aadc41b9f77b35a7c7b0d0e0c5) is FINALIZED, execution SUCCESS, consensus Accepted, nonce 3003, and return null. Parameters were release v2api-20261020, agent analytics-live-20261020, reason “Authorized targeted live freeze lifecycle verification,” and duration 1800 seconds. Explorer shows transaction value 0 GEN and does not expose the settled protocol fee; 0 GEN value is not evidence of a zero total fee.
+
+
+
+Public V2 Authorization Gate latest-final reads confirmed Analytics is DENY / FROZEN with allow false and revision 1. The identity-bound passport hash remains 523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb. Separate latest-final gate reads confirmed Checkout remains BLOCKED / allow false, revision 1, passport ff515fb61c0c511b7628dcb3b11946bb51beb7a23956d90308b73d84be5c8cbc; Refund remains BLOCKED / allow false, revision 1, passport 5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b.
+
+
+
+Next, run only the resolve step in the wallet-unlocked PowerShell terminal:
+
+
 
 ```powershell
+
 cd C:\Users\USERpc\Desktop\DeltaProof-upload\DeltaProof\frontend
-node .\integrations\live-freeze-cycle.mjs --step freeze
-# Verify FINALIZED and Analytics FROZEN before continuing:
+
 node .\integrations\live-freeze-cycle.mjs --step resolve-freeze
-# Verify latest-final REASSESSMENT_REQUIRED before continuing:
-node .\integrations\live-freeze-cycle.mjs --step reassess
+
 ```
 
-The script checks signer and network, waits for finality and majority execution, verifies targeted authorization state and unchanged Checkout/Refund pairs, and checks reassessment revision/passport history. Stop if a step errors; do not retry a write automatically.
 
-The safety challenge is currently ineligible: Analytics is approved but has no impacted dependency, while Checkout and Refund are blocked. Do not challenge Analytics or fabricate an eligible approval. The Refund appeal runner is prepared, but its transactions were not sent. Any response window dependent on a real deadline must not be simulated.
 
-Watchtower observations and the CI gate matrix are latest-final snapshots, not a demonstrated live transition or successful deployment rejection. Real-browser wallet signing was not completed in this checkpoint.
+Proceed to reassess only after that step finalizes and latest-final state reports REASSESSMENT_REQUIRED. If it errors, stop and share the output; do not repeat the transaction.
+
+
+
+## Remaining live lifecycle work
+
+
+
+Fresh reassessment and passport revision history, an eligible evidence-backed appeal, safety challenge on a genuinely approved affected pair, Watchtower transition capture, CI rejection exercise, and injected-wallet browser QA remain unverified. Analytics cannot be safety-challenged while it has no impacted dependency; no eligible approved affected consumer is currently documented. The user's browser console previously showed MetaMask failing to inject window.ethereum because the property was getter-only, so wallet connection/signing still requires fixing the browser provider conflict. 
 
 ## Current assessment
 
