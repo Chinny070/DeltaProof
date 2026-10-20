@@ -16,6 +16,8 @@ Do not confuse with Studio Next / Studio Devnet chain ID 61997. Use matching `ge
 3. GenLayer CLI, `genlayer-test`, GenVM linter; Docker only if choosing localnet rather than StudioNet.
 4. A funded StudioNet wallet under **your own** control. Never paste its seed/private key into repository, terminal transcript, screenshots or ChatGPT.
 
+The verified StudioNet account currently selected in this environment is locked. Before any deployment, unlock it through the user's secure OS wallet flow, verify `genlayer network info` reports chain `61999`, and confirm the public address with `genlayer account show`. Never export or print a private key. The installed stable CLI uses `genlayer deploy --contract contracts/deltaproof.py --rpc https://studio.genlayer.com/api`; its help does not expose a dry-run or fee-estimate command. The stable `genlayer-js@1.1.8` SDK estimates consensus transaction gas and `eth_gasPrice` as part of `writeContract`, while a read-only preflight returned 500,000 gas and 0 wei/gas (0 GEN outer transaction estimate) for the deployment payload. That RPC quote does not prove there are no protocol-level costs. Obtain explicit user approval before running the deploy command, and show the chain, public signer, measured quote, and fee limitation in the approval request.
+
 ## Step-by-step
 
 ```bash
@@ -38,7 +40,7 @@ Use **observed** output, not an invented address. After deployment:
 4. Create at least three genuine transactions with evidence: unchanged snapshot (`COMPATIBLE`, deterministic), removed required field (`BREAKING`, deterministic), behavioral change (validator-model consensus decision). Capture full hashes and final status/execution result.
 5. Attempt direct RPC duplicate registration, unauthorized modification (should be impossible because no write method exists), invalid JSON, malformed behavior response, and mismatched certificate; record results.
 6. For semantic consensus, capture each node's risk classifications or available consensus evidence, and verify that the independent validator is actually invoked. Fix any GenVM serialization/runner/provider issue rather than claiming tests are complete.
-7. Set `frontend/.env.local` with `VITE_CONTRACT_ADDRESS=0x...` exactly. Run `npm install`, `npm run test`, `npm run build`, `npm run dev`.
+7. Set `frontend/.env.local` with `VITE_CONTRACT_ADDRESS=0x...` exactly. Run `npm ci`, `npm test`, `npm run build`, `npm run dev`.
 8. Test wallet connect, copy, site disconnect, browser refresh restoration, manual switch from Ethereum mainnet to StudioNet, account change, rejected switch, and retry-free tx finality tracking.
 9. Deploy static `frontend/dist` to Vercel/Netlify; Vercel root `frontend`, build `npm run build`, output `dist`. Set the same `VITE_CONTRACT_ADDRESS` environment variable in Production; build again after changing it.
 10. Verify real public URL at 375px/768px/1440px widths, browser console clean, all tabs functional, no mocked data. Test nested URL reload. Document any remaining blockers.

@@ -1,3 +1,4 @@
 networks:
+  default: studionet
   studionet:
-    rpc_url: "https://studio.genlayer.com/api"
+    url: "https://studio.genlayer.com/api"

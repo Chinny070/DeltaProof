@@ -14,5 +14,5 @@ jobs:
       - run: python -m pip install pytest
       - run: python -m compileall -q contracts tests
       - run: python -m pytest -q tests/test_contract.py tests/test_parity.py
-      - run: cd frontend && npm install && npm run check
+      - run: cd frontend && npm ci && npm run check
   # GenVM lint + live mode intentionally belong to a gated environment with real runner/RPC.

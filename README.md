@@ -10,12 +10,12 @@ DeltaProof is **not** a software testing oracle. It checks declared compatibilit
 - One responsive frontend (`frontend/`) with release creation, local structural diff preview, live registry, release inspection, permissionless evaluation, and certificate verification. No mock chain data, fabricated transactions or invented deployed address.
 - Injected EIP-1193 wallet: connect, copy address, disconnect from **site session**, silent authorized-session restore on refresh, accounts/chain listeners, and wrong-network switch/add for StudioNet 61999.
 - Finalization-aware GenLayer SDK transaction handling. Transactions are not reported successful until both finalized and successfully executed; pending hashes survive refresh for tracking, not blind retries.
-- 87 offline Python tests including 100 structural parity fixtures; 26 Node JS tests; optional real StudioNet integration test; GitHub Actions pipeline.
+- 87 offline Python tests including 100 structural parity fixtures; 30 Node JS tests; optional real StudioNet integration test; GitHub Actions pipeline.
 - Documentation: architecture, threat model, verification guide, protocol, deployment, Codex handoff.
 
 ## Current verification status
 
-**Source built and offline tests passed locally. NOT YET DEPLOYED.** The container cannot reach npm or StudioNet, and its connected GitHub account has read-only access to `Chinny070/DeltaProof`. Accordingly, this project has no verified contract address, live validator vote, confirmed wallet transaction, or deployed frontend. These must be obtained, not manufactured.
+**Offline source checks pass. NOT YET DEPLOYED.** The frontend is locked to `genlayer-js@1.1.8`, the stable SDK line verified for StudioNet chain 61999. The v2.0 release candidate targets the separate Studio-dev chain 61997 and is not used here. StudioNet writes require a configured wallet and fees; this repository has no verified DeltaProof contract address, live validator vote, confirmed application transaction, or deployed frontend. These must be obtained, not manufactured.
 
 ## Quick start
 
@@ -25,8 +25,9 @@ Requirements: Node 22+, Python 3.12+, npm, and (for live tests) the GenLayer CLI
 python -m pip install pytest
 python -m pytest -q tests/test_contract.py tests/test_parity.py
 cd frontend
-npm install
+npm ci
 npm test
+npm run build
 npm run dev
 ```
 
@@ -91,7 +92,7 @@ This is a **prototype** until lint, GenVM schema checks, live consensus and publ
 
 ## Dependencies / references
 
-The frontend targets `genlayer-js@2.0.0-rc.1` and the documented StudioNet chain object. Confirm compatibility against the deployed network before shipping; fee simulation is for development, not an operational fee profile. See official [GenLayer JS reference](https://docs.genlayer.com/api-references/genlayer-js), [web reads](https://docs.genlayer.com/developers/decentralized-applications/reading-data), [writes/finality](https://docs.genlayer.com/developers/decentralized-applications/writing-data), and [nondeterminism](https://docs.genlayer.com/developers/intelligent-contracts/features/non-determinism).
+The frontend targets `genlayer-js@1.1.8` with StudioNet chain 61999. GenLayer's v2.0 release candidate is for Studio-dev chain 61997; do not combine it with StudioNet. The v1 SDK estimates consensus transaction gas and gas price when `writeContract` is called. Confirm the signed transaction's actual fee and final receipt on the live network before shipping. See the official [GenLayer JS reference](https://docs.genlayer.com/api-references/genlayer-js), [network configuration](https://docs.genlayer.com/developers/intelligent-contracts/deploying/network-configuration), [writing and finality](https://docs.genlayer.com/developers/decentralized-applications/writing-data), and [nondeterminism](https://docs.genlayer.com/developers/intelligent-contracts/features/non-determinism).
 
 ## Originality
 

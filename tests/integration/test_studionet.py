@@ -6,6 +6,7 @@ Run after configuring StudioNet account and gltest:
 import json
 import os
 import pytest
+from gltest.types import TransactionStatus
 
 pytestmark = pytest.mark.skipif(os.getenv('DELTAPROOF_LIVE_TESTS') != '1', reason='requires real StudioNet')
 
@@ -24,12 +25,14 @@ def test_deploy_deterministic_certificate():
                                      {'method':'POST','path':'/refresh','request_required':[],
                                      'response_required':['queued'],'behavior':'Queues refresh'}]})
     tx = contract.register_release(args=['Integration Example','v1','v2',baseline,candidate,
-             'https://example.com/before','https://example.com/after']).transact()
+             'https://example.com/before','https://example.com/after']).transact(
+                 wait_transaction_status=TransactionStatus.FINALIZED)
     assert tx_execution_succeeded(tx)
     entries = contract.list_releases(args=[0,20]).call()
     assert len(entries) == 1
     rid=entries[0]['id']
-    tx = contract.evaluate_release(args=[rid]).transact()
+    tx = contract.evaluate_release(args=[rid]).transact(
+        wait_transaction_status=TransactionStatus.FINALIZED)
     assert tx_execution_succeeded(tx)
     record=contract.get_release(args=[rid]).call()
     assert record['outcome']=='COMPATIBLE'
