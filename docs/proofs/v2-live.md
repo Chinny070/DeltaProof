@@ -86,6 +86,20 @@ The user later ran the reassess command and saw “Expected REASSESSMENT_REQUIRE
 
 Explorer shows 0 GEN transaction value for these calls; it does not expose settled protocol fees, so total cost is unknown.
 
+## Refund appeal opened
+
+Transaction [`0xc2ea312d379e107504f4e0dca145e58b19c9eb234137089315b068fbb7f501b7`](https://explorer-studio.genlayer.com/tx/0xc2ea312d379e107504f4e0dca145e58b19c9eb234137089315b068fbb7f501b7) called open_appeal for v2api-20261020 / refund-live-20261020. Explorer reports FINALIZED, SUCCESS execution, Accepted consensus, five initial validators, nonce 3006, and return commitment 12858fe77eb493861c2f4152173ee4f0e491f2c521db1e9576e3d9296ac70bb7. Transaction value is 0 GEN; settled protocol fee is not exposed.
+
+The latest-final appeal record is OPEN, contains the counterevidence source and SHA-256 commitment d962e37957fc5ac424b2e8fb2cf2f0fa3a33aaf6a9a5b91fd9d0b8e17421bbc0, and has response_submitted false. Latest-final authorization remains BLOCKED / allow false at decision revision 1. The counterevidence is a digest-valid, scope-limited general POST semantics reference; it does not prove the Refund API is compatible. The planned publisher response states that limitation, so no overturn is being claimed.
+
+Next, run only the publisher-response step in the wallet-unlocked terminal:
+
+```powershell
+node .\integrations\live-appeal-cycle.mjs --step respond
+```
+
+Wait for finality and confirm the latest-final appeal record shows response_submitted true before running resolve. A response allows prompt resolution; do not simulate any timeout.
+
 ## Remaining live lifecycle work
 
 Freeze, resolution, and fresh reassessment are complete and verified at latest-final state. Remaining work includes an eligible evidence-backed appeal, a safety challenge only if a genuinely approved affected pair exists, Watchtower transition capture, CI gate rejection exercise, and injected-wallet browser QA. Analytics currently has no impacted dependency, so it is not eligible for a safety challenge. The browser console showed MetaMask failing to inject window.ethereum because the property was getter-only; wallet connection and signing remain unverified.
