@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-20T16:34:40Z",
+  "recorded_at_utc": "2026-10-20T16:51:36Z",
   "network": {
     "name": "GenLayer StudioNet",
     "chain_id": 61999,
@@ -80,6 +80,30 @@
       "status": "FINALIZED_STATE_VERIFIED",
       "created_at_unix": 1792514037,
       "fee_note": "The latest-final registry contains this active record; its transaction hash has not been supplied or independently captured and is not inferred."
+    },
+    {
+      "scenario": "Register controlled API compatibility release",
+      "hash": "0xc34e2bdb8198415c48c16ffd4bd520b9cf81e0612f0e8bc1470640a930a4b92a",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0xc34e2bdb8198415c48c16ffd4bd520b9cf81e0612f0e8bc1470640a930a4b92a",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "method": "register_release",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "consensus": "MAJORITY_AGREE",
+      "rounds": 1,
+      "initial_validators": 5,
+      "validators_revealed": 5,
+      "validator_votes": ["AGREE", "AGREE", "AGREE", "IDLE", "AGREE"],
+      "execution_hash": "0xa6741c743530674f89d18c38d9b6578d134920c1afcafddb82f25e31eec8a9d6",
+      "release_id": "v2api-20261020",
+      "baseline_hash": "51caa0b45677efcf626910cf9e1b715d666bd904ea8e74ba298d9acfcf4c5c15",
+      "candidate_hash": "1e39a3201847cf409b9bf4f7cf1d5dc2179c7f5e10e24140ff3a7319427ba30c",
+      "evidence_hash": "7ca7f285d0c1bd846472eebcae4dc2f2bda799b182be791093d2688860b38bb7",
+      "evidence_source_sha256": "17014b71c97c5b08cda20058e7b68747a2c17930c9e9a1f37e30b02e0cefd6a9",
+      "value_gen": "0",
+      "gas_limit": 2920,
+      "settled_fee_gen": null,
+      "fee_note": "Receipt does not expose settled protocol fee."
     }
   ],
   "latest_final_state_after_registration": {
@@ -120,7 +144,17 @@
     "refund": {"controller":"0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b","status":"ACTIVE","config_version":1,"charter_version":1,"dependencies":[{"method":"POST","path":"/refunds","critical":true,"guarantees":["idempotent refund requests"]}]},
     "refund_charter_v1": {"guarantees":["idempotent refund requests"],"unacceptable_changes":["refund status is no longer returned","retries may issue duplicate refunds"],"required_evidence_kinds":[],"risk_tolerance":"LOW"}
   },
-  "lifecycle_status": "THREE_AGENT_RECORDS_LATEST_FINAL_VERIFIED; CHECKOUT_AND_REFUND_RECEIPTS_VERIFIED; ANALYTICS_HASH_NOT_CAPTURED; RELEASE_AND_ADJUDICATION_PENDING",
+  "latest_final_state_after_release_registration": {
+    "overview": {"agents":3,"releases":1,"decisions":0,"protocol":"deltaproof/2.0"},
+    "release_id":"v2api-20261020",
+    "status":"ACTIVE",
+    "publisher":"0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b",
+    "baseline_hash":"51caa0b45677efcf626910cf9e1b715d666bd904ea8e74ba298d9acfcf4c5c15",
+    "candidate_hash":"1e39a3201847cf409b9bf4f7cf1d5dc2179c7f5e10e24140ff3a7319427ba30c",
+    "evidence_hash":"7ca7f285d0c1bd846472eebcae4dc2f2bda799b182be791093d2688860b38bb7",
+    "evidence_profile_status":"NOT_YET_RETRIEVED_BY_ADJUDICATION"
+  },
+  "lifecycle_status": "THREE_AGENT_RECORDS_AND_ONE_RELEASE_LATEST_FINAL_VERIFIED; CHECKOUT_REFUND_AND_RELEASE_RECEIPTS_VERIFIED; ANALYTICS_HASH_NOT_CAPTURED; ADJUDICATION_PENDING",
   "signer_diagnostic": {
     "authorized_public_address": "0xaffe15eec45b68835cc9e5b4ab85dd5deae8e70b",
     "unlocked_in_user_codex_terminal": true,

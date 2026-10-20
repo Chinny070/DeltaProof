@@ -36,22 +36,18 @@ function stable(value) {
   return JSON.stringify(value);
 }
 
-function keytar() {
-  if (!process.env.APPDATA) throw new Error('APPDATA is unavailable; run in the Windows terminal where the wallet was unlocked.');
-  return createRequire(import.meta.url)(join(process.env.APPDATA, 'npm', 'node_modules', 'genlayer', 'node_modules', 'keytar'));
+function routeKey(endpoint) {
+  return `${endpoint.method} ${endpoint.path.replace(/\{[^}]+\}/g, '{}')}`;
 }
 
-async function main() {
-  if (!process.argv.includes('--submit')) throw new Error('No transaction was sent. Add --submit to authorize registering this one API fixture.');
-  const privateKey = await keytar().getPassword('genlayer-cli', `account:${accountName}`);
-  if (!privateKey) throw new Error('Signer is not unlocked in this terminal. Unlock it here with genlayer account unlock --account my-studionet-wallet.');
-  const account = createAccount(privateKey);
-  if (account.address.toLowerCase() !== signerAddress) throw new Error('Unlocked account does not match the authorized public signer.');
-  const client = createClient({ chain: studionet, account });
-  const releases = await client.readContract({ address, functionName: 'list_releases', args: [0, 20], transactionHashVariant: TransactionHashVariant.LATEST_FINAL });
-  if (!Array.isArray(releases)) throw new Error('Latest-final release registry was malformed; no transaction sent.');
-  if (releases.some((release) => release?.id === releaseId)) throw new Error(`${releaseId} already exists; refusing a duplicate registration.`);
+function canonicalSpec(spec) {
+  return stable({ endpoints: [...spec.endpoints].sort((a, b) => {
+    const left = routeKey(a), right = routeKey(b);
+    return left < right ? -1 : left > right ? 1 : 0;
+  }) });
+}
 
+function validatePayloads() {
   const baselineJson = JSON.stringify(baseline);
   const candidateJson = JSON.stringify(candidate);
   const evidenceJson = JSON.stringify(evidence);
@@ -62,14 +58,34 @@ async function main() {
     console.log(`${label.toUpperCase()}_CHARACTERS=${payload.length}`);
     if (payload.length < 2 || payload.length > (label === 'evidence' ? 20000 : 10000)) throw new Error(`${label} JSON length is outside the contract bound.`);
   }
-  for (const [label, value] of [['baseline', baseline], ['candidate', candidate]]) {
-    const canonical = stable({ endpoints: [...value.endpoints].sort((a, b) => `${a.method} ${a.path.replace(/\{[^}]+\}/g, '{}')}`.localeCompare(`${b.method} ${b.path.replace(/\{[^}]+\}/g, '{}')}`)) });
-    console.log(`${label.toUpperCase()}_SHA256=${createHash('sha256').update(canonical, 'utf8').digest('hex')}`);
-  }
+  const baselineCanonical = canonicalSpec(baseline);
+  const candidateCanonical = canonicalSpec(candidate);
+  console.log(`BASELINE_SHA256=${createHash('sha256').update(baselineCanonical, 'utf8').digest('hex')}`);
+  console.log(`CANDIDATE_SHA256=${createHash('sha256').update(candidateCanonical, 'utf8').digest('hex')}`);
   console.log(`EVIDENCE_COMMITMENT_SHA256=${evidence[0].sha256}`);
   console.log(`REGISTER_RELEASE_ARGS=${JSON.stringify({ releaseId, name: args[1], version: args[2], baselineType: typeof args[3], candidateType: typeof args[4], evidenceType: typeof args[5], evidence })}`);
+  return { args, baselineCanonical, candidateCanonical };
+}
 
-  const hash = await client.writeContract({ address, functionName: 'register_release', args, value: 0n });
+function keytar() {
+  if (!process.env.APPDATA) throw new Error('APPDATA is unavailable; run in the Windows terminal where the wallet was unlocked.');
+  return createRequire(import.meta.url)(join(process.env.APPDATA, 'npm', 'node_modules', 'genlayer', 'node_modules', 'keytar'));
+}
+
+async function main() {
+  const payload = validatePayloads();
+  if (process.argv.includes('--preflight')) return;
+  if (!process.argv.includes('--submit')) throw new Error('No transaction was sent. Use --preflight for offline checks or add --submit to register the API fixture.');
+  const privateKey = await keytar().getPassword('genlayer-cli', `account:${accountName}`);
+  if (!privateKey) throw new Error('Signer is not unlocked in this terminal. Unlock it here with genlayer account unlock --account my-studionet-wallet.');
+  const account = createAccount(privateKey);
+  if (account.address.toLowerCase() !== signerAddress) throw new Error('Unlocked account does not match the authorized public signer.');
+  const client = createClient({ chain: studionet, account });
+  const releases = await client.readContract({ address, functionName: 'list_releases', args: [0, 20], transactionHashVariant: TransactionHashVariant.LATEST_FINAL });
+  if (!Array.isArray(releases)) throw new Error('Latest-final release registry was malformed; no transaction sent.');
+  if (releases.some((release) => release?.id === releaseId)) throw new Error(`${releaseId} already exists; refusing a duplicate registration.`);
+
+  const hash = await client.writeContract({ address, functionName: 'register_release', args: payload.args, value: 0n });
   console.log(`TRANSACTION_HASH=${hash}`);
   const receipt = await client.waitForTransactionReceipt({ hash, status: TransactionStatus.FINALIZED, interval: 3000, retries: 100, fullTransaction: true });
   const agreeVotes = (receipt?.last_round?.validator_votes_name ?? []).filter((vote) => vote === 'AGREE').length;
@@ -79,8 +95,8 @@ async function main() {
   if (receipt?.result_name !== 'MAJORITY_AGREE' || agreeVotes < 3 || successfulAgreeExecutions < 2) throw new Error(`Finalized transaction lacks successful majority execution; stop and inspect ${hash}.`);
 
   const release = await client.readContract({ address, functionName: 'get_release', args: [releaseId], transactionHashVariant: TransactionHashVariant.LATEST_FINAL });
-  const expectedBaseline = stable({ endpoints: [...baseline.endpoints].sort((a, b) => `${a.method} ${a.path.replace(/\{[^}]+\}/g, '{}')}`.localeCompare(`${b.method} ${b.path.replace(/\{[^}]+\}/g, '{}')}`)) });
-  const expectedCandidate = stable({ endpoints: [...candidate.endpoints].sort((a, b) => `${a.method} ${a.path.replace(/\{[^}]+\}/g, '{}')}`.localeCompare(`${b.method} ${b.path.replace(/\{[^}]+\}/g, '{}')}`)) });
+  const expectedBaseline = payload.baselineCanonical;
+  const expectedCandidate = payload.candidateCanonical;
   const expectedEvidence = stable(evidence);
   const verified = release?.id === releaseId
     && release?.publisher?.toLowerCase() === signerAddress

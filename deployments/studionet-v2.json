@@ -6,7 +6,7 @@
   "explorer": "https://explorer-studio.genlayer.com",
   "contract_source": "contracts/deltaproof_v2.py",
   "contract_name": "DeltaProofV2",
-  "status": "THREE_LIVE_AGENTS_REGISTERED_RELEASE_AND_ADJUDICATION_PENDING",
+  "status": "THREE_LIVE_AGENTS_ONE_RELEASE_ADJUDICATION_PENDING",
   "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
   "deployment_tx_hash": "0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e",
   "source_sha256": "72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0",
@@ -27,7 +27,7 @@
   "read_verification": {
     "network": "studionet",
     "get_protocol": "deltaproof/2.0",
-    "get_overview": { "agents": 3, "decisions": 0, "releases": 0, "protocol": "deltaproof/2.0" },
+    "get_overview": { "agents": 3, "decisions": 0, "releases": 1, "protocol": "deltaproof/2.0" },
     "list_agents": [
       {"id":"checkout-live-20261020","name":"DeltaProof Checkout consumer fixture","status":"ACTIVE","config_version":1,"charter_version":1},
       {"id":"analytics-live-20261020","name":"DeltaProof Analytics consumer fixture","status":"ACTIVE","config_version":1,"charter_version":1},
@@ -92,6 +92,30 @@
       "transaction_value_gen": "0",
       "settled_fee_gen": null,
       "fee_note": "The receipt did not expose a settled protocol fee."
+    },
+    {
+      "scenario": "Register controlled API compatibility release",
+      "method": "register_release",
+      "transaction_hash": "0xc34e2bdb8198415c48c16ffd4bd520b9cf81e0612f0e8bc1470640a930a4b92a",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0xc34e2bdb8198415c48c16ffd4bd520b9cf81e0612f0e8bc1470640a930a4b92a",
+      "created_at": "2026-10-20T16:51:36Z",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "consensus": "MAJORITY_AGREE",
+      "rounds": 1,
+      "validators_revealed": 5,
+      "validator_votes": ["AGREE", "AGREE", "AGREE", "IDLE", "AGREE"],
+      "execution_hash": "0xa6741c743530674f89d18c38d9b6578d134920c1afcafddb82f25e31eec8a9d6",
+      "release_id": "v2api-20261020",
+      "publisher": "0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "baseline_hash": "51caa0b45677efcf626910cf9e1b715d666bd904ea8e74ba298d9acfcf4c5c15",
+      "candidate_hash": "1e39a3201847cf409b9bf4f7cf1d5dc2179c7f5e10e24140ff3a7319427ba30c",
+      "evidence_hash": "7ca7f285d0c1bd846472eebcae4dc2f2bda799b182be791093d2688860b38bb7",
+      "evidence_source_sha256": "17014b71c97c5b08cda20058e7b68747a2c17930c9e9a1f37e30b02e0cefd6a9",
+      "gas_limit": 2920,
+      "transaction_value_gen": "0",
+      "settled_fee_gen": null,
+      "fee_note": "The receipt did not expose a settled protocol fee."
     }
   ],
   "latest_final_agent_verification": {
@@ -150,7 +174,18 @@
     "analytics_charter_v1":{"guarantees":["stable event schema"],"unacceptable_changes":["event identifiers are removed","event payload fields are silently renamed"],"required_evidence_kinds":[],"risk_tolerance":"MEDIUM"},
     "refund_charter_v1":{"guarantees":["idempotent refund requests"],"unacceptable_changes":["refund status is no longer returned","retries may issue duplicate refunds"],"required_evidence_kinds":[],"risk_tolerance":"LOW"}
   },
-  "paid_transactions_submitted": 5,
-  "note": "The corrected deployment is finalized with a source hash matching local code. SDK latest-final reads and all 34 schema methods are verified. The live CI gate returns an identity-bound NO_DECISION denial for an unknown pair. Three real register_agent application records (Checkout, Analytics, Refund) are confirmed at latest-final state. Checkout and Refund transaction receipts are recorded; the Analytics registration hash remains unverified and is deliberately not inferred. Release registration and subsequent adjudication and safety workflows remain pending. Total settled GEN protocol fees were not exposed in verified receipts."
+  "latest_final_release_verification": {
+    "release_id":"v2api-20261020",
+    "name":"DeltaProof controlled API compatibility fixture",
+    "version":"2.0.0",
+    "status":"ACTIVE",
+    "publisher":"0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b",
+    "baseline_hash":"51caa0b45677efcf626910cf9e1b715d666bd904ea8e74ba298d9acfcf4c5c15",
+    "candidate_hash":"1e39a3201847cf409b9bf4f7cf1d5dc2179c7f5e10e24140ff3a7319427ba30c",
+    "evidence_hash":"7ca7f285d0c1bd846472eebcae4dc2f2bda799b182be791093d2688860b38bb7",
+    "evidence":[{"kind":"synthetic-compatibility-scenario","sha256":"17014b71c97c5b08cda20058e7b68747a2c17930c9e9a1f37e30b02e0cefd6a9","source":"https://raw.githubusercontent.com/Chinny070/DeltaProof/6b3af4b0e8abe29c676c454596f29c1b6f24830f/docs/proofs/fixtures/refund-semantic-scenario.md","provenance":"PUBLISHER-CONTROLLED TEST FIXTURE"}]
+  },
+  "paid_transactions_submitted": 6,
+  "note": "The corrected deployment is finalized with a source hash matching local code. SDK latest-final reads and all 34 schema methods are verified. The live CI gate returns an identity-bound NO_DECISION denial for an unknown pair. Three real register_agent application records and one release record are confirmed at latest-final state. Checkout, Refund, and release receipts are recorded; the Analytics registration hash remains unverified and is deliberately not inferred. Adjudications and subsequent safety workflows remain pending. Total settled GEN protocol fees were not exposed in verified receipts."
 }
 

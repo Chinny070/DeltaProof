@@ -25,7 +25,15 @@ The Analytics record is independently verified in latest-final state, but its tr
 
 A bounded synthetic scenario for the Refund consumer is pinned in GitHub commit [`6b3af4b0e8abe29c676c454596f29c1b6f24830f`](https://github.com/Chinny070/DeltaProof/commit/6b3af4b0e8abe29c676c454596f29c1b6f24830f). Its UTF-8 SHA-256 is `17014b71c97c5b08cda20058e7b68747a2c17930c9e9a1f37e30b02e0cefd6a9` (1,111 characters). The content is explicitly marked as a controlled synthetic scenario, not production telemetry. GitHub content was fetched at the pinned commit and its digest checked before use. Actual validator-side retrieval and digest verification have not yet been exercised.
 
+## API release registration
+
+The `register_release` call [`0xc34e2bdb8198415c48c16ffd4bd520b9cf81e0612f0e8bc1470640a930a4b92a`](https://explorer-studio.genlayer.com/tx/0xc34e2bdb8198415c48c16ffd4bd520b9cf81e0612f0e8bc1470640a930a4b92a) finalized with `MAJORITY_AGREE`; the SDK receipt has execution hash `0xa6741c743530674f89d18c38d9b6578d134920c1afcafddb82f25e31eec8a9d6`, one round, four `AGREE` votes and one `IDLE`. The explorer reports `SUCCESS`. Latest-final reads confirm the active release `v2api-20261020`, the authorized signer as publisher, and exact baseline, candidate, and evidence commitments. The overview now reports three agents, one release, and zero decisions.
+
+Stored commitments: baseline `51caa0b45677efcf626910cf9e1b715d666bd904ea8e74ba298d9acfcf4c5c15`; candidate `1e39a3201847cf409b9bf4f7cf1d5dc2179c7f5e10e24140ff3a7319427ba30c`; evidence collection `7ca7f285d0c1bd846472eebcae4dc2f2bda799b182be791093d2688860b38bb7`. The release includes a critical Checkout request schema change, an unchanged Analytics route, and a Refund behavior change. These are controlled test specifications, not claims about a production service. The Refund evidence has not yet been retrieved by an adjudication.
+
+The explorer shows value `0 GEN`; SDK receipt gas limit is `2920`. The settled protocol fee was not exposed.
+
 ## Remaining live lifecycle work
 
-No release registration, deterministic decision, semantic assessment, consumer-specific comparison, CI allow path, freeze, safety challenge, appeal, reassessment, passport, or Watchtower lifecycle has been executed yet. The three agent registrations establish live signer-controlled storage and charter serialization; the independent command runner still cannot access the user's terminal OS-keychain entry. Subsequent writes should use the same typed SDK/keychain workflow and be reconciled hash-by-hash before continuing.
+No deterministic or semantic decision, consumer-specific comparison, CI allow path, freeze, safety challenge, appeal, reassessment, passport, or Watchtower lifecycle has been executed yet. The release is registered but its evidence has not been validator-retrieved. The agent and release writes establish live signer-controlled storage and serialization; the independent command runner still cannot access the user's terminal OS-keychain entry. Subsequent writes should use the same typed SDK/keychain workflow and be reconciled hash-by-hash before continuing.
 

@@ -8,7 +8,7 @@
 - Deployer: `0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b`.
 - Embedded deployed source: 79,729 bytes; SHA-256 `72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0`, matching the corrected local source.
 - Consensus: one round, `MAJORITY_AGREE`; three validators agreed and executed successfully, two idled after quorum. Execution hash: `0xac684ea0210461ecc6797cbc3a71f0d6ed82080026abda52555f545cd64c3211`.
-- At initial deployment verification, SDK latest-final reads showed zero agents, releases, and decisions; `getContractSchema` returned all 34 declared methods. After live registrations, latest-final reads show three active agents and zero releases or decisions.
+- At initial deployment verification, SDK latest-final reads showed zero agents, releases, and decisions; `getContractSchema` returned all 34 declared methods. After live registrations, latest-final reads show three active agents, one active release, and zero decisions.
 - Live CI gate probe for an unknown pair returned a correctly identity-bound `NO_DECISION` response: `allow: false`, pair IDs matched, `state: LATEST_FINAL`.
 - Fee evidence: total GEN protocol fee is not exposed by the verified transaction response. It reports gas limit `2873`; this is not a measured fee and no total fee is claimed.
 
@@ -24,7 +24,7 @@ Wallet signing and live V2 write flows have not been browser-tested; the public 
 
 The first deployment at `0x8addd2bC124C276130a8CAF4ED1341C7F42432a7` (transaction `0xdc6aff4084463b68b94e5e5c277dee266df4f1935d0c5437961b3ae9b7ca65a6`, source SHA-256 `20ee871691c4fd3ce5b44250d815082b4bf25bf38327a6b1f8b20607bf22b1f7`) was superseded after a live CI read exposed that `NO_DECISION` omitted the requested agent and release IDs. The corrected contract binds that denial to both IDs; the regression test passes. The old deployment remains immutable and must not be used by clients.
 
-Agent registration confirms basic write finality and storage serialization, but deployment consensus and agent records do not establish release or adjudication behavior. No V2 release registration, evaluation, semantic adjudication, appeal, safety challenge, freeze, passport, or CI allow-path write has been run.
+Agent and release registration confirm basic write finality, storage serialization, and release commitment storage. The release has not yet been adjudicated; no semantic validator evaluation, appeal, safety challenge, freeze, passport, or CI allow-path write has been run.
 
 ## Next live verification steps
 
