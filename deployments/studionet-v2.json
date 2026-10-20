@@ -6,15 +6,14 @@
   "explorer": "https://explorer-studio.genlayer.com",
   "contract_source": "contracts/deltaproof_v2.py",
   "contract_name": "DeltaProofV2",
-  "status": "DEPLOYED_READS_VERIFIED_CORRECTIVE_DEPLOYMENT_REQUIRED",
-  "contract_address": "0x8addd2bC124C276130a8CAF4ED1341C7F42432a7",
-  "deployment_tx_hash": "0xdc6aff4084463b68b94e5e5c277dee266df4f1935d0c5437961b3ae9b7ca65a6",
-  "source_sha256": "20ee871691c4fd3ce5b44250d815082b4bf25bf38327a6b1f8b20607bf22b1f7",
-  "verified_source_sha256": "20ee871691c4fd3ce5b44250d815082b4bf25bf38327a6b1f8b20607bf22b1f7",
-  "corrective_candidate_sha256": "72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0",
+  "status": "DEPLOYED_ABI_READS_AND_DENY_GATE_VERIFIED_LIFECYCLE_PENDING",
+  "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+  "deployment_tx_hash": "0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e",
+  "source_sha256": "72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0",
+  "verified_source_sha256": "72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0",
   "deployment_authorization": "USER_AUTHORIZED_2026-10-20",
   "deployer": "0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b",
-  "created_at": "2026-10-20T14:15:24.900101Z",
+  "created_at": "2026-10-20T14:37:50.508161Z",
   "transaction_status": "FINALIZED",
   "consensus_result": "MAJORITY_AGREE",
   "validator_consensus": {
@@ -24,13 +23,47 @@
     "idle_after_quorum": 2,
     "execution": "SUCCESS"
   },
-  "tx_execution_hash": "0x5fe0b7206223e8360078bc9d1aac1c0a966fb8d20b38ca61ae4f916b2d5bc49d",
+  "tx_execution_hash": "0xac684ea0210461ecc6797cbc3a71f0d6ed82080026abda52555f545cd64c3211",
   "read_verification": {
     "network": "studionet",
     "get_protocol": "deltaproof/2.0",
     "get_overview": { "agents": 0, "decisions": 0, "releases": 0, "protocol": "deltaproof/2.0" },
-    "list_agents": []
+    "list_agents": [],
+    "list_releases": [],
+    "schema_methods": 34,
+    "schema_verified_via": "genlayer-js getContractSchema"
   },
+  "ci_gate_verification": {
+    "scenario": "unknown agent and release pair",
+    "result": "STRUCTURED_DENY",
+    "status": "NO_DECISION",
+    "allow": false,
+    "identity_fields_match": true,
+    "state": "LATEST_FINAL"
+  },
+  "frontend_deployment": {
+    "provider": "Vercel",
+    "project": "deltaproof-v2",
+    "project_id": "prj_vtqZt24tc6qClgetqnN3ytdcvaqE",
+    "deployment_id": "dpl_BUxTvqsSqjq5GBZBNwxLaeGs7Zx4",
+    "target": "production",
+    "url": "https://deltaproof-v2.vercel.app",
+    "deployment_url": "https://deltaproof-v2-gcya6u0hk-chinny070s-projects.vercel.app",
+    "contract_address_build_time": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+    "public_http_smoke": { "root_status": 200, "v2_status": 200, "v2_title": "DeltaProof V2 — Agent Upgrade Court", "address_in_v2_asset": true },
+    "browser_smoke": { "page_loaded": true, "latest_final_state_displayed": true, "agents": 0, "releases": 0, "decisions": 0 },
+    "v1_project": "deltaproof",
+    "v1_production_url_unchanged": "https://deltaproof-ebon.vercel.app"
+  },
+  "deployment_history": [
+    {
+      "contract_address": "0x8addd2bC124C276130a8CAF4ED1341C7F42432a7",
+      "deployment_tx_hash": "0xdc6aff4084463b68b94e5e5c277dee266df4f1935d0c5437961b3ae9b7ca65a6",
+      "source_sha256": "20ee871691c4fd3ce5b44250d815082b4bf25bf38327a6b1f8b20607bf22b1f7",
+      "status": "FINALIZED_SUPERSEDED",
+      "reason": "Live no-decision CI response omitted pair identity; corrected source was separately deployed."
+    }
+  ],
   "live_ci_gate_observation": {
     "scenario": "unknown agent and release pair",
     "result": "DENY_AS_MALFORMED_RESPONSE",
@@ -42,8 +75,8 @@
     "protocol_fee_gen": null,
     "status": "NOT_EXPOSED_IN_VERIFIED_RECEIPT",
     "transaction_value": null,
-    "note": "No total fee is claimed. The retrieved transaction includes gaslimit 2861 but does not expose a settled GEN protocol fee."
+    "note": "No total fee is claimed. The corrective deployment receipt includes gaslimit 2873 but does not expose a settled GEN protocol fee."
   },
-  "paid_transactions_submitted": 1,
-  "note": "The first deployment is finalized, consensus-majority agreed, and its embedded source hash matches the pre-correction local source. SDK latest-final reads respond correctly. A live read-only CI gate check exposed a NO_DECISION response identity defect; the local fix is unit-tested and requires a corrective deployment before lifecycle testing or frontend configuration. CLI getContractCode/getContractSchema reported contract not found even though SDK contract reads succeed; this discrepancy remains under investigation. No application lifecycle writes have been submitted."
+  "paid_transactions_submitted": 2,
+  "note": "The corrective deployment is finalized, consensus-majority agreed, and its embedded source hash matches the corrected local source. SDK latest-final reads and all 34 schema methods are verified. The live CI gate returns an identity-bound NO_DECISION denial. A separate public Vercel V2 project is live and displays verified empty latest-final state. No application lifecycle writes have been submitted yet. Total protocol fee remains unavailable in the verified receipt."
 }
