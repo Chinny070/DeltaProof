@@ -6,7 +6,7 @@
   "explorer": "https://explorer-studio.genlayer.com",
   "contract_source": "contracts/deltaproof_v2.py",
   "contract_name": "DeltaProofV2",
-  "status": "THREE_LIVE_AGENTS_ONE_RELEASE_CHECKOUT_BLOCKED_ADJUDICATION_FINALIZED",
+  "status": "THREE_LIVE_AGENTS_ONE_RELEASE_TWO_ADJUDICATIONS_CHECKOUT_BLOCKED_ANALYTICS_ALLOWED",
   "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
   "deployment_tx_hash": "0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e",
   "source_sha256": "72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0",
@@ -29,7 +29,7 @@
     "get_protocol": "deltaproof/2.0",
     "get_overview": {
       "agents": 3,
-      "decisions": 1,
+      "decisions": 2,
       "releases": 1,
       "protocol": "deltaproof/2.0"
     },
@@ -190,6 +190,41 @@
       "transaction_value_gen": "0",
       "settled_fee_gen": null,
       "fee_note": "Transaction value was zero; total settled protocol fee was not exposed."
+    },
+    {
+      "scenario": "Analytics unaffected-release adjudication",
+      "method": "adjudicate",
+      "transaction_hash": "0x3b9a613967877d63aee180e943905312728aac0449008597acc3fe19447ba140",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0x3b9a613967877d63aee180e943905312728aac0449008597acc3fe19447ba140",
+      "created_at": "2026-10-20T18:02:03Z",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "consensus": "MAJORITY_AGREE",
+      "rounds": 1,
+      "validators_revealed": 5,
+      "validator_votes": [
+        "AGREE",
+        "AGREE",
+        "IDLE",
+        "IDLE",
+        "AGREE"
+      ],
+      "execution_hash": "0xb5d92aa4044eb34fd44363c2b9656eb99a85e76abe96141cd647d6dd83eb25aa",
+      "return_value": 6,
+      "release_id": "v2api-20261020",
+      "agent_id": "analytics-live-20261020",
+      "decision": "APPROVED",
+      "mode": "DETERMINISTIC_UNAFFECTED",
+      "risk": "LOW",
+      "revision": 1,
+      "authorization_allow": true,
+      "authorization_status": "ALLOW",
+      "passport_hash": "523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb",
+      "passport_currently_authorized": true,
+      "gas_limit": 2931,
+      "transaction_value_gen": "0",
+      "settled_fee_gen": null,
+      "fee_note": "Transaction value was zero; settled protocol fee is not exposed."
     }
   ],
   "latest_final_agent_verification": {
@@ -378,6 +413,17 @@
     "authorization_allow": false,
     "passport_currently_authorized": false,
     "passport_hash": "ff515fb61c0c511b7628dcb3b11946bb51beb7a23956d90308b73d84be5c8cbc",
+    "verified_read_variant": "LATEST_FINAL"
+  },
+  "latest_final_analytics_adjudication": {
+    "decision": "APPROVED",
+    "mode": "DETERMINISTIC_UNAFFECTED",
+    "risk": "LOW",
+    "revision": 1,
+    "authorization_allow": true,
+    "authorization_status": "ALLOW",
+    "passport_currently_authorized": true,
+    "passport_hash": "523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb",
     "verified_read_variant": "LATEST_FINAL"
   }
 }
