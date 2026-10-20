@@ -6,18 +6,23 @@ import { TransactionHashVariant } from 'genlayer-js/types';
 
 export const CHAIN_ID = 61999;
 
-/** Read latest finalized V2 authorization; fail closed on errors or non-booleans. */
+/** Read machine-readable latest finalized V2 authorization; allow only literal true. */
 export async function checkAuthorization({ client, address, agentId, releaseId }) {
   if (!/^0x[a-fA-F0-9]{40}$/.test(address || '')) throw new Error('Invalid V2 contract address');
   if (!agentId || !releaseId) throw new Error('Agent identity and release identity are required');
   const authorized = await client.readContract({
     address,
-    functionName: 'is_authorized',
+    functionName: 'get_authorization',
     args: [releaseId, agentId],
     transactionHashVariant: TransactionHashVariant.LATEST_FINAL,
   });
-  if (typeof authorized !== 'boolean') throw new Error('Authorization read returned an invalid value');
-  return { allow: authorized, agentId, releaseId, chainId: CHAIN_ID, state: 'LATEST_FINAL' };
+  if (!authorized || typeof authorized !== 'object' || typeof authorized.allow !== 'boolean'
+      || authorized.agent_id !== agentId || authorized.release_id !== releaseId
+      || typeof authorized.status !== 'string' || typeof authorized.revision !== 'number'
+      || (authorized.allow && authorized.status !== 'ALLOW') || (!authorized.allow && authorized.status === 'ALLOW')) {
+    throw new Error('Authorization read returned an invalid value');
+  }
+  return { ...authorized, allow: authorized.allow === true, agentId, releaseId, chainId: CHAIN_ID, state: 'LATEST_FINAL' };
 }
 
 async function main() {

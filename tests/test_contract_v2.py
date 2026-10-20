@@ -38,6 +38,16 @@ def install_evidence(g):
     g.web_bodies['https://publisher.example/report'] = b'public reproducible payment retry test report'
 
 
+def safety_evidence():
+    content = b'new independent test reproduces duplicate charges after retry'
+    return json.dumps([{'kind': 'independent-test', 'sha256': hashlib.sha256(content).hexdigest(),
+                        'source': 'https://challenger.example/new-test', 'provenance': 'AFFECTED_CONSUMER'}])
+
+
+def install_safety_evidence(g):
+    g.web_bodies['https://challenger.example/new-test'] = b'new independent test reproduces duplicate charges after retry'
+
+
 def register_agent(c, agent_id='checkout', paths=('/payment',), charter_json=None):
     return c.register_agent(agent_id, agent_id.title(), deps(paths), charter_json or charter())
 
@@ -61,6 +71,30 @@ def test_v2_protocol_and_registry_views(v2_fixture):
 def test_release_agent_pair_keys_cannot_collide_on_delimiter_characters(v2_fixture):
     mod, _, _ = v2_fixture
     assert mod._pair('release-x:y', 'zzz') != mod._pair('release-x', 'y:zzz')
+
+
+@pytest.mark.parametrize('source', [
+    'https://172.16.1.20/private', 'https://10.0.0.1/private', 'https://127.1/private',
+    'https://192.168.1.5/private', 'https://[::1]/private', 'http://public.example/report',
+    'https://service.local/report', 'https://service.internal/report',
+])
+def test_evidence_urls_reject_private_or_nonpublic_host_forms(v2_fixture, source):
+    mod, _, _ = v2_fixture
+    content = b'evidence bytes'
+    raw = json.dumps([{'kind':'report','sha256':hashlib.sha256(content).hexdigest(),
+                       'source':source,'provenance':'PUBLISHER'}])
+    with pytest.raises(UserError, match='public HTTPS hostname'):
+        mod._evidence(raw)
+
+
+def test_route_parameter_names_are_normalized_for_dependency_impact(v2_fixture):
+    mod, _, _ = v2_fixture
+    dependencies = mod._dependencies('[{"method":"GET","path":"/users/:user_id","critical":true,"guarantees":[]}]')
+    old, _ = mod._spec('{"endpoints":[{"method":"GET","path":"/users/{id}","behavior":"Returns a profile."}]}', 'old')
+    new, _ = mod._spec('{"endpoints":[{"method":"GET","path":"/users/{user_id}","behavior":"Returns another user\'s profile."}]}', 'new')
+    impacted, changed = mod._impact(dependencies, old, new)
+    assert len(impacted) == 1
+    assert changed == ['GET /users/{}']
 
 
 def test_agent_registration_rejects_duplicates_and_duplicate_json_fields(v2_fixture):
@@ -300,7 +334,15 @@ def test_freeze_is_targeted_bounded_and_permissionlessly_expires(v2_fixture, mon
     with pytest.raises(UserError, match='controller or freeze timeout'):
         c.resolve_freeze('same-payment', 'one')
     now[0] += 61
+    with pytest.raises(UserError, match='resolve targeted freeze'):
+        c.adjudicate('same-payment', 'one')
     c.resolve_freeze('same-payment', 'one')
+    first_event = c.get_freeze_event(1)
+    second_event = c.get_freeze_event(2)
+    assert first_event['active'] is True
+    assert second_event['active'] is False
+    assert first_event['event_hash'] == mod._commitment({k:v for k,v in first_event.items() if k!='event_hash'})
+    assert second_event['event_hash'] == mod._commitment({k:v for k,v in second_event.items() if k!='event_hash'})
     assert not c.is_authorized('same-payment', 'one')
     c.adjudicate('same-payment', 'one')
     assert c.is_authorized('same-payment', 'one')
@@ -324,7 +366,8 @@ def test_appeal_requires_controller_and_response_window_then_timeout_is_safe(v2_
         c.open_appeal('payments-2', 'checkout', evidence())
     g.message.sender_address.as_hex = '0x' + 'a' * 40
     install_evidence(g)
-    c.open_appeal('payments-2', 'checkout', evidence())
+    appeal_open_hash = c.open_appeal('payments-2', 'checkout', evidence())
+    assert c.get_appeal_event('payments-2', 'checkout', 'opened', appeal_open_hash)['status'] == 'OPEN'
     with pytest.raises(UserError, match='response window remains open'):
         c.resolve_appeal('payments-2', 'checkout')
     now = [100]
@@ -333,10 +376,235 @@ def test_appeal_requires_controller_and_response_window_then_timeout_is_safe(v2_
     now[0] = appeal['response_deadline'] + 1
     c.resolve_appeal('payments-2', 'checkout')
     result = c.get_appeal('payments-2', 'checkout')
+    resolved_event_hash = mod._hash(mod._canonical(result))
+    assert c.get_appeal_event('payments-2', 'checkout', 'resolved', resolved_event_hash)['outcome'] == 'INCONCLUSIVE'
     assert result['outcome'] == 'INCONCLUSIVE'
     assert result['revised_decision'] == 'REVIEW_REQUIRED'
     assert not c.is_authorized('payments-2', 'checkout')
     assert len(c.appeal_history) == 2
+
+
+def test_appeal_overturn_requires_independently_retrieved_content_not_only_digest(v2_fixture):
+    _, c, g = v2_fixture
+    register_agent(c)
+    install_evidence(g)
+    register_release(c, new=spec([route(behavior='Retries may create duplicate charges.')]), evidence_json=evidence())
+    blocked = {'decision': 'BLOCKED', 'risk': 'HIGH', 'violations': ['idempotent retries'], 'evidence_sufficient': True,
+               'migration': [], 'reason': 'Original evidence showed duplicate charges.'}
+    g.answers = [blocked, blocked]
+    c.adjudicate('payments-2', 'checkout')
+    c.open_appeal('payments-2', 'checkout', evidence())
+    c.respond_to_appeal('payments-2', 'checkout', '[]')
+    prompt_count = len(g.prompts)
+    # The commitment is valid-looking but the retrieved bytes do not match it.
+    g.web_bodies['https://publisher.example/report'] = b'not the committed report'
+    c.resolve_appeal('payments-2', 'checkout')
+    appeal = c.get_appeal('payments-2', 'checkout')
+    assert appeal['outcome'] == 'INCONCLUSIVE'
+    assert appeal['revised_decision'] == 'REVIEW_REQUIRED'
+    assert appeal['evidence_status'] == 'UNVERIFIED'
+    assert appeal['evidence_profile'][0]['status'] == 'DIGEST_MISMATCH'
+    assert len(g.prompts) == prompt_count  # Invalid source bytes are rejected before any appeal prompt.
+
+
+def test_appeal_consensus_prompt_contains_retrieved_content_and_requires_both_validators(v2_fixture):
+    _, c, g = v2_fixture
+    register_agent(c)
+    install_evidence(g)
+    register_release(c, new=spec([route(behavior='Retries may create duplicate charges.')]), evidence_json=evidence())
+    blocked = {'decision': 'BLOCKED', 'risk': 'HIGH', 'violations': ['idempotent retries'], 'evidence_sufficient': True,
+               'migration': [], 'reason': 'Original evidence showed duplicate charges.'}
+    g.answers = [blocked, blocked]
+    c.adjudicate('payments-2', 'checkout')
+    c.open_appeal('payments-2', 'checkout', evidence())
+    c.respond_to_appeal('payments-2', 'checkout', '[]')
+    overturned = {'outcome': 'OVERTURNED', 'revised_decision': 'APPROVED', 'risk': 'LOW', 'sufficient': True,
+                  'reason': 'Retrieved tests show safe retry behavior.'}
+    g.answers = [overturned, overturned]
+    c.resolve_appeal('payments-2', 'checkout')
+    appeal = c.get_appeal('payments-2', 'checkout')
+    assert appeal['outcome'] == 'OVERTURNED'
+    assert appeal['evidence_status'] == 'VERIFIED'
+    assert any('public reproducible payment retry test report' in prompt for prompt in g.prompts[-2:])
+    assert not c.is_authorized('payments-2', 'checkout')  # New adjudication is required.
+
+
+def _approved_affected_pair(c, g):
+    register_agent(c, 'challenged')
+    register_agent(c, 'unaffected', ('/report',))
+    install_evidence(g)
+    register_release(c, 'challenge-release', new=spec([route(behavior='Retries may create duplicate charges.')]), evidence_json=evidence())
+    approved = {'decision': 'APPROVED', 'risk': 'LOW', 'violations': [], 'evidence_sufficient': True,
+                'migration': [], 'reason': 'Verified behavior remains compatible.'}
+    g.answers = [approved, approved, approved, approved]
+    c.adjudicate('challenge-release', 'challenged')
+    c.adjudicate('challenge-release', 'unaffected')
+
+
+def credible_screen():
+    return {'credible': True, 'reason': 'The report contains a new reproducible failure on the affected payment route.'}
+
+
+def test_safety_challenge_is_targeted_and_pending_challenge_fails_closed(v2_fixture):
+    _, c, g = v2_fixture
+    _approved_affected_pair(c, g)
+    assert c.is_authorized('challenge-release', 'challenged')
+    assert c.is_authorized('challenge-release', 'unaffected')
+    install_safety_evidence(g)
+    g.answers = [credible_screen(), credible_screen()]
+    opening_hash = c.open_safety_challenge('challenge-release', 'challenged', safety_evidence())
+    assert c.get_safety_challenge_event('challenge-release', 'challenged', 'opened', opening_hash)['status'] == 'OPEN'
+    assert not c.is_authorized('challenge-release', 'challenged')
+    assert c.is_authorized('challenge-release', 'unaffected')
+    gate = c.get_authorization('challenge-release', 'challenged')
+    assert gate['status'] == 'SAFETY_CHALLENGE_PENDING'
+    assert gate['allow'] is False
+    with pytest.raises(UserError, match='safety challenge pending'):
+        c.adjudicate('challenge-release', 'challenged')
+
+
+def test_safety_challenge_requires_verified_evidence_and_bounded_eligibility(v2_fixture):
+    _, c, g = v2_fixture
+    _approved_affected_pair(c, g)
+    with pytest.raises(UserError, match='requires 1 to 4 evidence'):
+        c.open_safety_challenge('challenge-release', 'challenged', '[]')
+    install_safety_evidence(g)
+    g.web_bodies['https://challenger.example/new-test'] = b'wrong content'
+    with pytest.raises(UserError, match='unavailable, mismatched or unverifiable'):
+        c.open_safety_challenge('challenge-release', 'challenged', safety_evidence())
+    assert c.is_authorized('challenge-release', 'challenged')
+    assert not c.safety_challenges
+    with pytest.raises(UserError, match='approved affected consumer pair'):
+        c.open_safety_challenge('challenge-release', 'unaffected', safety_evidence())
+
+
+def test_safety_challenge_cannot_reuse_previously_reviewed_evidence(v2_fixture):
+    _, c, g = v2_fixture
+    _approved_affected_pair(c, g)
+    with pytest.raises(UserError, match='must introduce new evidence'):
+        c.open_safety_challenge('challenge-release', 'challenged', evidence())
+    assert c.is_authorized('challenge-release', 'challenged')
+
+
+def test_stale_or_unauthorized_consumer_cannot_open_safety_challenge(v2_fixture):
+    _, c, g = v2_fixture
+    _approved_affected_pair(c, g)
+    g.message.sender_address.as_hex = '0x' + 'b' * 40
+    with pytest.raises(UserError, match='affected consumer controller only'):
+        c.open_safety_challenge('challenge-release', 'challenged', safety_evidence())
+    g.message.sender_address.as_hex = '0x' + 'a' * 40
+    c.update_agent('challenged', 1, deps(('/payment','/status')), charter())
+    with pytest.raises(UserError, match='stale approval cannot be challenged'):
+        c.open_safety_challenge('challenge-release', 'challenged', safety_evidence())
+    assert not c.safety_challenges
+
+
+def test_unsupported_or_unrelated_content_cannot_open_safety_hold(v2_fixture):
+    _, c, g = v2_fixture
+    _approved_affected_pair(c, g)
+    irrelevant = {'credible': False, 'reason': 'The retrieved document is unrelated to this route.'}
+    install_safety_evidence(g)
+    g.answers = [irrelevant, irrelevant]
+    with pytest.raises(UserError, match='not credible and relevant'):
+        c.open_safety_challenge('challenge-release', 'challenged', safety_evidence())
+    assert c.is_authorized('challenge-release', 'challenged')
+    assert not c.safety_challenges
+
+
+def test_safety_challenge_validator_screen_disagreement_cannot_open_hold(v2_fixture):
+    _, c, g = v2_fixture
+    _approved_affected_pair(c, g)
+    install_safety_evidence(g)
+    g.answers = [credible_screen(), {'credible': False, 'reason': 'Not relevant.'}]
+    with pytest.raises(UserError, match='disagreement'):
+        c.open_safety_challenge('challenge-release', 'challenged', safety_evidence())
+    assert c.is_authorized('challenge-release', 'challenged')
+    assert not c.safety_challenges
+
+
+def test_safety_challenge_resolution_reads_content_and_requires_fresh_adjudication(v2_fixture):
+    mod, c, g = v2_fixture
+    _approved_affected_pair(c, g)
+    install_safety_evidence(g)
+    g.answers = [credible_screen(), credible_screen()]
+    c.open_safety_challenge('challenge-release', 'challenged', safety_evidence())
+    c.respond_to_safety_challenge('challenge-release', 'challenged', '[]')
+    blocked = {'outcome': 'BLOCKED', 'risk': 'HIGH', 'sufficient': True,
+               'reason': 'The retrieved test report reproduces duplicate charges.'}
+    g.answers = [blocked, blocked]
+    c.resolve_safety_challenge('challenge-release', 'challenged')
+    challenge = c.get_safety_challenge('challenge-release', 'challenged')
+    resolved_hash = mod._hash(mod._canonical(challenge))
+    assert c.get_safety_challenge_event('challenge-release', 'challenged', 'resolved', resolved_hash)['outcome'] == 'BLOCKED'
+    assert challenge['outcome'] == 'BLOCKED'
+    assert challenge['resolution_profile'][0]['status'] == 'VERIFIED'
+    assert any('public reproducible payment retry test report' in prompt for prompt in g.prompts[-2:])
+    assert not c.is_authorized('challenge-release', 'challenged')
+    assert c.get_authorization('challenge-release', 'challenged')['status'] == 'REASSESSMENT_REQUIRED'
+    assert c.is_authorized('challenge-release', 'unaffected')
+    with pytest.raises(UserError, match='already resolved'):
+        c.resolve_safety_challenge('challenge-release', 'challenged')
+
+
+def test_safety_challenge_resolution_disagreement_keeps_pair_held(v2_fixture):
+    _, c, g = v2_fixture
+    _approved_affected_pair(c, g)
+    install_safety_evidence(g)
+    g.answers = [credible_screen(), credible_screen()]
+    c.open_safety_challenge('challenge-release', 'challenged', safety_evidence())
+    c.respond_to_safety_challenge('challenge-release', 'challenged', '[]')
+    g.answers = [
+        {'outcome': 'UPHELD', 'risk': 'LOW', 'sufficient': True, 'reason': 'Approval still supported.'},
+        {'outcome': 'BLOCKED', 'risk': 'HIGH', 'sufficient': True, 'reason': 'Unsafe behavior reproduced.'},
+    ]
+    with pytest.raises(UserError, match='disagreement'):
+        c.resolve_safety_challenge('challenge-release', 'challenged')
+    assert c.get_safety_challenge('challenge-release', 'challenged')['status'] == 'OPEN'
+    assert not c.is_authorized('challenge-release', 'challenged')
+
+
+def test_safety_challenge_cycle_cap_and_timeout_resolution_prevent_unlimited_holds(v2_fixture, monkeypatch):
+    mod, c, g = v2_fixture
+    _approved_affected_pair(c, g)
+    install_safety_evidence(g)
+    now = [5000]
+    monkeypatch.setattr(mod, '_now', lambda: now[0])
+    upheld = {'outcome': 'UPHELD', 'risk': 'LOW', 'sufficient': True, 'reason': 'Verified evidence supports the approval.'}
+    g.answers = [credible_screen(), credible_screen()]
+    c.open_safety_challenge('challenge-release', 'challenged', safety_evidence())
+    c.respond_to_safety_challenge('challenge-release', 'challenged', '[]')
+    g.answers = [upheld, upheld]
+    c.resolve_safety_challenge('challenge-release', 'challenged')
+    assert c.is_authorized('challenge-release', 'challenged')
+    g.answers = [credible_screen(), credible_screen()]
+    c.open_safety_challenge('challenge-release', 'challenged', safety_evidence())
+    pending = c.get_safety_challenge('challenge-release', 'challenged')
+    now[0] = pending['response_deadline'] + 1
+    c.resolve_safety_challenge('challenge-release', 'challenged')
+    with pytest.raises(UserError, match='cycle limit reached'):
+        c.open_safety_challenge('challenge-release', 'challenged', evidence())
+
+
+def test_safety_challenge_timeout_never_auto_restores_and_requires_new_adjudication(v2_fixture, monkeypatch):
+    mod, c, g = v2_fixture
+    _approved_affected_pair(c, g)
+    install_safety_evidence(g)
+    now = [2000]
+    monkeypatch.setattr(mod, '_now', lambda: now[0])
+    g.answers = [credible_screen(), credible_screen()]
+    c.open_safety_challenge('challenge-release', 'challenged', safety_evidence())
+    challenge = c.get_safety_challenge('challenge-release', 'challenged')
+    now[0] = challenge['response_deadline'] + 1
+    c.resolve_safety_challenge('challenge-release', 'challenged')
+    assert c.get_safety_challenge('challenge-release', 'challenged')['outcome'] == 'REVIEW_REQUIRED'
+    assert not c.is_authorized('challenge-release', 'challenged')
+    install_evidence(g)
+    approved = {'decision': 'APPROVED', 'risk': 'LOW', 'violations': [], 'evidence_sufficient': True,
+                'migration': [], 'reason': 'Fresh review resolved the challenge.'}
+    g.answers = [approved, approved]
+    c.adjudicate('challenge-release', 'challenged')
+    assert c.get_decision('challenge-release', 'challenged')['revision'] == 2
+    assert c.is_authorized('challenge-release', 'challenged')
 
 
 def test_reassessment_revisions_are_linked_and_cannot_be_replayed(v2_fixture):

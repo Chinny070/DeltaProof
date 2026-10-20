@@ -14,20 +14,22 @@ test('installed GenLayerJS StudioNet config matches the fixed target network', (
 test('queries exact agent and release at latest finalized state and permits only true', async () => {
   let request;
   const result = await checkAuthorization({
-    client: { readContract: async value => { request = value; return true; } },
+    client: { readContract: async value => { request = value; return {allow:true,status:'ALLOW',revision:3,agent_id:'checkout',release_id:'payment-2',reason:'active'}; } },
     address, agentId: 'checkout', releaseId: 'payment-2',
   });
   assert.deepEqual(request.args, ['payment-2', 'checkout']);
-  assert.equal(request.functionName, 'is_authorized');
+  assert.equal(request.functionName, 'get_authorization');
   assert.equal(request.transactionHashVariant, 'latest-final');
-  assert.deepEqual(result, { allow: true, agentId: 'checkout', releaseId: 'payment-2', chainId: CHAIN_ID, state: 'LATEST_FINAL' });
+  assert.deepEqual(result, {allow:true,status:'ALLOW',revision:3,agent_id:'checkout',release_id:'payment-2',reason:'active',agentId:'checkout',releaseId:'payment-2',chainId:CHAIN_ID,state:'LATEST_FINAL'});
 });
 
 test('rejects blocked and unavailable authorization reads', async () => {
-  const result = await checkAuthorization({ client: { readContract: async () => false }, address, agentId: 'checkout', releaseId: 'payment-2' });
+  const result = await checkAuthorization({ client: { readContract: async () => ({allow:false,status:'SAFETY_CHALLENGE_PENDING',revision:3,agent_id:'checkout',release_id:'payment-2',reason:'pending'}) }, address, agentId: 'checkout', releaseId: 'payment-2' });
   assert.equal(result.allow, false);
   await assert.rejects(checkAuthorization({ client: { readContract: async () => null }, address, agentId: 'checkout', releaseId: 'payment-2' }), /invalid value/);
   await assert.rejects(checkAuthorization({ client: { readContract: async () => { throw Error('RPC offline'); } }, address, agentId: 'checkout', releaseId: 'payment-2' }), /RPC offline/);
+  await assert.rejects(checkAuthorization({ client: { readContract: async () => ({allow:true,status:'ALLOW',revision:3,agent_id:'someone-else',release_id:'payment-2'}) }, address, agentId: 'checkout', releaseId: 'payment-2' }), /invalid value/);
+  await assert.rejects(checkAuthorization({ client: { readContract: async () => ({allow:true,status:'FROZEN',revision:3,agent_id:'checkout',release_id:'payment-2'}) }, address, agentId: 'checkout', releaseId: 'payment-2' }), /invalid value/);
 });
 
 test('rejects incomplete or invalid deployment configuration before an RPC call', async () => {

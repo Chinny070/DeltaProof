@@ -1,13 +1,13 @@
 import { createWalletController } from './wallet.js';
 import { CHAIN, EXPLORER } from './config.js';
 import { V2_ADDRESS, V2_CONFIGURED, v2Read, v2Write, v2Track } from './v2-api.js';
-import { V2_METHODS, buildV2WriteArgs } from './v2-forms.js';
+import { buildV2WriteArgs, getV2Method } from './v2-forms.js';
 import './v2.css';
 
 const app = document.querySelector('#v2-app');
 const PENDING_KEY = 'deltaproof.v2.pending-tx';
 const state = { page: 'overview', wallet: null, overview: null, agents: [], releases: [], error: '', notice: '', busy: false,
-  pending: localStorage.getItem(PENDING_KEY) || '', pendingStatus: '', selected: null };
+  pending: localStorage.getItem(PENDING_KEY) || '', pendingStatus: '', selected: null, safetyRecord: null, appealRecord: null, impact: null };
 const wallet = createWalletController({ onChange: () => render() });
 state.wallet = wallet.state;
 const esc = x => String(x ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -39,8 +39,8 @@ function overviewPage() {
 
 function agentsPage() {
   return `<section class="page-heading"><div class="eyebrow"><i></i> AUTONOMOUS AGENT REGISTRY</div><h1>Register the policy before the upgrade.</h1><p>Agent identity, controller, route dependencies, guarantees, and risk tolerance become versioned on-chain state. Charter versions are immutable.</p></section><div class="grid-two align-start"><section class="card"><div class="card-head"><h2>Live agents</h2>${button('refresh','Refresh')}</div>${rows(state.agents,'No agents registered')}</section>
-  ${form('register-agent','Register an agent',`${field('Stable agent ID','agent_id','checkout-agent')}${field('Display name','name','Checkout Agent')}${area('Dependencies JSON','dependencies_json','[ { "method": "POST", "path": "/payments", "critical": true, "guarantees": ["idempotent retries"] } ]',6)}${area('Compatibility charter JSON','charter_json','{ "guarantees": ["idempotent retries"], "unacceptable_changes": ["duplicate charges"], "required_evidence_kinds": ["independent-test"], "risk_tolerance": "LOW" }',6)}`,'Register agent')}
-  ${form('update-agent','Update dependencies and charter',`${field('Agent ID','agent_id','checkout-agent')}${field('Expected config version','expected_config_version','1','number')}${area('New dependencies JSON','dependencies_json','[]',5)}${area('New charter JSON','charter_json','{}',5)}`,'Create next immutable charter')}
+  ${form('register-agent','Create agent charter',`${field('Stable agent ID','agent_id','checkout-agent')}${field('Display name','name','Checkout Agent')}${area('Direct dependency routes','dependency_lines','POST /payments | critical | idempotent retries; safe retries\nGET /status | optional | availability',4)}${area('Required guarantees (one per line)','guarantees_lines','idempotent retries\nstable payment IDs',3)}${area('Unacceptable changes (one per line)','unacceptable_lines','duplicate charges\nmissing payment IDs',3)}${area('Required evidence kinds (one per line)','evidence_kinds_lines','independent-test',2)}<label class="field"><span>Maximum accepted risk</span><select name="risk_tolerance"><option>LOW</option><option>MEDIUM</option><option>HIGH</option></select></label><p class="form-hint">Dependency line format: METHOD /path | critical or optional | guarantee; guarantee. Charter versions are immutable.</p>`,'Register agent')}
+  ${form('update-agent','Create next charter version',`${field('Agent ID','agent_id','checkout-agent')}${field('Expected config version','expected_config_version','1','number')}${area('Direct dependency routes','dependency_lines','POST /payments | critical | idempotent retries',3)}${area('Required guarantees','guarantees_lines','idempotent retries',2)}${area('Unacceptable changes','unacceptable_lines','duplicate charges',2)}${area('Required evidence kinds','evidence_kinds_lines','independent-test',2)}<label class="field"><span>Maximum accepted risk</span><select name="risk_tolerance"><option>LOW</option><option>MEDIUM</option><option>HIGH</option></select></label>`,'Save immutable charter version')}
   ${form('agent-status','Suspend or revoke an agent',`${field('Agent ID','agent_id','checkout-agent')}<label class="field"><span>Status</span><select name="status"><option> SUSPENDED</option><option>ACTIVE</option><option>REVOKED</option></select></label>`,'Update status')}
   </div>${state.selected?.kind==='agent'?`<section class="card detail"><div class="card-head"><h2>Agent record · ${esc(state.selected.id)}</h2>${button('clear-selection','Close')}</div><pre>${jsonPretty(state.selected.value)}</pre></section>`:''}`;
 }
@@ -48,11 +48,12 @@ function agentsPage() {
 function releasesPage() {
   const blank = '[]';
   return `<section class="page-heading"><div class="eyebrow"><i></i> RELEASE LIFECYCLE</div><h1>Commit inputs. Evaluate per consumer.</h1><p>Specifications are bounded JSON snapshots. Evidence entries are content hashes and provenance labels; the contract does not claim to fetch or authenticate their URLs.</p></section><div class="grid-two align-start"><section class="card"><div class="card-head"><h2>Finalized release records</h2>${button('refresh','Refresh')}</div>${rows(state.releases,'No releases registered')}</section>
-  ${form('register-release','Register a software release',`${field('Unique release ID','release_id','payments-2.0.0')}${field('Release name','name','Payments API')}${field('Version','version','2.0.0')}${area('Baseline API JSON','baseline_json','{ "endpoints": [ { "method": "POST", "path": "/payments", "behavior": "..." } ] }',7)}${area('Candidate API JSON','candidate_json','{ "endpoints": [ { "method": "POST", "path": "/payments", "behavior": "..." } ] }',7)}${area('Evidence commitments JSON','evidence_json',blank,5)}`,'Register release')}
+  ${form('register-release','Build and register release snapshots',`${field('Unique release ID','release_id','payments-2.0.0')}${field('Release name','name','Payments API')}${field('Version','version','2.0.0')}${area('Baseline endpoints','baseline_routes','POST /payments | Creates an idempotent payment | request:idempotency_key;amount | response:id;status\nGET /status | Returns service status',4)}${area('Candidate endpoints','candidate_routes','POST /payments | Creates a payment and safely handles retries | request:idempotency_key;amount | response:id;status\nGET /status | Returns service status',4)}${area('Publisher evidence commitments JSON','evidence_json',blank,4)}<p class="form-hint">Route line format: METHOD /path | behavior | optional request:field;field | optional response:field;field. Evidence contents are fetched and inspected by validators during adjudication.</p>`,'Register release')}
   ${form('adjudicate','Request per-agent adjudication',`${field('Release ID','release_id','payments-2.0.0')}${field('Agent ID','agent_id','checkout-agent')}`,'Run GenLayer adjudication')}
+  ${form('decision-inspection','Inspect dependency impact',`${field('Release ID','release_id','payments-2.0.0')}${field('Agent ID','agent_id','checkout-agent')}`,'Load finalized impact')}
     ${form('supersede','Supersede a release',`${field('Existing release ID','release_id','payments-2.0.0')}${field('Replacement release ID','replacement_id','payments-2.0.1')}`,'Supersede release')}
     ${form('revoke-release','Publisher revocation',`${field('Release ID','release_id','payments-2.0.0')}${field('Reason','reason','Withdrawn by publisher')}`,'Revoke release')}
-  </div>${state.selected?.kind==='release'?`<section class="card detail"><div class="card-head"><h2>Release record · ${esc(state.selected.id)}</h2>${button('clear-selection','Close')}</div><pre>${jsonPretty(state.selected.value)}</pre></section>`:''}`;
+  </div>${state.impact?`<section class="card impact-card"><div class="card-head"><div><span class="eyebrow">FINALIZED DEPENDENCY IMPACT</span><h2>${esc(state.impact.decision)} · ${esc(state.impact.risk)}</h2></div><span class="impact-mode">${esc(state.impact.mode)}</span></div><p>${esc(state.impact.reason)}</p><div class="impact-routes">${state.impact.impacted_dependencies?.length?state.impact.impacted_dependencies.map(dep=>`<article><b>${esc(dep.method)} ${esc(dep.path)}</b><span>${dep.critical?'Critical dependency':'Optional dependency'}</span><small>${esc((dep.guarantees||[]).join(' · ')||'No guarantee labels')}</small></article>`).join(''):'<div class="empty"><b>No registered direct dependency was affected.</b><span>This display is the finalized contract result.</span></div>'}</div><details><summary>Evidence and certificate details</summary><pre>${jsonPretty(state.impact)}</pre></details></section>`:''}${state.selected?.kind==='release'?`<section class="card detail"><div class="card-head"><h2>Release record · ${esc(state.selected.id)}</h2>${button('clear-selection','Close')}</div><pre>${jsonPretty(state.selected.value)}</pre></section>`:''}`;
 }
 
 function gatePage() {
@@ -60,13 +61,20 @@ function gatePage() {
 }
 
 function safetyPage() {
-  return `<section class="page-heading"><div class="eyebrow"><i></i> SAFETY CENTER · TARGETED DISPUTES</div><h1>Freeze one authorization. Resolve one dispute.</h1><p>A freeze affects only a release-agent pair and expires within seven days. Appeals have a bounded publisher response window; an unanswered appeal becomes inconclusive and cannot unlock a release.</p></section><div class="grid-two align-start">
+  return `<section class="page-heading"><div class="eyebrow"><i></i> SAFETY CENTER · TARGETED DISPUTES</div><h1>Challenge one approval. Keep the rest moving.</h1><p>Only the controller of an affected consumer can challenge its approved release pair. Challenges require 1–4 public evidence commitments whose contents independently match their SHA-256 digests. A pending challenge holds only that pair; timeout leaves it held for fresh adjudication.</p></section><section class="safety-steps"><div><b>01 · Submit proof</b><span>Use HTTPS evidence sources and a SHA-256 of the exact UTF-8 body.</span></div><div><b>02 · Publisher responds</b><span>The release publisher has 48 hours to submit counterevidence.</span></div><div><b>03 · Validators decide</b><span>Each validator retrieves the content and compares consequential findings.</span></div></section><div class="grid-two align-start">
     ${form('freeze','Freeze one release authorization',`${field('Release ID','release_id','payments-2.0.0')}${field('Agent ID','agent_id','checkout-agent')}${field('Reason','reason','New counterexample threatens retry safety')}${field('Duration (seconds, max 604800)','duration_seconds','3600','number')}`,'Freeze authorization')}
     ${form('resolve-freeze','Resolve or time out a freeze',`${field('Release ID','release_id','payments-2.0.0')}${field('Agent ID','agent_id','checkout-agent')}`,'Resolve freeze')}
-    ${form('open-appeal','Open an application-level appeal',`${field('Release ID','release_id','payments-2.0.0')}${field('Agent ID','agent_id','checkout-agent')}${area('Counterevidence commitments JSON','counterevidence_json','[]',5)}`,'Open appeal')}
-    ${form('respond-appeal','Publisher response',`${field('Release ID','release_id','payments-2.0.0')}${field('Agent ID','agent_id','checkout-agent')}${area('Response evidence commitments JSON','response_evidence_json','[]',5)}`,'Submit response')}
+    ${form('open-safety-challenge','Challenge an unsafe approval',`${field('Release ID','release_id','payments-2.0.0')}${field('Affected agent ID','agent_id','checkout-agent')}${area('Counterevidence JSON','counterevidence_json','[{"kind":"test-report","sha256":"<64 lowercase hex chars>","source":"https://publisher.example/report","provenance":"PUBLISHER"}]',5)}`,'Submit targeted challenge')}
+    ${form('respond-safety-challenge','Publisher response to challenge',`${field('Release ID','release_id','payments-2.0.0')}${field('Affected agent ID','agent_id','checkout-agent')}${area('Response evidence JSON','response_evidence_json','[]',5)}`,'Submit response')}
+    ${form('resolve-safety-challenge','Resolve safety challenge',`${field('Release ID','release_id','payments-2.0.0')}${field('Affected agent ID','agent_id','checkout-agent')}`,'Run validator review')}
+    ${form('open-appeal','Appeal a blocked or review decision',`${field('Release ID','release_id','payments-2.0.0')}${field('Agent ID','agent_id','checkout-agent')}${area('Counterevidence JSON','counterevidence_json','[{"kind":"test-report","sha256":"<64 lowercase hex chars>","source":"https://publisher.example/report","provenance":"PUBLISHER"}]',5)}`,'Open appeal')}
+    ${form('respond-appeal','Publisher response to appeal',`${field('Release ID','release_id','payments-2.0.0')}${field('Agent ID','agent_id','checkout-agent')}${area('Response evidence JSON','response_evidence_json','[]',5)}`,'Submit response')}
     ${form('resolve-appeal','Resolve appeal with validators',`${field('Release ID','release_id','payments-2.0.0')}${field('Agent ID','agent_id','checkout-agent')}`,'Resolve appeal')}
+    ${form('appeal-case','Inspect appeal timeline',`${field('Release ID','release_id','payments-2.0.0')}${field('Agent ID','agent_id','checkout-agent')}`,'Load appeal')}
     ${form('reassess','Request Watchtower reassessment',`${field('Release ID','release_id','payments-2.0.0')}${field('Agent ID','agent_id','checkout-agent')}${field('Reason','reason','New public counterexample evidence')}`,'Request reassessment')}
+    ${form('safety-case','Inspect challenge timeline',`${field('Release ID','release_id','payments-2.0.0')}${field('Affected agent ID','agent_id','checkout-agent')}`,'Load challenge')}
+    <section class="card result-panel"><span class="eyebrow">SAFETY CHALLENGE RECORD</span>${state.safetyRecord?`<pre>${jsonPretty(state.safetyRecord)}</pre>`:`<div class="empty"><b>No challenge loaded</b><span>Load the current challenge to inspect evidence status, response deadline, outcome and resolution commitment.</span></div>`}</section>
+    <section class="card result-panel"><span class="eyebrow">APPEAL TIMELINE</span>${state.appealRecord?`<pre>${jsonPretty(state.appealRecord)}</pre>`:`<div class="empty"><b>No appeal loaded</b><span>Load an application appeal to inspect its revision binding, response window, evidence profile and outcome.</span></div>`}</section>
   </div>`;
 }
 
@@ -114,7 +122,7 @@ async function runWrite(action, args) {
   if (wallet.state.chainId !== CHAIN.chainId) throw Error('Switch the wallet to StudioNet before writing.');
   state.busy=true;state.error='';state.notice='';render();
   try {
-    const {hash} = await v2Write(wallet, METHOD[action], args, tx => { state.pending=tx;state.pendingStatus='Submitted — awaiting successful finality';localStorage.setItem(PENDING_KEY,tx);render(); });
+    const {hash} = await v2Write(wallet, getV2Method(action), args, tx => { state.pending=tx;state.pendingStatus='Submitted — awaiting successful finality';localStorage.setItem(PENDING_KEY,tx);render(); });
     state.pending='';state.pendingStatus='';localStorage.removeItem(PENDING_KEY);state.notice=`Finalized successfully: ${hash}`;await reload();
   } catch(error) {
     const message=error?.message||String(error);state.error=message;
@@ -151,10 +159,12 @@ app.addEventListener('submit', async event => {
     if(actionName==='check-authorization') {
       state.busy=true;state.error='';state.gateResult=null;render();
       const agentId=String(data.get('agent_id')).trim(),releaseId=String(data.get('release_id')).trim();
-      const result=await v2Read('is_authorized',[releaseId,agentId]);
-      if(typeof result!=='boolean')throw Error('Contract returned a malformed authorization value.');
-      let decision=null;try{decision=await v2Read('get_decision',[releaseId,agentId]);}catch{}
-      state.gateResult={allow:result,agentId,releaseId,state:'LATEST_FINAL',decision};
+      const result=await v2Read('get_authorization',[releaseId,agentId]);
+      if(!result||typeof result.allow!=='boolean'||result.agent_id!==agentId||result.release_id!==releaseId)throw Error('Contract returned a malformed authorization value.');
+      state.gateResult={...result,agentId,releaseId,state:'LATEST_FINAL'};
+    } else if(actionName==='decision-inspection') {
+      state.busy=true;state.error='';state.impact=null;render();
+      state.impact=await v2Read('get_decision',[String(data.get('release_id')).trim(),String(data.get('agent_id')).trim()]);
     } else if(actionName==='passport') {
       state.busy=true;state.error='';state.passport=null;render();
       const releaseId=String(data.get('release_id')).trim(),agentId=String(data.get('agent_id')).trim();
@@ -165,6 +175,12 @@ app.addEventListener('submit', async event => {
       const result=await v2Read('verify_passport',[String(data.get('release_id')).trim(),String(data.get('agent_id')).trim(),String(data.get('commitment')).trim()]);
       if(typeof result!=='boolean')throw Error('Contract returned a malformed verification value.');
       state.notice=result?'Passport commitment verified against the finalized contract.':'Passport verification failed.';
+    } else if(actionName==='safety-case') {
+      state.busy=true;state.error='';state.safetyRecord=null;render();
+      state.safetyRecord=await v2Read('get_safety_challenge',[String(data.get('release_id')).trim(),String(data.get('agent_id')).trim()]);
+    } else if(actionName==='appeal-case') {
+      state.busy=true;state.error='';state.appealRecord=null;render();
+      state.appealRecord=await v2Read('get_appeal',[String(data.get('release_id')).trim(),String(data.get('agent_id')).trim()]);
     } else {
       await runWrite(actionName,buildV2WriteArgs(actionName,data));
     }

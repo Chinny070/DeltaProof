@@ -94,7 +94,8 @@ def v2_fixture():
     spec.loader.exec_module(module)
     instance = module.DeltaProofV2()
     for field in ('agents', 'charters', 'releases', 'release_state', 'release_state_history', 'decisions', 'decision_history', 'passports',
-                  'appeals', 'appeal_history', 'freezes', 'freeze_history', 'freeze_counts', 'reassessments',
+                  'appeals', 'appeal_history', 'safety_challenges', 'safety_challenge_history', 'safety_challenge_cycles',
+                  'freezes', 'freeze_history', 'freeze_counts', 'reassessments',
                   'appeal_cycles', 'agent_ids', 'release_ids', 'agent_history'):
         setattr(instance, field, FakeTreeMap())
     yield module, instance, g
