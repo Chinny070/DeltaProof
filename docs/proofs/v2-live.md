@@ -60,39 +60,31 @@ At 2026-10-20 20:18 UTC, the deployed page at https://deltaproof-v2.vercel.app/v
 
 No wallet connection or transaction was attempted. Page JavaScript reported window.ethereum as undefined. The browser console recorded a MetaMask provider-injection error because window.ethereum was getter-only. Browser wallet connection, signing, and responsive viewport behavior therefore remain unverified; resolve the provider-extension conflict and retest in a browser with one working injected provider.
 
-## Targeted freeze lifecycle
+## Targeted freeze, resolution, and reassessment
 
 
 
-The user submitted freeze_authorization for v2api-20261020 / analytics-live-20261020. Explorer confirms transaction [`0xcb3b5d88301abc713d0da43da9aa6889c5bd86aadc41b9f77b35a7c7b0d0e0c5`](https://explorer-studio.genlayer.com/tx/0xcb3b5d88301abc713d0da43da9aa6889c5bd86aadc41b9f77b35a7c7b0d0e0c5) is FINALIZED, execution SUCCESS, consensus Accepted, nonce 3003, and return null. Parameters were release v2api-20261020, agent analytics-live-20261020, reason “Authorized targeted live freeze lifecycle verification,” and duration 1800 seconds. Explorer shows transaction value 0 GEN and does not expose the settled protocol fee; 0 GEN value is not evidence of a zero total fee.
+Freeze transaction [`0xcb3b5d88301abc713d0da43da9aa6889c5bd86aadc41b9f77b35a7c7b0d0e0c5`](https://explorer-studio.genlayer.com/tx/0xcb3b5d88301abc713d0da43da9aa6889c5bd86aadc41b9f77b35a7c7b0d0e0c5) is FINALIZED with SUCCESS execution and Accepted consensus. It called freeze_authorization for v2api-20261020 / analytics-live-20261020 with an 1800-second duration. Latest-final reads showed Analytics FROZEN / deny; Checkout and Refund remained BLOCKED at revision 1.
 
 
 
-Public V2 Authorization Gate latest-final reads confirmed Analytics is DENY / FROZEN with allow false and revision 1. The identity-bound passport hash remains 523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb. Separate latest-final gate reads confirmed Checkout remains BLOCKED / allow false, revision 1, passport ff515fb61c0c511b7628dcb3b11946bb51beb7a23956d90308b73d84be5c8cbc; Refund remains BLOCKED / allow false, revision 1, passport 5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b.
+Resolution transaction [`0xfe963b610a6ad70a71a93ac06dddfd16dedc179cfe3870e22d632cae235448af`](https://explorer-studio.genlayer.com/tx/0xfe963b610a6ad70a71a93ac06dddfd16dedc179cfe3870e22d632cae235448af) is FINALIZED with SUCCESS execution and Accepted consensus. It called resolve_freeze for the same pair. Latest-final authorization moved to REASSESSMENT_REQUIRED / deny; it did not restore the prior approval. Checkout and Refund stayed BLOCKED.
 
 
 
-Freeze resolution is now complete. Explorer confirms [`0xfe963b610a6ad70a71a93ac06dddfd16dedc179cfe3870e22d632cae235448af`](https://explorer-studio.genlayer.com/tx/0xfe963b610a6ad70a71a93ac06dddfd16dedc179cfe3870e22d632cae235448af) is FINALIZED with SUCCESS execution and Accepted consensus (nonce 3004; transaction value 0 GEN; settled fee not exposed). The call was resolve_freeze(v2api-20261020, analytics-live-20261020). Latest-final gate now returns REASSESSMENT_REQUIRED / allow false for Analytics with the prior revision 1 passport retained; it did not restore stale approval. Checkout and Refund remain BLOCKED / allow false at revision 1 with their original passport hashes.
+Fresh adjudication transaction [`0xc9779d7d8607015a498b3a4d5739e300f38ba4ab3ed2567dcd1d8cd9d36814b5`](https://explorer-studio.genlayer.com/tx/0xc9779d7d8607015a498b3a4d5739e300f38ba4ab3ed2567dcd1d8cd9d36814b5) is FINALIZED with SUCCESS execution and Accepted consensus (nonce 3005). It called adjudicate(v2api-20261020, analytics-live-20261020) and returned passport 9c1faa0103660734288b4fe7c205bb0a50c4e72c21511b64249a7b88f3959ab0. The current decision is revision 2, APPROVED, LOW risk, DETERMINISTIC_UNAFFECTED, with no impacted dependencies. Latest-final authorization is ALLOW at revision 2.
 
 
 
-Next, run only the reassessment step in the wallet-unlocked PowerShell terminal:
+History and passport verification: revision 1 remains APPROVED with passport 523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb; revision 2's previous_passport_hash points to that value. verify_passport returned true for both revisions and false for an all-zero invalid hash. Checkout and Refund remain BLOCKED / allow false at revision 1 with their prior passport hashes.
 
 
 
-```powershell
-
-cd C:\Users\USERpc\Desktop\DeltaProof-upload\DeltaProof\frontend
-
-node .\integrations\live-freeze-cycle.mjs --step reassess
-
-```
+The user later ran the reassess command and saw “Expected REASSESSMENT_REQUIRED; got ALLOW.” That invocation stopped at the script's preflight before sending a write. The contract transaction list and latest-final revision show the reassessment had already finalized; the reported error is consistent with a repeat run after completion. Do not rerun reassess.
 
 
 
-Proceed only after the reassessment transaction finalizes successfully. The script verifies revision increment, immutable prior decision and passport linkage, current authorization, and unchanged Checkout/Refund pairs. If it errors, stop and share the output; do not repeat the transaction.
-
-
+Explorer shows 0 GEN transaction value for these calls; it does not expose settled protocol fees, so total cost is unknown.
 
 ## Remaining live lifecycle work
 

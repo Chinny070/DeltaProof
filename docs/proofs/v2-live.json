@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-20T21:30:21Z",
+  "recorded_at_utc": "2026-10-20T22:06:39Z",
   "network": {
     "name": "GenLayer StudioNet",
     "chain_id": 61999,
@@ -402,6 +402,25 @@
       "settled_fee_gen": null,
       "fee_note": "Explorer shows 0 GEN transaction value and no gas limit; settled protocol fee is not exposed.",
       "source": "Explorer transaction page and public frontend latest-final gate reads."
+    },
+    {
+      "scenario": "Fresh Analytics reassessment after freeze resolution",
+      "hash": "0xc9779d7d8607015a498b3a4d5739e300f38ba4ab3ed2567dcd1d8cd9d36814b5",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0xc9779d7d8607015a498b3a4d5739e300f38ba4ab3ed2567dcd1d8cd9d36814b5",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9e5b4ab85dd5dea8e70b",
+      "method": "adjudicate",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "consensus": "ACCEPTED",
+      "initial_validators": 5,
+      "return_value": "9c1faa0103660734288b4fe7c205bb0a50c4e72c21511b64249a7b88f3959ab0",
+      "value_gen": "0",
+      "gas_limit": null,
+      "nonce": 3005,
+      "settled_fee_gen": null,
+      "fee_note": "Explorer shows transaction value 0 GEN and no gas limit; settled protocol fee is not exposed.",
+      "source": "StudioNet Explorer transaction page and GenLayerJS latest-final read-only calls."
     }
   ],
   "latest_final_state_after_registration": {
@@ -713,9 +732,9 @@
       },
       {
         "agent_id": "analytics-live-20261020",
-        "allow": false,
-        "status": "REASSESSMENT_REQUIRED",
-        "revision": 1
+        "allow": true,
+        "status": "ALLOW",
+        "revision": 2
       },
       {
         "agent_id": "refund-live-20261020",
@@ -833,6 +852,48 @@
       "revision": 1,
       "passport_hash": "523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb",
       "reason": "A safety event requires a fresh adjudication."
+    },
+    "unaffected_pairs": [
+      {
+        "agent_id": "checkout-live-20261020",
+        "status": "BLOCKED",
+        "allow": false,
+        "revision": 1,
+        "passport_hash": "ff515fb61c0c511b7628dcb3b11946bb51beb7a23956d90308b73d84be5c8cbc"
+      },
+      {
+        "agent_id": "refund-live-20261020",
+        "status": "BLOCKED",
+        "allow": false,
+        "revision": 1,
+        "passport_hash": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b"
+      }
+    ]
+  },
+  "latest_final_state_after_analytics_reassessment": {
+    "verified_at_utc": "2026-10-20T22:06:39Z",
+    "read_variant": "LATEST_FINAL",
+    "release_id": "v2api-20261020",
+    "decision": {
+      "agent_id": "analytics-live-20261020",
+      "revision": 2,
+      "decision": "APPROVED",
+      "risk": "LOW",
+      "mode": "DETERMINISTIC_UNAFFECTED",
+      "impacted_dependencies": [],
+      "passport_hash": "9c1faa0103660734288b4fe7c205bb0a50c4e72c21511b64249a7b88f3959ab0",
+      "previous_passport_hash": "523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb"
+    },
+    "authorization": {
+      "status": "ALLOW",
+      "allow": true,
+      "revision": 2,
+      "passport_hash": "9c1faa0103660734288b4fe7c205bb0a50c4e72c21511b64249a7b88f3959ab0"
+    },
+    "passport_verification": {
+      "revision_1": true,
+      "revision_2": true,
+      "invalid_zero_hash": false
     },
     "unaffected_pairs": [
       {
