@@ -100,6 +100,12 @@ Latest-final state confirms the appeal is `RESOLVED` / `UPHELD`, Refund remains 
 
 The Refund appeal lifecycle is complete and upheld with all submitted evidence digests verified. No reassessment is indicated because the decision remains BLOCKED. The existing Analytics approval is unaffected and therefore is not eligible for a safety challenge; a separate genuinely approved affected pair would be required. Watchtower transition capture, CI rejection exercise, and injected-wallet browser acceptance remain outstanding. The prior browser console showed MetaMask failing to inject `window.ethereum` because the property was getter-only; wallet connection and signing remain unverified.
 
+## Watchtower and CI gate latest-final verification
+
+A fresh read-only GenLayerJS call at StudioNet `LATEST_FINAL` confirmed Checkout `BLOCKED` revision 1, Analytics `ALLOW` revision 2, and Refund `BLOCKED` revision 1. The Watchtower authorization poll returned the same three states and passport hashes. This records current snapshots; this poll did not observe a new state transition.
+
+The CI gate was executed as a process for Refund using the configured V2 contract, release, and agent IDs. It returned the latest-final record with `allow: false`, status `BLOCKED`, revision 1, and process exit code `1`. This is an actual deployment-gate rejection. Analytics remains the live positive control at `ALLOW`, revision 2.
+
 ## Current assessment
 
-PARTIAL. The V2 deployment, three consumer records, release, Checkout deterministic BLOCKED result, Refund semantic-consensus BLOCKED result, Analytics revision 2 APPROVED after targeted freeze and reassessment, passport history, targeted freeze resolution, unaffected Checkout/Refund authorizations, and evidence-backed Refund appeal UPHELD outcome are verified. A safety challenge is not eligible for the current unaffected Analytics approval. Watchtower transition capture, CI rejection exercise, and injected-wallet browser acceptance remain unverified.
+PARTIAL. The V2 deployment, three consumer records, release, Checkout deterministic BLOCKED result, Refund semantic-consensus BLOCKED result, Analytics revision 2 APPROVED after targeted freeze and reassessment, passport history, targeted freeze resolution, unaffected Checkout/Refund authorizations, and evidence-backed Refund appeal UPHELD outcome are verified. The CI gate has produced a genuine nonzero rejection for Refund, and Watchtower latest-final snapshots match on-chain authorization state. A safety challenge is not eligible for the current unaffected Analytics approval. Capturing a Watchtower transition during a live state change and injected-wallet browser acceptance remain unverified.

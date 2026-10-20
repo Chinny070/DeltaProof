@@ -824,24 +824,28 @@
     "release_id": "v2api-20261020",
     "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
     "read_state": "LATEST_FINAL",
+    "verified_at_utc": "2026-10-20T22:45:02Z",
     "results": [
       {
         "agent_id": "checkout-live-20261020",
         "allow": false,
         "status": "BLOCKED",
-        "revision": 1
+        "revision": 1,
+        "passport_hash": "ff515fb61c0c511b7628dcb3b11946bb51beb7a23956d90308b73d84be5c8cbc"
       },
       {
         "agent_id": "analytics-live-20261020",
         "allow": true,
         "status": "ALLOW",
-        "revision": 2
+        "revision": 2,
+        "passport_hash": "9c1faa0103660734288b4fe7c205bb0a50c4e72c21511b64249a7b88f3959ab0"
       },
       {
         "agent_id": "refund-live-20261020",
         "allow": false,
         "status": "BLOCKED",
-        "revision": 1
+        "revision": 1,
+        "passport_hash": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b"
       }
     ]
   },
@@ -1121,5 +1125,40 @@
       "commitment": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b",
       "currently_authorized": false
     }
+  },
+  "live_ci_gate_execution": {
+    "verified_at_utc": "2026-10-20T22:45:02Z",
+    "agent_id": "refund-live-20261020",
+    "release_id": "v2api-20261020",
+    "allow": false,
+    "status": "BLOCKED",
+    "revision": 1,
+    "process_exit_code": 1,
+    "result": "Actual CLI gate rejection against StudioNet LATEST_FINAL authorization."
+  },
+  "latest_final_watchtower_snapshot": {
+    "verified_at_utc": "2026-10-20T22:45:02Z",
+    "read_variant": "LATEST_FINAL",
+    "observation": "Read-only current snapshots; no state transition occurred during this poll.",
+    "results": [
+      {
+        "agent_id": "checkout-live-20261020",
+        "allow": false,
+        "status": "BLOCKED",
+        "revision": 1
+      },
+      {
+        "agent_id": "analytics-live-20261020",
+        "allow": true,
+        "status": "ALLOW",
+        "revision": 2
+      },
+      {
+        "agent_id": "refund-live-20261020",
+        "allow": false,
+        "status": "BLOCKED",
+        "revision": 1
+      }
+    ]
   }
 }
