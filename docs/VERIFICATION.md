@@ -17,7 +17,7 @@ Last verified: 2026-10-20.
 | Paid deterministic/semantic consensus tests | NOT RUN | Requires separate user approval for paid registration/evaluation transactions |
 | Browser wallet acceptance | NOT RUN | Requires MetaMask/Rabby browser smoke tests against an actual deployment |
 | Vercel production frontend | PASS | [deltaproof-ebon.vercel.app](https://deltaproof-ebon.vercel.app), deployment `dpl_8xfFce1pQpRBNSUqRkDm75cQvxGh`; public UI connected to StudioNet and reads zero totals/empty registry |
-| GitHub deployment record | PENDING | Deployment details are recorded locally and need a commit/push |
+| GitHub deployment record | PASS | Deployment record pushed in commit `ed6506caaf217f8fa5ac7fb9ccbb68ed92517158` |
 
 ## SDK/network compatibility finding
 
