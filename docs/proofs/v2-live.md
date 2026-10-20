@@ -1,6 +1,6 @@
 # DeltaProof V2 live proof
 
-**Snapshot:** 2026-10-20 16:34:40 UTC  
+**Snapshot:** 2026-10-20 17:10:28 UTC  
 **Network:** GenLayer StudioNet, chain 61999  
 **Active V2 contract:** [`0x367C2B9f8B52EEd57977B84c458eaD4c3105E718`](https://explorer-studio.genlayer.com/address/0x367c2b9f8b52eed57977b84c458ead4c3105e718)  
 **Deployment:** [`0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e`](https://explorer-studio.genlayer.com/tx/0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e), finalized with majority agreement. Embedded source SHA-256: `72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0`.
@@ -33,7 +33,10 @@ Stored commitments: baseline `51caa0b45677efcf626910cf9e1b715d666bd904ea8e74ba29
 
 The explorer shows value `0 GEN`; SDK receipt gas limit is `2920`. The settled protocol fee was not exposed.
 
+## Checkout adjudication
+
+The user-provided `adjudicate("v2api-20261020", "checkout-live-20261020")` transaction [`0xdaeec7b23ba9815852430f5d5bb11013a4bd4d3e8195fc32bc2bd062adfc4cba`](https://explorer-studio.genlayer.com/tx/0xdaeec7b23ba9815852430f5d5bb11013a4bd4d3e8195fc32bc2bd062adfc4cba) was independently checked through GenLayerJS 1.1.8. It is `FINALIZED`, `MAJORITY_AGREE`, one round, with votes `AGREE, IDLE, IDLE, AGREE, AGREE`; execution hash `0xabf80e3e434f47508128448f3bac94568aeef2aac008e1e74e373870bc5d6a19`. Latest-final contract reads report overview counts of 3 agents, 1 release, and 1 decision. Checkout decision revision 1 is `BLOCKED`, `HIGH` risk, mode `DETERMINISTIC_DEPENDENCY_CHECK`, because `/payment` newly requires `currency`. The identity-bound authorization is `allow: false`, status `BLOCKED`. Passport `ff515fb61c0c511b7628dcb3b11946bb51beb7a23956d90308b73d84be5c8cbc` currently authorizes nothing. This deterministic rule short-circuited semantic evidence retrieval; this result does not establish semantic validator reasoning or evidence retrieval. Receipt gas limit was 2922 and nonce 2922; transaction value shown by the explorer was 0 GEN; settled protocol fee was not exposed.
+
 ## Remaining live lifecycle work
 
-No deterministic or semantic decision, consumer-specific comparison, CI allow path, freeze, safety challenge, appeal, reassessment, passport, or Watchtower lifecycle has been executed yet. The release is registered but its evidence has not been validator-retrieved. The agent and release writes establish live signer-controlled storage and serialization; the independent command runner still cannot access the user's terminal OS-keychain entry. Subsequent writes should use the same typed SDK/keychain workflow and be reconciled hash-by-hash before continuing.
-
+Checkout's deterministic block is now verified. Analytics' unaffected approval, Refund semantic adjudication and validator-side retrieval of its pinned scenario remain unverified, as do CI allow, freeze, safety challenge, appeal, reassessment, passport history, and Watchtower lifecycle. The command runner cannot access the user's terminal OS-keychain entry, so the next adjudication must be run in the already-unlocked user PowerShell session and then reconciled by hash.

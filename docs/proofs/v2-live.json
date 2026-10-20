@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-20T16:51:36Z",
+  "recorded_at_utc": "2026-10-20T17:10:28Z",
   "network": {
     "name": "GenLayer StudioNet",
     "chain_id": 61999,
@@ -13,7 +13,12 @@
     "explorer_url": "https://explorer-studio.genlayer.com/tx/0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e",
     "source_sha256": "72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0",
     "consensus": "MAJORITY_AGREE",
-    "validator_execution": {"rounds": 1, "agree": 3, "successful_executions": 3, "idle_after_quorum": 2},
+    "validator_execution": {
+      "rounds": 1,
+      "agree": 3,
+      "successful_executions": 3,
+      "idle_after_quorum": 2
+    },
     "execution_hash": "0xac684ea0210461ecc6797cbc3a71f0d6ed82080026abda52555f545cd64c3211",
     "protocol_fee_gen": null,
     "protocol_fee_status": "NOT_EXPOSED_IN_VERIFIED_RECEIPT"
@@ -31,14 +36,40 @@
       "rounds": 1,
       "initial_validators": 5,
       "validators_revealed": 5,
-      "validator_votes": ["AGREE", "IDLE", "IDLE", "AGREE", "AGREE"],
+      "validator_votes": [
+        "AGREE",
+        "IDLE",
+        "IDLE",
+        "AGREE",
+        "AGREE"
+      ],
       "execution_hash": "0x87418f0f7f01f18867f2b67a4ea38ca7604365895e8ee7024f0ebcaed402b29c",
       "return_value": "46ee87d212ab89fa0df01a75d3630801ce03a7a830aa10c5f4c97bde226ae1a2",
       "arguments": [
-        {"index": 0, "name": "agent_id", "type": "string", "value": "checkout-live-20261020"},
-        {"index": 1, "name": "name", "type": "string", "value": "DeltaProof Checkout consumer fixture"},
-        {"index": 2, "name": "dependencies_json", "type": "string", "value": "[{\"method\":\"POST\",\"path\":\"/payment\",\"critical\":true,\"guarantees\":[\"idempotent retries\"]}]"},
-        {"index": 3, "name": "charter_json", "type": "string", "value": "{\"guarantees\":[\"idempotent retries\"],\"unacceptable_changes\":[\"retries may create duplicate charges\"],\"required_evidence_kinds\":[],\"risk_tolerance\":\"LOW\"}"}
+        {
+          "index": 0,
+          "name": "agent_id",
+          "type": "string",
+          "value": "checkout-live-20261020"
+        },
+        {
+          "index": 1,
+          "name": "name",
+          "type": "string",
+          "value": "DeltaProof Checkout consumer fixture"
+        },
+        {
+          "index": 2,
+          "name": "dependencies_json",
+          "type": "string",
+          "value": "[{\"method\":\"POST\",\"path\":\"/payment\",\"critical\":true,\"guarantees\":[\"idempotent retries\"]}]"
+        },
+        {
+          "index": 3,
+          "name": "charter_json",
+          "type": "string",
+          "value": "{\"guarantees\":[\"idempotent retries\"],\"unacceptable_changes\":[\"retries may create duplicate charges\"],\"required_evidence_kinds\":[],\"risk_tolerance\":\"LOW\"}"
+        }
       ],
       "value_gen": "0",
       "gas_limit": 2895,
@@ -57,14 +88,40 @@
       "rounds": 1,
       "initial_validators": 5,
       "validators_revealed": 5,
-      "validator_votes": ["IDLE", "AGREE", "IDLE", "AGREE", "AGREE"],
+      "validator_votes": [
+        "IDLE",
+        "AGREE",
+        "IDLE",
+        "AGREE",
+        "AGREE"
+      ],
       "execution_hash": "0x1f13bcaaf50a7d578bce6d53445a86b585cf184f0987a95ce22de9f23dd76bb1",
       "return_value": "7de03572eed6c3f8fd9bbff60fc058e7e3290a76fcbd1fce035c7ed0335b0a5e",
       "arguments": [
-        {"index": 0, "name": "agent_id", "type": "string", "value": "refund-live-20261020"},
-        {"index": 1, "name": "name", "type": "string", "value": "DeltaProof Refund consumer fixture"},
-        {"index": 2, "name": "dependencies_json", "type": "string", "value": "[{\"method\":\"POST\",\"path\":\"/refunds\",\"critical\":true,\"guarantees\":[\"idempotent refund requests\"]}]"},
-        {"index": 3, "name": "charter_json", "type": "string", "value": "{\"guarantees\":[\"idempotent refund requests\"],\"unacceptable_changes\":[\"retries may issue duplicate refunds\",\"refund status is no longer returned\"],\"required_evidence_kinds\":[],\"risk_tolerance\":\"LOW\"}"}
+        {
+          "index": 0,
+          "name": "agent_id",
+          "type": "string",
+          "value": "refund-live-20261020"
+        },
+        {
+          "index": 1,
+          "name": "name",
+          "type": "string",
+          "value": "DeltaProof Refund consumer fixture"
+        },
+        {
+          "index": 2,
+          "name": "dependencies_json",
+          "type": "string",
+          "value": "[{\"method\":\"POST\",\"path\":\"/refunds\",\"critical\":true,\"guarantees\":[\"idempotent refund requests\"]}]"
+        },
+        {
+          "index": 3,
+          "name": "charter_json",
+          "type": "string",
+          "value": "{\"guarantees\":[\"idempotent refund requests\"],\"unacceptable_changes\":[\"retries may issue duplicate refunds\",\"refund status is no longer returned\"],\"required_evidence_kinds\":[],\"risk_tolerance\":\"LOW\"}"
+        }
       ],
       "value_gen": "0",
       "gas_limit": 2913,
@@ -93,7 +150,13 @@
       "rounds": 1,
       "initial_validators": 5,
       "validators_revealed": 5,
-      "validator_votes": ["AGREE", "AGREE", "AGREE", "IDLE", "AGREE"],
+      "validator_votes": [
+        "AGREE",
+        "AGREE",
+        "AGREE",
+        "IDLE",
+        "AGREE"
+      ],
       "execution_hash": "0xa6741c743530674f89d18c38d9b6578d134920c1afcafddb82f25e31eec8a9d6",
       "release_id": "v2api-20261020",
       "baseline_hash": "51caa0b45677efcf626910cf9e1b715d666bd904ea8e74ba298d9acfcf4c5c15",
@@ -104,13 +167,74 @@
       "gas_limit": 2920,
       "settled_fee_gen": null,
       "fee_note": "Receipt does not expose settled protocol fee."
+    },
+    {
+      "scenario": "Checkout compatibility adjudication",
+      "hash": "0xdaeec7b23ba9815852430f5d5bb11013a4bd4d3e8195fc32bc2bd062adfc4cba",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0xdaeec7b23ba9815852430f5d5bb11013a4bd4d3e8195fc32bc2bd062adfc4cba",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "method": "adjudicate",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "consensus": "MAJORITY_AGREE",
+      "rounds": 1,
+      "initial_validators": 5,
+      "validator_votes": [
+        "AGREE",
+        "IDLE",
+        "IDLE",
+        "AGREE",
+        "AGREE"
+      ],
+      "execution_hash": "0xabf80e3e434f47508128448f3bac94568aeef2aac008e1e74e373870bc5d6a19",
+      "arguments": [
+        {
+          "index": 0,
+          "name": "release_id",
+          "type": "string",
+          "value": "v2api-20261020"
+        },
+        {
+          "index": 1,
+          "name": "agent_id",
+          "type": "string",
+          "value": "checkout-live-20261020"
+        }
+      ],
+      "decision": {
+        "revision": 1,
+        "result": "BLOCKED",
+        "risk": "HIGH",
+        "mode": "DETERMINISTIC_DEPENDENCY_CHECK",
+        "violation": "new-required-request:currency:POST /payment",
+        "impacted_dependency": "POST /payment"
+      },
+      "authorization": {
+        "allow": false,
+        "status": "BLOCKED",
+        "revision": 1
+      },
+      "passport": {
+        "hash": "ff515fb61c0c511b7628dcb3b11946bb51beb7a23956d90308b73d84be5c8cbc",
+        "currently_authorized": false
+      },
+      "gas_limit": 2922,
+      "nonce": 2922,
+      "transaction_value_gen": "0",
+      "settled_fee_gen": null,
+      "fee_note": "The explorer showed 0 GEN transaction value; the SDK receipt does not expose settled protocol fee."
     }
   ],
   "latest_final_state_after_registration": {
     "sdk": "genlayer-js 1.1.8",
     "variant": "LATEST_FINAL",
     "get_protocol": "deltaproof/2.0",
-    "get_overview": {"agents": 1, "releases": 0, "decisions": 0, "protocol": "deltaproof/2.0"},
+    "get_overview": {
+      "agents": 1,
+      "releases": 0,
+      "decisions": 0,
+      "protocol": "deltaproof/2.0"
+    },
     "agent": {
       "id": "checkout-live-20261020",
       "name": "DeltaProof Checkout consumer fixture",
@@ -118,43 +242,149 @@
       "status": "ACTIVE",
       "config_version": 1,
       "charter_version": 1,
-      "dependencies": [{"method": "POST", "path": "/payment", "critical": true, "guarantees": ["idempotent retries"]}]
+      "dependencies": [
+        {
+          "method": "POST",
+          "path": "/payment",
+          "critical": true,
+          "guarantees": [
+            "idempotent retries"
+          ]
+        }
+      ]
     },
     "charter_v1": {
-      "guarantees": ["idempotent retries"],
-      "unacceptable_changes": ["retries may create duplicate charges"],
+      "guarantees": [
+        "idempotent retries"
+      ],
+      "unacceptable_changes": [
+        "retries may create duplicate charges"
+      ],
       "required_evidence_kinds": [],
       "risk_tolerance": "LOW"
     },
-    "list_agents_0_20": [{"id": "checkout-live-20261020", "name": "DeltaProof Checkout consumer fixture", "status": "ACTIVE", "config_version": 1, "charter_version": 1}],
+    "list_agents_0_20": [
+      {
+        "id": "checkout-live-20261020",
+        "name": "DeltaProof Checkout consumer fixture",
+        "status": "ACTIVE",
+        "config_version": 1,
+        "charter_version": 1
+      }
+    ],
     "list_releases_0_20": [],
-    "get_authorization_unknown_pair": {"release_id": "v2-live-check", "agent_id": "checkout-agent", "status": "NO_DECISION", "allow": false, "revision": 0, "reason": "No adjudication exists."}
+    "get_authorization_unknown_pair": {
+      "release_id": "v2-live-check",
+      "agent_id": "checkout-agent",
+      "status": "NO_DECISION",
+      "allow": false,
+      "revision": 0,
+      "reason": "No adjudication exists."
+    }
   },
   "latest_final_state_after_refund_registration": {
     "sdk": "genlayer-js 1.1.8",
     "variant": "LATEST_FINAL",
-    "get_overview": {"agents": 3,"releases": 0,"decisions": 0,"protocol":"deltaproof/2.0"},
+    "get_overview": {
+      "agents": 3,
+      "releases": 0,
+      "decisions": 0,
+      "protocol": "deltaproof/2.0"
+    },
     "list_agents_0_20": [
-      {"id":"checkout-live-20261020","name":"DeltaProof Checkout consumer fixture","status":"ACTIVE","config_version":1,"charter_version":1},
-      {"id":"analytics-live-20261020","name":"DeltaProof Analytics consumer fixture","status":"ACTIVE","config_version":1,"charter_version":1},
-      {"id":"refund-live-20261020","name":"DeltaProof Refund consumer fixture","status":"ACTIVE","config_version":1,"charter_version":1}
+      {
+        "id": "checkout-live-20261020",
+        "name": "DeltaProof Checkout consumer fixture",
+        "status": "ACTIVE",
+        "config_version": 1,
+        "charter_version": 1
+      },
+      {
+        "id": "analytics-live-20261020",
+        "name": "DeltaProof Analytics consumer fixture",
+        "status": "ACTIVE",
+        "config_version": 1,
+        "charter_version": 1
+      },
+      {
+        "id": "refund-live-20261020",
+        "name": "DeltaProof Refund consumer fixture",
+        "status": "ACTIVE",
+        "config_version": 1,
+        "charter_version": 1
+      }
     ],
-    "analytics": {"controller":"0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b","status":"ACTIVE","config_version":1,"charter_version":1,"dependencies":[{"method":"GET","path":"/events/{event_id}","critical":true,"guarantees":["stable event schema"]}]},
-    "analytics_charter_v1": {"guarantees":["stable event schema"],"unacceptable_changes":["event identifiers are removed","event payload fields are silently renamed"],"required_evidence_kinds":[],"risk_tolerance":"MEDIUM"},
-    "refund": {"controller":"0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b","status":"ACTIVE","config_version":1,"charter_version":1,"dependencies":[{"method":"POST","path":"/refunds","critical":true,"guarantees":["idempotent refund requests"]}]},
-    "refund_charter_v1": {"guarantees":["idempotent refund requests"],"unacceptable_changes":["refund status is no longer returned","retries may issue duplicate refunds"],"required_evidence_kinds":[],"risk_tolerance":"LOW"}
+    "analytics": {
+      "controller": "0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "status": "ACTIVE",
+      "config_version": 1,
+      "charter_version": 1,
+      "dependencies": [
+        {
+          "method": "GET",
+          "path": "/events/{event_id}",
+          "critical": true,
+          "guarantees": [
+            "stable event schema"
+          ]
+        }
+      ]
+    },
+    "analytics_charter_v1": {
+      "guarantees": [
+        "stable event schema"
+      ],
+      "unacceptable_changes": [
+        "event identifiers are removed",
+        "event payload fields are silently renamed"
+      ],
+      "required_evidence_kinds": [],
+      "risk_tolerance": "MEDIUM"
+    },
+    "refund": {
+      "controller": "0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "status": "ACTIVE",
+      "config_version": 1,
+      "charter_version": 1,
+      "dependencies": [
+        {
+          "method": "POST",
+          "path": "/refunds",
+          "critical": true,
+          "guarantees": [
+            "idempotent refund requests"
+          ]
+        }
+      ]
+    },
+    "refund_charter_v1": {
+      "guarantees": [
+        "idempotent refund requests"
+      ],
+      "unacceptable_changes": [
+        "refund status is no longer returned",
+        "retries may issue duplicate refunds"
+      ],
+      "required_evidence_kinds": [],
+      "risk_tolerance": "LOW"
+    }
   },
   "latest_final_state_after_release_registration": {
-    "overview": {"agents":3,"releases":1,"decisions":0,"protocol":"deltaproof/2.0"},
-    "release_id":"v2api-20261020",
-    "status":"ACTIVE",
-    "publisher":"0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b",
-    "baseline_hash":"51caa0b45677efcf626910cf9e1b715d666bd904ea8e74ba298d9acfcf4c5c15",
-    "candidate_hash":"1e39a3201847cf409b9bf4f7cf1d5dc2179c7f5e10e24140ff3a7319427ba30c",
-    "evidence_hash":"7ca7f285d0c1bd846472eebcae4dc2f2bda799b182be791093d2688860b38bb7",
-    "evidence_profile_status":"NOT_YET_RETRIEVED_BY_ADJUDICATION"
+    "overview": {
+      "agents": 3,
+      "releases": 1,
+      "decisions": 0,
+      "protocol": "deltaproof/2.0"
+    },
+    "release_id": "v2api-20261020",
+    "status": "ACTIVE",
+    "publisher": "0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b",
+    "baseline_hash": "51caa0b45677efcf626910cf9e1b715d666bd904ea8e74ba298d9acfcf4c5c15",
+    "candidate_hash": "1e39a3201847cf409b9bf4f7cf1d5dc2179c7f5e10e24140ff3a7319427ba30c",
+    "evidence_hash": "7ca7f285d0c1bd846472eebcae4dc2f2bda799b182be791093d2688860b38bb7",
+    "evidence_profile_status": "NOT_YET_RETRIEVED_BY_ADJUDICATION"
   },
-  "lifecycle_status": "THREE_AGENT_RECORDS_AND_ONE_RELEASE_LATEST_FINAL_VERIFIED; CHECKOUT_REFUND_AND_RELEASE_RECEIPTS_VERIFIED; ANALYTICS_HASH_NOT_CAPTURED; ADJUDICATION_PENDING",
+  "lifecycle_status": "CHECKOUT_DETERMINISTIC_ADJUDICATION_FINALIZED_BLOCKED; ANALYTICS_AND_REFUND_ADJUDICATION_PENDING; SEMANTIC_EVIDENCE_RETRIEVAL_NOT_YET_VERIFIED",
   "signer_diagnostic": {
     "authorized_public_address": "0xaffe15eec45b68835cc9e5b4ab85dd5deae8e70b",
     "unlocked_in_user_codex_terminal": true,
@@ -174,6 +404,47 @@
     "sha256_utf8": "17014b71c97c5b08cda20058e7b68747a2c17930c9e9a1f37e30b02e0cefd6a9",
     "characters": 1111,
     "preflight": "Fetched from GitHub at the pinned commit and SHA-256 checked; validator retrieval and on-chain evidence-profile verification remain pending."
+  },
+  "latest_final_state_after_checkout_adjudication": {
+    "verified_at_utc": "2026-10-20T17:10:28Z",
+    "read_variant": "LATEST_FINAL",
+    "overview": {
+      "agents": 3,
+      "releases": 1,
+      "decisions": 1,
+      "protocol": "deltaproof/2.0"
+    },
+    "decision": {
+      "release_id": "v2api-20261020",
+      "agent_id": "checkout-live-20261020",
+      "revision": 1,
+      "decision": "BLOCKED",
+      "risk": "HIGH",
+      "mode": "DETERMINISTIC_DEPENDENCY_CHECK",
+      "violations": [
+        "new-required-request:currency:POST /payment"
+      ],
+      "impacted_dependencies": [
+        {
+          "method": "POST",
+          "path": "/payment",
+          "critical": true,
+          "guarantees": [
+            "idempotent retries"
+          ]
+        }
+      ]
+    },
+    "authorization": {
+      "release_id": "v2api-20261020",
+      "agent_id": "checkout-live-20261020",
+      "status": "BLOCKED",
+      "allow": false,
+      "revision": 1
+    },
+    "passport": {
+      "commitment": "ff515fb61c0c511b7628dcb3b11946bb51beb7a23956d90308b73d84be5c8cbc",
+      "currently_authorized": false
+    }
   }
 }
-
