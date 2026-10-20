@@ -14,3 +14,4 @@ Relevant unacceptable change: `retries may issue duplicate refunds`.
 
 The fixture intentionally supplies a clearly labeled scenario for validator reasoning. A decision based on this fixture demonstrates GenLayer execution and consensus over the committed scenario only; it does not establish the behavior of an external production service.
 
+
