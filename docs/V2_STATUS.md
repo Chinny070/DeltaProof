@@ -19,10 +19,11 @@ The initial V2 deployment transaction finalized with majority agreement, and its
 
 ## Verification performed
 
-- Offline Python suite: 132 passed, 1 skipped. The skipped test is the intentionally gated live StudioNet integration; no V2 live writes were attempted.
+- Offline Python suite after the identity-bound gate fix: 133 passed. `gltest tests/integration -q --network studionet` selected StudioNet and skipped its single gated test. No V2 application lifecycle write has been attempted.
 - Frontend Node suite: 48 passed, including SDK StudioNet configuration, wallet lifecycle, V1 transaction finality and argument serialization, guided V2 form construction, CI gate failures, and Watchtower target validation/state-change behavior.
 - Vite production build: V1 root entry and V2 `/v2/` entry both built successfully. V1 transformed 460 modules; V2 transformed 459. No bundling warnings were emitted. SDK and CCIP packages are split into shared/dynamic chunks by Vite.
 - `genvm-lint check contracts/deltaproof_v2.py --json`: passed 3 lint checks; schema reports 34 public methods (18 views, 16 writes). `genvm-lint typecheck` passed with UTF-8 terminal output. Advisory I200 says the installed py-genlayer runner is older than the recommended runner. `gltest tests/integration -q --network studionet` selected StudioNet and skipped its gated V1 live test. This is not V2 runtime execution. The installed Python environment reports `genlayer-py 0.16.3` but no `py-genlayer` package. Browser visual QA could not complete because the in-app browser timed out opening the preview.
+- V2 deployment: finalized transaction `0xdc6aff4084463b68b94e5e5c277dee266df4f1935d0c5437961b3ae9b7ca65a6`; source hash matched the pre-correction authorized file; one round, majority agreement, 3 validator executions succeeded and 2 validators idled after quorum. SDK latest-final `get_protocol`, `get_overview`, and `list_agents` reads succeeded. A real read-only `ci-gate.mjs` probe against an unknown pair returned `ERROR` because deployed `NO_DECISION` omitted pair identity. The corrected response is offline-tested; the initial deployment remains immutable and needs a corrective deployment.
 - Installed `genlayer-js` is 1.1.8. Local declarations/documentation confirm `createClient`, `readContract`, `writeContract`, `waitForTransactionReceipt`, `TransactionHashVariant.LATEST_FINAL`, `TransactionStatus.FINALIZED`, and `ExecutionResult.FINISHED_WITH_RETURN`. The V2 gate uses read-only access only.
 
 ## Remaining gates
