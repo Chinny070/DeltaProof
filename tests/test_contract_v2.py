@@ -463,6 +463,19 @@ def test_safety_challenge_is_targeted_and_pending_challenge_fails_closed(v2_fixt
         c.adjudicate('challenge-release', 'challenged')
 
 
+def test_no_decision_authorization_is_identity_bound_and_machine_readable(v2_fixture):
+    _, c, _ = v2_fixture
+    record = c.get_authorization('unregistered-release', 'unregistered-agent')
+    assert record == {
+        'allow': False,
+        'status': 'NO_DECISION',
+        'revision': 0,
+        'reason': 'No adjudication exists.',
+        'release_id': 'unregistered-release',
+        'agent_id': 'unregistered-agent',
+    }
+
+
 def test_safety_challenge_requires_verified_evidence_and_bounded_eligibility(v2_fixture):
     _, c, g = v2_fixture
     _approved_affected_pair(c, g)

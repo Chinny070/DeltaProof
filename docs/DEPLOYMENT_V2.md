@@ -1,36 +1,39 @@
-# DeltaProof V2 StudioNet deployment preparation
+# DeltaProof V2 StudioNet deployment and live verification
 
-Deployment is intentionally not performed by this branch task. The user authorized implementation and expressly withheld a V2 deployment authorization. Do not reuse an unlocked CLI session as permission to spend GEN.
+## Verified deployment
 
-## Fixed target
+- Network: GenLayer StudioNet, chain `61999`, RPC `https://studio.genlayer.com/api`.
+- Contract: `DeltaProofV2` at [`0x8addd2bC124C276130a8CAF4ED1341C7F42432a7`](https://explorer-studio.genlayer.com/address/0x8addd2bc124c276130a8caf4ed1341c7f42432a7).
+- Deployment transaction: [`0xdc6aff4084463b68b94e5e5c277dee266df4f1935d0c5437961b3ae9b7ca65a6`](https://explorer-studio.genlayer.com/tx/0xdc6aff4084463b68b94e5e5c277dee266df4f1935d0c5437961b3ae9b7ca65a6), finalized at `2026-10-20T14:15:24.900101Z`.
+- Deployer: `0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b`.
+- The source embedded in the finalized transaction is 79,661 bytes and hashes to `20ee871691c4fd3ce5b44250d815082b4bf25bf38327a6b1f8b20607bf22b1f7`, matching the authorized local source.
+- Consensus: one round, `MAJORITY_AGREE`; three validators agreed and executed successfully, two were idle after quorum. Execution hash: `0x5fe0b7206223e8360078bc9d1aac1c0a966fb8d20b38ca61ae4f916b2d5bc49d`.
+- Verified SDK latest-final reads: `get_protocol()` returned `deltaproof/2.0`; `get_overview()` returned zero agents, releases, and decisions; `list_agents(0, 10)` returned `[]`.
+- Fee evidence: total GEN protocol fee is not exposed in the transaction response. The transaction reports gas limit `2861`; this is not a measured fee, and no fee total is claimed.
 
-- Network: GenLayer StudioNet
-- Chain ID: `61999`
-- RPC: `https://studio.genlayer.com/api`
-- Explorer: `https://explorer-studio.genlayer.com`
-- Source: `contracts/deltaproof_v2.py`
-- Contract name: `DeltaProofV2`
-- V1 remains at `0x50D7C07A081A56dBd30F3a244C11A8105E4faA6` and must not be overwritten.
+The GenLayer CLI `code` and `schema` commands reported that this address was not found, while the GenLayer JS SDK's latest-final contract reads succeeded. This interface discrepancy remains unresolved. The embedded transaction source and working read calls establish source and basic read behavior, but do not substitute for full ABI or lifecycle verification.
 
-## Preparation checks
+The deployment is not a production-readiness claim. No V2 application registration, evaluation, semantic adjudication, appeal, challenge, freeze, passport, or CI gate transaction has been run yet. No lifecycle result is inferred from the deployment consensus.
 
-1. Review V2 source and checksum `contracts/deltaproof_v2.py`.
-2. Confirm `genlayer account show` identifies the previously authorized public signer and that the wallet is unlocked by the existing local mechanism. Never send keys or recovery phrases to Codex.
-3. Verify StudioNet chain ID and RPC through the configured CLI; do not select another network.
-4. Run `genvm-lint check contracts/deltaproof_v2.py --json`, `genvm-lint typecheck contracts/deltaproof_v2.py`, `python -m pytest -q tests/test_contract.py tests/test_contract_v2.py tests/test_parity.py`, and `cd frontend; npm ci; npm run check`.
-5. Ensure `deployments/studionet-v2.json` still says `NOT_DEPLOYED` until a real successful deployment receipt is captured.
-6. Before any deployment transaction, obtain separate explicit user approval to submit one deployment on StudioNet with the public signer and spend limit/fee expectations addressed by the user.
+### Corrective deployment required
 
-## After separately authorized deployment
+A live read-only call to `get_authorization("unknown-release", "unknown-agent")` returned a fail-closed `NO_DECISION` value without echoing `release_id` or `agent_id`. The real `frontend/integrations/ci-gate.mjs` correctly rejected this as an unbound/malformed response (`Authorization read returned an invalid value`) instead of treating it as a structured denial. This is a genuine interface defect in the deployed immutable source. The contract now returns both requested identifiers for the no-decision case; regression test `test_no_decision_authorization_is_identity_bound_and_machine_readable` passes, and the corrected source SHA-256 is `72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0`. A corrective deployment is required before any lifecycle write, CI gate acceptance, or V2 frontend configuration. The already deployed address remains the original source and must not be represented as containing the fix.
 
-Use the normal GenLayer CLI deployment workflow with the verified local signer. Do not pass a private key as a command argument or environment value. Capture the returned tx hash, wait for `FINALIZED`, check execution is `FINISHED_WITH_RETURN`, verify the deployed source hash and address through official StudioNet RPC/explorer, and read `get_protocol`, `get_overview`, `list_agents`, `list_releases`, and a negative `is_authorized` case at `LATEST_FINAL`.
+## Next live verification steps
 
-Set `VITE_DELTAPROOF_V2_ADDRESS` only to that verified address and build the separate `/v2/` frontend. Configure Vercel only after the V2 ABI has been verified. Do not point the V1 frontend at a V2 address.
+Use only StudioNet and the verified contract address. Use the GenLayer JS SDK's typed `writeContract` arguments rather than CLI `--args` for JSON text parameters; the V1 incident showed that the CLI may decode object-shaped JSON strings into maps. For every write, retain its hash, wait for `FINALIZED`, check execution success separately, and query latest-final state before continuing. If a write outcome is unknown, reconcile that hash before any retry.
 
-Paid live registration, adjudication, appeal, safety-challenge, freeze, and reassessment transactions are separate operations and require separate user authorization. Record only actual finality, execution results, validator outcomes, and observable fees; never infer success from transaction submission alone.
+1. Register Checkout Agent, Analytics Agent, and Refund Agent with separate controllers, dependency sets, and charters. Verify each finalized agent record.
+2. Register bounded baseline/candidate snapshots with correct string argument types. Verify release and source commitments.
+3. Run deterministic compatible and structurally breaking cases, followed by real semantic assessments and validator receipt capture.
+4. Check pair-specific authorization and the fail-closed CI gate. Run a targeted freeze and verify unaffected pairs remain authorized; resolve using the contract rules.
+5. Submit public, digest-verifiable evidence for a safety challenge against an approved pair. Verify screening, hold, response, and resolution. Do not claim timeout behavior without observing the real deadline.
+6. Submit an eligible appeal with retrievable counterevidence and publisher response; verify validator re-adjudication and record the actual outcome.
+7. Verify reassessment requirements, passports, positive and negative commitments, Watchtower reads, and CI gate denial paths.
+8. Configure and publish the separate `/v2/` frontend only against this verified address after ABI checks. Preserve the V1 deployment and root frontend.
 
-## V2 upgrade gates added in this branch
+## Contract changes and gates
 
-Appeals now independently fetch and digest-check counterevidence, publisher responses and original release evidence before validators inspect the actual contents. Approved pairs use a distinct safety challenge route: the affected agent controller submits 1–4 verified sources within seven days; validators screen for credible, new, route-relevant content before opening the pair-specific authorization hold. The publisher gets up to 48 hours to respond. Unavailable evidence or timeout never restores the old approval; a fresh adjudication is required. Challenges are limited to two per agent-release pair. Machine-readable reads use `get_authorization`; the CI gate verifies its identity, status and boolean consistency. A read-only Watchtower observer polls up to 100 latest-final pairs and emits JSONL changes without holding credentials or submitting writes.
+Appeals retrieve and digest-check counterevidence, publisher responses, and original release evidence on leader and validators. A hash-only appeal cannot overturn. Approved pairs use a separate safety-challenge path: only the affected consumer controller can submit within seven days, with 1–4 verified sources; validators must screen evidence as new and relevant before the pair-specific hold opens. The publisher has a two-day response window. Challenges are capped at two per pair. Missing, inconclusive, blocked, or timed-out evidence does not restore a stale approval; fresh adjudication is required. Machine-readable `get_authorization` is fail-closed. The read-only Watchtower polls bounded latest-final pairs and never signs or writes.
 
-Offline tests and lint are not a GenVM execution proof. The installed environment exposes `gltest` configured for StudioNet and GenVM lint/typecheck, but live V2 execution requires a deployed V2 address and would write/pay. This branch intentionally does not deploy or submit that transaction. Current StudioNet storage serialization, `gl.nondet.web.get` evidence retrieval, timestamp behavior and model response types must be confirmed after separate deployment approval.
+Offline tests and static lint/typecheck are not a substitute for actual validator-driven lifecycle verification. See [`V2_STATUS.md`](V2_STATUS.md) and [`deployments/studionet-v2.json`](../deployments/studionet-v2.json) for machine-readable state and known limitations.

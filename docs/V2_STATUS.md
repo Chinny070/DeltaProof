@@ -2,8 +2,10 @@
 
 **Branch:** `codex/deltaproof-v2`  
 **Network target:** GenLayer StudioNet, chain 61999  
-**Deployment status:** not deployed; no V2 transactions submitted  
+**Deployment status:** StudioNet deployed; deployment reads verified; lifecycle writes pending  
 **V1 status:** deployed V1 contract and root frontend remain intact.
+
+The initial V2 deployment transaction finalized with majority agreement, and its embedded source hash matches the authorized source at deployment time. The returned address responds to SDK latest-final `get_protocol`, `get_overview`, and `list_agents` reads. A live read-only CI gate probe exposed a concrete defect in the deployed `NO_DECISION` response (it omitted requested identity fields), so the deployed address must not be treated as the corrected release. The fix is applied locally and requires a corrective deployment before live lifecycle testing. Full evidence is in [`DEPLOYMENT_V2.md`](DEPLOYMENT_V2.md) and [`studionet-v2.json`](../deployments/studionet-v2.json).
 
 ## Implemented in this branch
 
@@ -25,10 +27,9 @@
 
 ## Remaining gates
 
-- Obtain actual GenVM/gltest execution against V2, including TreeMap storage serialization, transaction timestamp behavior, independent `web.get`, actual LLM response types, and successful consensus. The environment has no V2 deployment/local GenVM service, and live writes were expressly out of scope.
-- Deploy V2 to StudioNet only after separate user approval; the existing V1 contract cannot run V2 methods.
-- Conduct live finalized deterministic, semantic-consensus, evidence screening/appeal/challenge, freeze, passport/history, Watchtower and integration cases after deployment and separate approval for each paid test batch.
+- Run live finalized deterministic, semantic-consensus, evidence screening/appeal/challenge, freeze, passport/history, Watchtower and integration cases. The deployment consensus verifies deployment only; it does not establish these application workflows.
+- Deploy the corrected source and verify its transaction finality, embedded source hash, and read behavior. Resolve the CLI code/schema lookup error despite successful GenLayer JS latest-final reads, and verify the complete deployed method schema before frontend configuration.
 - Verify MetaMask/Rabby/browser behavior and visual responsiveness in real browsers, configure V2 contract address, and publish the V2 route to Vercel only after live contract checks.
 - Add transaction hash finality evidence to passports externally; GenVM contract code cannot observe the hash of its own transaction.
 
-**Assessment: PARTIAL — not ready for deployment authorization yet.** The critical offline state-machine fixes, guided UI, CI gate and read-only observer are implemented and tested. Static lint/typecheck does not establish actual GenVM execution. Resolve the GenVM runner/runtime compatibility gap and complete real-browser review before deployment authorization; then run paid StudioNet consensus tests only with separate approval.
+**Assessment: PARTIAL — deployment verified; not production-ready.** The critical offline state-machine fixes, guided UI, CI gate and read-only observer are implemented and tested. The deployment transaction finalized with majority agreement, its embedded code matches the local checksum, and basic latest-final reads succeed. No application lifecycle has been exercised live; static lint/typecheck and deployment consensus do not establish live appeal, challenge, freeze, passport, CI gate, or frontend behavior.

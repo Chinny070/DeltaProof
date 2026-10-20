@@ -407,7 +407,8 @@ class DeltaProofV2(gl.Contract):
         raw = self.decisions.get(key, "")
         allowed = self.is_authorized(release_id, agent_id)
         if not raw:
-            return {"allow": False, "status": "NO_DECISION", "revision": 0, "reason": "No adjudication exists."}
+            return {"allow": False, "status": "NO_DECISION", "revision": 0, "reason": "No adjudication exists.",
+                    "release_id": release_id, "agent_id": agent_id}
         decision = json.loads(raw)
         status, reason = "ALLOW", "Current finalized approval is active."
         release_state = json.loads(self.release_state.get(release_id, "{}"))

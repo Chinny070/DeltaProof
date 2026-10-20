@@ -6,12 +6,44 @@
   "explorer": "https://explorer-studio.genlayer.com",
   "contract_source": "contracts/deltaproof_v2.py",
   "contract_name": "DeltaProofV2",
-  "status": "NOT_DEPLOYED",
-  "contract_address": null,
-  "deployment_tx_hash": null,
+  "status": "DEPLOYED_READS_VERIFIED_CORRECTIVE_DEPLOYMENT_REQUIRED",
+  "contract_address": "0x8addd2bC124C276130a8CAF4ED1341C7F42432a7",
+  "deployment_tx_hash": "0xdc6aff4084463b68b94e5e5c277dee266df4f1935d0c5437961b3ae9b7ca65a6",
   "source_sha256": "20ee871691c4fd3ce5b44250d815082b4bf25bf38327a6b1f8b20607bf22b1f7",
-  "verified_source_sha256": null,
-  "deployment_authorization": "NOT_REQUESTED_FOR_THIS_BRANCH_IMPLEMENTATION",
-  "paid_transactions_submitted": 0,
-  "note": "V2 source and offline checks only. This record will be replaced with observed deployment details only after separate user authorization and successful StudioNet finality."
+  "verified_source_sha256": "20ee871691c4fd3ce5b44250d815082b4bf25bf38327a6b1f8b20607bf22b1f7",
+  "corrective_candidate_sha256": "72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0",
+  "deployment_authorization": "USER_AUTHORIZED_2026-10-20",
+  "deployer": "0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b",
+  "created_at": "2026-10-20T14:15:24.900101Z",
+  "transaction_status": "FINALIZED",
+  "consensus_result": "MAJORITY_AGREE",
+  "validator_consensus": {
+    "rounds": 1,
+    "validators_revealed": 5,
+    "agree": 3,
+    "idle_after_quorum": 2,
+    "execution": "SUCCESS"
+  },
+  "tx_execution_hash": "0x5fe0b7206223e8360078bc9d1aac1c0a966fb8d20b38ca61ae4f916b2d5bc49d",
+  "read_verification": {
+    "network": "studionet",
+    "get_protocol": "deltaproof/2.0",
+    "get_overview": { "agents": 0, "decisions": 0, "releases": 0, "protocol": "deltaproof/2.0" },
+    "list_agents": []
+  },
+  "live_ci_gate_observation": {
+    "scenario": "unknown agent and release pair",
+    "result": "DENY_AS_MALFORMED_RESPONSE",
+    "detail": "get_authorization returned NO_DECISION without agent_id and release_id; ci-gate.mjs rejected the unbound response instead of accepting a structured deny.",
+    "corrective_source_fix": "NO_DECISION responses now include the requested release_id and agent_id.",
+    "corrective_deployment_required": true
+  },
+  "fee_observation": {
+    "protocol_fee_gen": null,
+    "status": "NOT_EXPOSED_IN_VERIFIED_RECEIPT",
+    "transaction_value": null,
+    "note": "No total fee is claimed. The retrieved transaction includes gaslimit 2861 but does not expose a settled GEN protocol fee."
+  },
+  "paid_transactions_submitted": 1,
+  "note": "The first deployment is finalized, consensus-majority agreed, and its embedded source hash matches the pre-correction local source. SDK latest-final reads respond correctly. A live read-only CI gate check exposed a NO_DECISION response identity defect; the local fix is unit-tested and requires a corrective deployment before lifecycle testing or frontend configuration. CLI getContractCode/getContractSchema reported contract not found even though SDK contract reads succeed; this discrepancy remains under investigation. No application lifecycle writes have been submitted."
 }
