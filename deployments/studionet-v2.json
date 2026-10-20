@@ -1,0 +1,17 @@
+{
+  "project": "DeltaProof V2",
+  "network": "studionet",
+  "chain_id": 61999,
+  "rpc_url": "https://studio.genlayer.com/api",
+  "explorer": "https://explorer-studio.genlayer.com",
+  "contract_source": "contracts/deltaproof_v2.py",
+  "contract_name": "DeltaProofV2",
+  "status": "NOT_DEPLOYED",
+  "contract_address": null,
+  "deployment_tx_hash": null,
+  "source_sha256": "0b7db71bfb7fb123def692908ae447df059ef1da165112ce10d8fa59b12b2791",
+  "verified_source_sha256": null,
+  "deployment_authorization": "NOT_REQUESTED_FOR_THIS_BRANCH_IMPLEMENTATION",
+  "paid_transactions_submitted": 0,
+  "note": "V2 source and offline checks only. This record will be replaced with observed deployment details only after separate user authorization and successful StudioNet finality."
+}

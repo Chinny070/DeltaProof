@@ -34,7 +34,8 @@ class FakeGl:
         self.vm = types.SimpleNamespace(UserError=UserError, Return=Return, run_nondet_unsafe=self.consensus)
         self.message = types.SimpleNamespace(sender_address=FakeAddress())
         self.answers = []
-        self.nondet = types.SimpleNamespace(exec_prompt=self.prompt)
+        self.web_bodies = {}
+        self.nondet = types.SimpleNamespace(exec_prompt=self.prompt, web=types.SimpleNamespace(get=self.web_get))
         self.calls = 0
         self.prompts = []
 
@@ -47,6 +48,11 @@ class FakeGl:
         if isinstance(value, Exception):
             raise value
         return value
+
+    def web_get(self, url):
+        if url not in self.web_bodies:
+            raise UserError('Offline test has no response for this evidence source')
+        return types.SimpleNamespace(body=self.web_bodies[url])
 
     def consensus(self, leader, validator):
         result = leader()
@@ -70,5 +76,26 @@ def fixture():
     instance = module.DeltaProof()
     instance.releases = FakeTreeMap()
     instance.release_ids = FakeTreeMap()
+    yield module, instance, g
+    sys.modules.pop('genlayer', None)
+
+
+@pytest.fixture
+def v2_fixture():
+    g = FakeGl()
+    stub = types.ModuleType('genlayer')
+    stub.gl = g
+    stub.TreeMap = FakeTreeMap
+    stub.u32 = int
+    sys.modules['genlayer'] = stub
+    path = pathlib.Path(__file__).parents[1] / 'contracts' / 'deltaproof_v2.py'
+    spec = importlib.util.spec_from_file_location('deltaproof_v2_test', path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    instance = module.DeltaProofV2()
+    for field in ('agents', 'charters', 'releases', 'release_state', 'release_state_history', 'decisions', 'decision_history', 'passports',
+                  'appeals', 'appeal_history', 'freezes', 'freeze_history', 'freeze_counts', 'reassessments',
+                  'appeal_cycles', 'agent_ids', 'release_ids', 'agent_history'):
+        setattr(instance, field, FakeTreeMap())
     yield module, instance, g
     sys.modules.pop('genlayer', None)

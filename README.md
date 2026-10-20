@@ -74,6 +74,14 @@ Rules: removed endpoints, new required request fields and removed required respo
 
 **Important**: the presence of a `BREAKING` structural violation deliberately short-circuits semantic analysis, since the final disposition is already fixed. Its certificate records `DETERMINISTIC`, not `GENLAYER_CONSENSUS`.
 
+## V2 development branch — Agent Upgrade Court
+
+The dedicated [`codex/deltaproof-v2`](https://github.com/Chinny070/DeltaProof/tree/codex/deltaproof-v2) branch adds a separate V2 contract at `contracts/deltaproof_v2.py`, a V2 console build at `/v2/`, and a read-only CI authorization gate. The existing V1 address and root frontend remain the production system. V2 is not deployed and must not be configured with the V1 address.
+
+V2 records per-agent dependencies and immutable charter versions, performs direct consumer-specific impact checks, retrieves and digest-checks public evidence during independent GenLayer semantic evaluation, and exposes a fail-closed `is_authorized(release_id, agent_id)` view. The gate script is `frontend/integrations/ci-gate.mjs`; usage requires a separately verified V2 contract address. V2 code and test results are documented in [`docs/V2_STATUS.md`](docs/V2_STATUS.md), [`docs/ARCHITECTURE_V2.md`](docs/ARCHITECTURE_V2.md), [`docs/SECURITY_V2.md`](docs/SECURITY_V2.md), and [`docs/DEPLOYMENT_V2.md`](docs/DEPLOYMENT_V2.md).
+
+V2 has only offline tests and static GenVM lint evidence in this branch. It has not been run in GenVM or deployed, and its live consensus, browser, and CI gate behavior remain unverified. No V2 transaction was submitted.
+
 ## Methods
 
 | Method | Kind | Description |
