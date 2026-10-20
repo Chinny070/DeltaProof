@@ -51,10 +51,27 @@ Latest-final decision revision 1 is `BLOCKED`, HIGH risk, mode `GENLAYER_INDEPEN
 
 A read-only call through `frontend/integrations/ci-gate.mjs` checked each exact release-agent pair at `LATEST_FINAL` on StudioNet chain 61999. Checkout returned identity-bound `BLOCKED` / `allow: false`; Analytics returned `ALLOW` / `allow: true`; Refund returned `BLOCKED` / `allow: false`. All three responses reported revision 1. These results match the latest-final decision and passport reads above; no transaction was submitted.
 
-## Live CI authorization matrix
+## Remaining live lifecycle work and current execution boundary
 
-A read-only call through `frontend/integrations/ci-gate.mjs` checked each exact release-agent pair at `LATEST_FINAL` on StudioNet chain 61999. Checkout returned identity-bound `BLOCKED` / `allow: false`; Analytics returned `ALLOW` / `allow: true`; Refund returned `BLOCKED` / `allow: false`. All three responses reported revision 1. These results match the latest-final decision and passport reads; no transaction was submitted.
+No new lifecycle transaction was submitted during this checkpoint. The authorized wallet was shown unlocked in the user's PowerShell screenshot, but the separate workspace execution process could not read a key from the GenLayer CLI Windows keychain service (service genlayer-cli, account my-studionet-wallet). The staged freeze runner's read-only preflight passed for StudioNet chain 61999, contract 0x367C2B9f8B52EEd57977B84c458eaD4c3105E718, and the Analytics pair; each preflight reported transactionSent false. No private key was requested or displayed.
 
-## Remaining live lifecycle work
+The next live action is to run the staged lifecycle runner from a terminal that can access the unlocked CLI account, one step at a time:
 
-Checkout's deterministic block, Analytics' unaffected approval, and Refund's semantic BLOCKED result with a verified evidence profile are now confirmed. Pair-specific freeze, safety challenge, appeal, reassessment, passport history, Watchtower lifecycle, and independent end-to-end CI gate demonstrations remain unverified. Further paid lifecycle writes must use the user's unlocked terminal wallet and be checked by transaction hash and latest-final reads.
+```powershell
+cd C:\Users\USERpc\Desktop\DeltaProof-upload\DeltaProof\frontend
+node .\integrations\live-freeze-cycle.mjs --step freeze
+# Verify FINALIZED and Analytics FROZEN before continuing:
+node .\integrations\live-freeze-cycle.mjs --step resolve-freeze
+# Verify latest-final REASSESSMENT_REQUIRED before continuing:
+node .\integrations\live-freeze-cycle.mjs --step reassess
+```
+
+The script checks signer and network, waits for finality and majority execution, verifies targeted authorization state and unchanged Checkout/Refund pairs, and checks reassessment revision/passport history. Stop if a step errors; do not retry a write automatically.
+
+The safety challenge is currently ineligible: Analytics is approved but has no impacted dependency, while Checkout and Refund are blocked. Do not challenge Analytics or fabricate an eligible approval. The Refund appeal runner is prepared, but its transactions were not sent. Any response window dependent on a real deadline must not be simulated.
+
+Watchtower observations and the CI gate matrix are latest-final snapshots, not a demonstrated live transition or successful deployment rejection. Real-browser wallet signing was not completed in this checkpoint.
+
+## Current assessment
+
+PARTIAL. The prior deployment, three consumer records, release, Checkout deterministic block, Analytics unaffected approval, Refund independent semantic BLOCKED result, evidence digest, correct/incorrect passport checks, and read-only CI matrix remain verified as documented. Targeted freeze, appeal, safety challenge, fresh reassessment, state-transition observation, and real-wallet browser acceptance remain unverified.

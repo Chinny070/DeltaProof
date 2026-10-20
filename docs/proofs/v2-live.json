@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-20T18:18:00Z",
+  "recorded_at_utc": "2026-10-20T19:55:37Z",
   "network": {
     "name": "GenLayer StudioNet",
     "chain_id": 61999,
@@ -677,6 +677,36 @@
         "status": "BLOCKED",
         "revision": 1
       }
+    ]
+  },
+  "execution_checkpoint": {
+    "recorded_at_utc": "2026-10-20T19:55:37Z",
+    "transactions_submitted": 0,
+    "reason": "Workspace runner could not read the user's unlocked GenLayer CLI keychain account; no write attempted.",
+    "readonly_preflight": {
+      "script": "frontend/integrations/live-freeze-cycle.mjs",
+      "steps": [
+        "freeze",
+        "resolve-freeze",
+        "reassess"
+      ],
+      "result": "PASS",
+      "network": "StudioNet",
+      "chain_id": 61999,
+      "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "target_pair": [
+        "v2api-20261020",
+        "analytics-live-20261020"
+      ],
+      "transaction_sent": false
+    },
+    "pending": [
+      "targeted freeze and resolve",
+      "fresh reassessment",
+      "evidence-backed appeal",
+      "eligible safety challenge",
+      "Watchtower transition capture",
+      "real-browser wallet acceptance"
     ]
   }
 }
