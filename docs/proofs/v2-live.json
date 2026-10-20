@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-20T22:24:09Z",
+  "recorded_at_utc": "2026-10-20T22:33:12Z",
   "network": {
     "name": "GenLayer StudioNet",
     "chain_id": 61999,
@@ -444,6 +444,31 @@
       "nonce": 3006,
       "settled_fee_gen": null,
       "fee_note": "Explorer shows transaction value 0 GEN and no gas limit; settled protocol fee is not exposed."
+    },
+    {
+      "scenario": "Submit publisher response to Refund appeal",
+      "hash": "0x2db0b0cbf867ba5ed5e11dd47e8cb9a47b331ccda20ef4348b3b0c1c9b198847",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0x2db0b0cbf867ba5ed5e11dd47e8cb9a47b331ccda20ef4348b3b0c1c9b198847",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "method": "respond_to_appeal",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "consensus": "ACCEPTED",
+      "initial_validators": 5,
+      "created_at_display": "Oct 20, 2026, 11:26:57 PM (as shown in user-provided explorer details)",
+      "nonce": 3007,
+      "return_value": null,
+      "arguments": [
+        "v2api-20261020",
+        "refund-live-20261020",
+        "[publisher response commitment 08447a5517b38801586b18b71e502a79b2108963c2396fc4f8d6a7a74912ef00]"
+      ],
+      "value_gen": "0",
+      "gas_limit": null,
+      "settled_fee_gen": null,
+      "fee_note": "Explorer shows 0 GEN transaction value and no gas limit; total/settled protocol fee is not established.",
+      "source": "User-provided StudioNet Explorer transaction details; latest-final state independently queried via GenLayerJS."
     }
   ],
   "latest_final_state_after_registration": {
@@ -605,7 +630,7 @@
     "evidence_hash": "7ca7f285d0c1bd846472eebcae4dc2f2bda799b182be791093d2688860b38bb7",
     "evidence_profile_status": "NOT_YET_RETRIEVED_BY_ADJUDICATION"
   },
-  "lifecycle_status": "CHECKOUT_BLOCKED_AND_ANALYTICS_APPROVED_DETERMINISTIC_ADJUDICATIONS_FINALIZED; REFUND_BLOCKED_SEMANTIC_GENLAYER_CONSENSUS_FINALIZED; EVIDENCE_DIGEST_VERIFIED; APPEALS_CHALLENGES_FREEZE_AND_HISTORY_WORKFLOWS_PENDING",
+  "lifecycle_status": "CHECKOUT_BLOCKED_AND_ANALYTICS_APPROVED; REFUND_BLOCKED_SEMANTIC_CONSENSUS; TARGETED_FREEZE_RESOLVED_AND_REASSESSED; REFUND_APPEAL_OPEN_WITH_FINALIZED_PUBLISHER_RESPONSE; APPEAL_RESOLUTION_PENDING",
   "signer_diagnostic": {
     "authorized_public_address": "0xaffe15eec45b68835cc9e5b4ab85dd5deae8e70b",
     "unlocked_in_user_codex_terminal": true,
@@ -936,7 +961,7 @@
     ]
   },
   "latest_final_state_after_refund_appeal_open": {
-    "verified_at_utc": "2026-10-20T22:24:09Z",
+    "verified_at_utc": "2026-10-20T22:33:12Z",
     "read_variant": "LATEST_FINAL",
     "decision": {
       "agent_id": "refund-live-20261020",
@@ -952,7 +977,7 @@
     "appeal": {
       "status": "OPEN",
       "outcome": "",
-      "response_submitted": false,
+      "response_submitted": true,
       "response_deadline": 1792707695,
       "counterevidence": [
         {
@@ -960,7 +985,39 @@
           "sha256": "d962e37957fc5ac424b2e8fb2cf2f0fa3a33aaf6a9a5b91fd9d0b8e17421bbc0",
           "provenance": "MDN POST semantics excerpt; scope-limited"
         }
-      ]
+      ],
+      "response": [
+        {
+          "kind": "publisher-scope-response",
+          "sha256": "08447a5517b38801586b18b71e502a79b2108963c2396fc4f8d6a7a74912ef00",
+          "provenance": "Publisher scope clarification for synthetic fixture"
+        }
+      ],
+      "response_hash": "eb92b20ac55750bfc2ef259cb88bd24f3d6cc87a4bda43381f9c1a4ecbde95df",
+      "counterevidence_hash": "539752911ca0b525f600987b51bd4fb0b8120f2a1b81fba13b9417178f3279dc"
+    }
+  },
+  "latest_final_state_after_refund_appeal_response": {
+    "verified_at_utc": "2026-10-20T22:33:12Z",
+    "read_variant": "LATEST_FINAL",
+    "decision": {
+      "agent_id": "refund-live-20261020",
+      "revision": 1,
+      "decision": "BLOCKED"
+    },
+    "authorization": {
+      "status": "BLOCKED",
+      "allow": false,
+      "revision": 1,
+      "passport_hash": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b"
+    },
+    "appeal": {
+      "status": "OPEN",
+      "outcome": "",
+      "response_submitted": true,
+      "counterevidence_hash": "539752911ca0b525f600987b51bd4fb0b8120f2a1b81fba13b9417178f3279dc",
+      "response_hash": "eb92b20ac55750bfc2ef259cb88bd24f3d6cc87a4bda43381f9c1a4ecbde95df",
+      "response_deadline": 1792707695
     }
   }
 }
