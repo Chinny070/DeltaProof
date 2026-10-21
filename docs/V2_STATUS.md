@@ -6,7 +6,7 @@
 **Public V2 UI:** [deltaproof-v2.vercel.app/v2](https://deltaproof-v2.vercel.app/v2/)  
 **Assessment:** **PARTIAL — not production ready.**
 
-V1 remains separate and unchanged. V2 has finalized StudioNet deployment and live test records. Controlled synthetic fixtures are not production-service evidence. Full transaction details and latest-final snapshots are in [`proofs/v2-live.md`](proofs/v2-live.md) and [`proofs/v2-live.json`](proofs/v2-live.json).
+V1 remains separate and unchanged. V2 has finalized StudioNet deployment and live test records. Successful StudioNet transaction receipts demonstrate genuine GenVM execution for the recorded contract workflows; the automated `gltest` integration selection is a separate check and remains skipped. Controlled synthetic fixtures are not production-service evidence. Full transaction details and latest-final snapshots are in [`proofs/v2-live.md`](proofs/v2-live.md) and [`proofs/v2-live.json`](proofs/v2-live.json).
 
 ## Verified live workflows
 
