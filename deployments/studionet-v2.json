@@ -6,7 +6,7 @@
   "explorer": "https://explorer-studio.genlayer.com",
   "contract_source": "contracts/deltaproof_v2.py",
   "contract_name": "DeltaProofV2",
-  "status": "ACTIVE_STUDIONET_DEPLOYMENT; CHECKOUT_BLOCKED; ANALYTICS_REVISION_2_ALLOW_AFTER_FREEZE_RESOLUTION; REFUND_BLOCKED_AFTER_UPHELD_APPEAL; SAFETY_CHALLENGE_NOT_STARTED",
+  "status": "ACTIVE_STUDIONET_DEPLOYMENT; CHECKOUT_BLOCKED; ANALYTICS_REVISION_2_ALLOW_AFTER_FREEZE_RESOLUTION; REFUND_BLOCKED_AFTER_UPHELD_APPEAL; EVENTTRACE_REVISION_2_REVIEW_REQUIRED_AFTER_SAFETY_CHALLENGE",
   "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
   "deployment_tx_hash": "0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e",
   "source_sha256": "72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0",
@@ -573,7 +573,13 @@
     "meaning": "Repeated node-reported value; protocol interpretation not established."
   },
   "safety_challenge_verification": {
-    "status": "NOT_STARTED",
+    "status": "COMPLETED; historical initial preflight below is superseded by finalized live lifecycle records",
+    "resolution_transaction": "0x3ec964e9d026318c1d9c725f83ed6d5d87a0ca5d3ea38429be1b856f8c13937e",
+    "followup_adjudication_transaction": "0x1568c7b546c075ee01b3e8d777781489173989e273a59adcb91f300e825f9198",
+    "latest_final_decision": "REVIEW_REQUIRED",
+    "latest_final_allow": false,
+    "latest_final_revision": 2,
+    "source_of_current_status": "docs/proofs/v2-live.json latest_final_state_after_safety_challenge and docs/proofs/v2-live.md final lifecycle",
     "pair": {
       "agent_id": "eventtrace-live-20261021",
       "release_id": "eventtrace-v2-20261021"
@@ -594,23 +600,33 @@
       "allow": false,
       "exit_code": 1
     },
-    "note": "No safety-pair transactions were submitted. Further steps require the user's unlocked PowerShell terminal."
+    "note": "The initial safety preflight recorded no transactions; subsequent authorized lifecycle transactions finalized and are documented in the live proof. The earlier initial status is not current."
   },
   "public_frontend_qa": {
     "url": "https://deltaproof-v2.vercel.app/v2/",
     "latest_final_counts": {
-      "agents": 3,
-      "releases": 1,
-      "decisions": 3
+      "agents": 4,
+      "releases": 2,
+      "decisions": 4
     },
+    "counts_freshly_rechecked_at": "2026-10-21T12:49Z",
     "responsive_css_widths": [
       375,
       768,
       1440
     ],
     "horizontal_overflow": false,
-    "wallet_injection": "NOT_AVAILABLE_IN_TESTED_PROFILE",
-    "diagnostic": "MetaMask logs a getter-only window.ethereum collision attributed to another wallet extension; page context observes no provider.",
-    "published_copy_issue": "Stale sidebar text says V2 is not live although live contract data is displayed. Local source is corrected; no Vercel credential is available to publish the change."
+    "responsive_status": "Historical widths in this object are not a fresh exact 8-section-by-3-width acceptance; current full matrix remains pending.",
+    "wallet_injection": "RABBY_PROVIDER_VERIFIED_ON_PUBLIC_V2_SITE",
+    "wallet_status": "CONNECT_COPY_DISCONNECT_RECONNECT_REFRESH_NETWORK_SWITCH_ACCOUNT_CHANGE_AND_PERSONAL_SIGN_RECOVERY_VERIFIED; CONTRACT_WRITE_UNVERIFIED",
+    "diagnostic": "Later actual Chrome/Rabby session supersedes the earlier MetaMask getter-only-provider conflict report.",
+    "published_copy_issue": "Earlier stale sidebar note superseded by actual V2 page inspection; project SSO protection means anonymous reviewer access still requires confirmation."
+  },
+  "superseding_final_audit": {
+    "record": "docs/proofs/v2-final-audit-2026-10-21.json",
+    "read_only_rpc_audit_completed": true,
+    "current_source_matches_deployed_source": false,
+    "current_branch_source_sha256": "98c783f80a04caccab8077f55c6de8ee1ff792afb0c47594c26e4dcb92ec13ab",
+    "no_deployment_or_write_submitted": true
   }
 }

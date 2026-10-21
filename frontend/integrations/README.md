@@ -1,5 +1,20 @@
 # DeltaProof V2 CI gate
 
+## Deployment target and latest-final runtime smoke
+
+V2 is pinned to the corrected StudioNet deployment at `0x367C2B9f8B52EEd57977B84c458eaD4c3105E718`, chain `61999`, RPC `https://studio.genlayer.com/api`, protocol `deltaproof/2.0`. The browser build reads `VITE_DELTAPROOF_V2_ADDRESS`; do not use the V1 `VITE_CONTRACT_ADDRESS` value as the V2 address. A sample environment file is [`../.env.example`](../.env.example).
+
+From PowerShell, set the exact address and an existing pair, then run the read-only smoke check:
+
+```powershell
+$env:VITE_DELTAPROOF_V2_ADDRESS = '0x367C2B9f8B52EEd57977B84c458eaD4c3105E718'
+$env:DELTAPROOF_V2_AGENT_ID = 'eventtrace-live-20261021'
+$env:DELTAPROOF_V2_RELEASE_ID = 'eventtrace-v2-20261021'
+npm run test:v2:runtime
+```
+
+The smoke check makes three latest-final reads (`get_protocol`, `get_overview`, and the exact pair's `get_authorization`). It sends no transaction. An RPC failure is reported as `READ_ERROR`, never as a contract denial. Offline behavior is covered by `v2-runtime-smoke.test.mjs`; the command above is a separate live runtime check and requires network access.
+
 `ci-gate.mjs` queries V2's structured `get_authorization(release_id, agent_id)` view using GenLayerJS on StudioNet and `LATEST_FINAL`. It permits adoption only when the returned record is structurally valid and `allow` is the literal boolean `true`; a pending challenge, freeze, appeal, stale configuration, denial, malformed value, missing configuration, or RPC failure exits nonzero. The gate never signs or submits a transaction.
 
 ```powershell

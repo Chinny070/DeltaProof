@@ -8,6 +8,8 @@
     "build": "vite build && vite build --base=/v2/ --outDir=../dist/v2 --emptyOutDir=false v2",
     "preview": "vite preview --host 0.0.0.0",
     "test": "node --test tests/*.test.mjs integrations/*.test.mjs",
+    "test:v2:runtime": "node integrations/v2-runtime-smoke.mjs",
+    "audit:v2:live": "node integrations/v2-deployment-audit.mjs",
     "check": "npm run test && npm run build"
   },
   "dependencies": {

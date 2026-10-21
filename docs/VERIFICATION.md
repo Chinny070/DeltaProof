@@ -1,5 +1,7 @@
 # Verification status
 
+> This page is the dated V1 verification record and is not the current V2 acceptance report. For V2, use [`V2_STATUS.md`](V2_STATUS.md), [`DEPLOYMENT_V2.md`](DEPLOYMENT_V2.md), and the read-only latest-final audit [`proofs/v2-final-audit-2026-10-21.json`](proofs/v2-final-audit-2026-10-21.json). Older V2 text in this file's history is not a substitute for those records.
+
 Last verified: 2026-10-20.
 
 | Gate | Result | Evidence / next proof |

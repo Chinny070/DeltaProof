@@ -159,3 +159,12 @@ Wallet acceptance remains incomplete. The in-app browser exposed no `window.ethe
 
 
 The last browser screenshots after the sweep show the RPC checking state and empty-value placeholders. A fresh post-recovery read was not available in this pass; the 4/2/4 result is the earlier successful dashboard observation, not a claim that the throttled read succeeded.
+
+
+## Final verification addendum — 2026-10-21
+
+This addendum supersedes earlier status lines above that say the safety challenge was not started or Rabby wallet verification was unavailable. The event-tracing safety challenge, publisher response, independent resolution, and revision-2 adjudication did finalize; the current recorded outcome is `REVIEW_REQUIRED` / deny. Rabby connection/session/network flows and an off-chain signer-recovery `personal_sign` were later verified; a wallet-signed contract write was not.
+
+A new read-only StudioNet audit retrieved the deployed contract source, four representative transaction receipts, `get_overview`, and the four pair-specific latest-final authorizations. The contract byte hash matched the recorded deployment source hash and historical source commit `aee912c0635d6ca3b5782e97da2db733f9a20d6a`. The current branch source has hash `98c783f80a04caccab8077f55c6de8ee1ff792afb0c47594c26e4dcb92ec13ab` (UTF-8 source normalized to LF); it differs from deployed bytes because the source has since changed. The detailed audit result is [`v2-final-audit-2026-10-21.json`](v2-final-audit-2026-10-21.json). It confirms 4 agents, 2 releases, 4 decisions; Checkout `BLOCKED`, Analytics `ALLOW` revision 2, Refund `BLOCKED`, and event tracing `REVIEW_REQUIRED` revision 2. All four sampled receipts were `FINALIZED`, `MAJORITY_AGREE`, and showed successful leader executions.
+
+No deployment or write transaction was submitted for this audit. The repository's required-evidence AND fix is source-only until a separately authorized contract deployment; historical live outcomes do not prove that the deployed older source has this correction. The public V2 page loaded and displayed the 4/2/4 snapshot during this review, but exact 375/768/1440 responsive verification across all eight sections remains pending.

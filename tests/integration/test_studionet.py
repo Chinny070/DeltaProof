@@ -6,7 +6,6 @@ Run after configuring StudioNet account and gltest:
 import json
 import os
 import pytest
-from gltest.types import TransactionStatus
 
 pytestmark = pytest.mark.skipif(os.getenv('DELTAPROOF_LIVE_TESTS') != '1', reason='requires real StudioNet')
 
@@ -14,6 +13,7 @@ pytestmark = pytest.mark.skipif(os.getenv('DELTAPROOF_LIVE_TESTS') != '1', reaso
 def test_deploy_deterministic_certificate():
     from gltest import get_contract_factory
     from gltest.assertions import tx_execution_succeeded
+    from gltest.types import TransactionStatus
 
     factory = get_contract_factory('DeltaProof')
     contract = factory.deploy(args=[])

@@ -31,11 +31,19 @@ That receipt exposed a frontend defect: V2 requested the SDK's full raw transact
 
 ## Test and build record
 
-- `npm test`: **59 passed, 0 failed**.
+- `npm test`: **63 passed, 0 failed** after adding latest-final runtime-smoke and deployment-audit regressions.
 - `npm run build`: **passed** for the root and `/v2/` production outputs; 460 and 459 modules transformed, respectively.
 - A read-only SDK receipt fetch for the existing transaction passed the corrected finality guard: `FINALIZED`, `MAJORITY_AGREE`, two successful leader execution records.
 - No contract redeployment, new write, or paid lifecycle transaction was performed for this acceptance pass.
 - StudioNet's observed RPC limit is 500 requests per hour. The current read-limit behavior was documented, and this pass did not treat a throttled RPC read as an authorization transition.
+
+## Follow-up verification — 2026-10-21
+
+The public Chrome tab at `/v2/` displayed four agents, two releases, and four decisions. A separate read-only audit retrieved the deployed source bytes, fetched four representative transaction receipts, and queried `get_overview` plus four pair-specific `get_authorization` values at `LATEST_FINAL`. The four current values were Checkout `BLOCKED`, Analytics revision 2 `ALLOW`, Refund `BLOCKED`, and event tracing revision 2 `REVIEW_REQUIRED`. See [`proofs/v2-final-audit-2026-10-21.json`](proofs/v2-final-audit-2026-10-21.json). This is a fresh chain read; it does not upgrade a historical approval into a permanent authorization.
+
+The retrieved deployed source hash matches the deployment record (`72f114...5285c0`) and historical source commit `aee912c0635d6ca3b5782e97da2db733f9a20d6a`. Current source is `98c783f80a04caccab8077f55c6de8ee1ff792afb0c47594c26e4dcb92ec13ab` (UTF-8 source normalized to LF) and differs. Required-evidence enforcement changes are therefore local source only and need separate deployment authorization before live use.
+
+The current browser session verified the V2 page and its displayed live snapshot. Exact all-eight-section responsive checks at 375, 768, and 1440 pixels were not reproduced in this session. Wallet message signature recovery and existing finalized-transaction reads passed in the prior Rabby session; a new signed contract write, rejected write, pending-transaction account/network changes, and UI finality edge-paths remain unverified.
 
 ## Acceptance conclusion
 

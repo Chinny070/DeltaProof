@@ -1,0 +1,93 @@
+{
+  "audit_date_utc": "2026-10-21",
+  "network": "GenLayer StudioNet",
+  "chain_id": 61999,
+  "rpc_url": "https://studio.genlayer.com/api",
+  "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+  "source_reconciliation": {
+    "deployed_source_sha256": "72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0",
+    "deployment_record_sha256_matches_retrieved_source": true,
+    "historical_matching_source_commit": "aee912c0635d6ca3b5782e97da2db733f9a20d6a",
+    "current_branch_source_sha256": "98c783f80a04caccab8077f55c6de8ee1ff792afb0c47594c26e4dcb92ec13ab",
+    "local_hash_normalization": "UTF-8 source normalized to LF so working-tree line endings do not affect the source digest.",
+    "current_branch_matches_deployed_source": false,
+    "explanation": "Current source adds deterministic AND enforcement for required evidence kinds and clarified advisory consensus prose. Deployed bytes remain unchanged; deployment of the corrected contract was not performed."
+  },
+  "representative_receipts": [
+    {
+      "label": "deployment",
+      "transaction_hash": "0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e",
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution_hash": "0xac684ea0210461ecc6797cbc3a71f0d6ed82080026abda52555f545cd64c3211",
+      "leader_executions": ["SUCCESS", "SUCCESS"]
+    },
+    {
+      "label": "semantic-refund-adjudication",
+      "transaction_hash": "0xa94d0375e5b09e4949af6a7aefaa236cafef17928bb9bbd0c417c8b11a61e81c",
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution_hash": "0x35b5a08f8c509e6670af8894067f509fb9992da500d1b9d2fd976befdd281447",
+      "leader_executions": ["SUCCESS", "SUCCESS"]
+    },
+    {
+      "label": "safety-challenge-resolution",
+      "transaction_hash": "0x3ec964e9d026318c1d9c725f83ed6d5d87a0ca5d3ea38429be1b856f8c13937e",
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution_hash": "0x22cb09dc39f8f25ee3a5a8481ba4cf83707de7d0d121da2c77106ce1e35df7bc",
+      "leader_executions": ["SUCCESS", "SUCCESS"]
+    },
+    {
+      "label": "eventtrace-final-adjudication",
+      "transaction_hash": "0x1568c7b546c075ee01b3e8d777781489173989e273a59adcb91f300e825f9198",
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution_hash": "0x7f7476de0e18462bbe39b617ab643f57927f5bb17eeb91859fdd6990477f1c2a",
+      "leader_executions": ["SUCCESS", "SUCCESS"]
+    }
+  ],
+  "latest_final_state": {
+    "overview": {
+      "protocol": "deltaproof/2.0",
+      "agents": 4,
+      "releases": 2,
+      "decisions": 4
+    },
+    "authorizations": [
+      {
+        "agent_id": "checkout-live-20261020",
+        "release_id": "v2api-20261020",
+        "revision": 1,
+        "status": "BLOCKED",
+        "allow": false,
+        "passport_hash": "ff515fb61c0c511b7628dcb3b11946bb51beb7a23956d90308b73d84be5c8cbc"
+      },
+      {
+        "agent_id": "analytics-live-20261020",
+        "release_id": "v2api-20261020",
+        "revision": 2,
+        "status": "ALLOW",
+        "allow": true,
+        "passport_hash": "9c1faa0103660734288b4fe7c205bb0a50c4e72c21511b64249a7b88f3959ab0"
+      },
+      {
+        "agent_id": "refund-live-20261020",
+        "release_id": "v2api-20261020",
+        "revision": 1,
+        "status": "BLOCKED",
+        "allow": false,
+        "passport_hash": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b"
+      },
+      {
+        "agent_id": "eventtrace-live-20261021",
+        "release_id": "eventtrace-v2-20261021",
+        "revision": 2,
+        "status": "REVIEW_REQUIRED",
+        "allow": false,
+        "passport_hash": "5609a8732ec63b7a16890a365458bfff05881fa085686f9b59f90f1f518fead9"
+      }
+    ]
+  },
+  "transaction_scope": "Read-only audit; no deployment, contract write, or GEN expenditure."
+}

@@ -1,44 +1,48 @@
-# DeltaProof V2 StudioNet deployment and live verification
+# DeltaProof V2 StudioNet deployment and verification
 
-## Active deployment
+## Verified deployment record
 
 - Network: GenLayer StudioNet, chain `61999`, RPC `https://studio.genlayer.com/api`.
-- Corrected active contract: `DeltaProofV2` at [`0x367C2B9f8B52EEd57977B84c458eaD4c3105E718`](https://explorer-studio.genlayer.com/address/0x367c2b9f8b52eed57977b84c458ead4c3105e718).
-- Corrective deployment: [`0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e`](https://explorer-studio.genlayer.com/tx/0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e), finalized at `2026-10-20T14:37:50.508161Z`.
-- Deployer: `0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b`.
-- Embedded deployed source: 79,729 bytes; SHA-256 `72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0`, matching the corrected local source.
-- Consensus: one round, `MAJORITY_AGREE`; three validators agreed and executed successfully, two idled after quorum. Execution hash: `0xac684ea0210461ecc6797cbc3a71f0d6ed82080026abda52555f545cd64c3211`.
-- At initial deployment verification, SDK latest-final reads showed zero agents, releases, and decisions; `getContractSchema` returned all 34 declared methods. Current latest-final reads show three active agents, one active release, and three finalized decisions.
-- Live CI gate probe for an unknown pair returned a correctly identity-bound `NO_DECISION` response: `allow: false`, pair IDs matched, `state: LATEST_FINAL`.
-- Fee evidence: total GEN protocol fee is not exposed by the verified transaction response. It reports gas limit `2873`; this is not a measured fee and no total fee is claimed.
+- Contract: `DeltaProofV2` at [`0x367C2B9f8B52EEd57977B84c458eaD4c3105E718`](https://explorer-studio.genlayer.com/address/0x367C2B9f8B52EEd57977B84c458eaD4c3105E718).
+- Deployment transaction: [`0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e`](https://explorer-studio.genlayer.com/tx/0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e), recorded `FINALIZED`, `MAJORITY_AGREE`, successful execution.
+- Deployed source SHA-256: `72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0`. A search of local history found the exact source bytes at commit [`aee912c0635d6ca3b5782e97da2db733f9a20d6a`](https://github.com/Chinny070/DeltaProof/commit/aee912c0635d6ca3b5782e97da2db733f9a20d6a). This establishes historical source correspondence; it does not mean the current branch source is deployed.
+- Current branch source SHA-256: `98c783f80a04caccab8077f55c6de8ee1ff792afb0c47594c26e4dcb92ec13ab` (UTF-8 source normalized to LF). It differs from the deployed hash because the file has changed since deployment. The current source includes the deterministic AND enforcement for charter-required evidence kinds; the deployed contract does not receive that correction until a separately authorized redeployment.
+- The read-only audit on 2026-10-21 independently retrieved deployed contract code and checked four finalized receipts plus latest-final overview and four authorizations. Results are in [`proofs/v2-final-audit-2026-10-21.json`](proofs/v2-final-audit-2026-10-21.json). The recorded deployed-source hash matched retrieved bytes; current branch source did not match deployed bytes.
 
-## Public V2 frontend
+## Frontend configuration
 
-- Separate Vercel project: `deltaproof-v2` (`prj_vtqZt24tc6qClgetqnN3ytdcvaqE`).
-- Production deployment: [`https://deltaproof-v2.vercel.app`](https://deltaproof-v2.vercel.app), deployment `dpl_BUxTvqsSqjq5GBZBNwxLaeGs7Zx4`.
-- Built with `VITE_DELTAPROOF_V2_ADDRESS=0x367C2B9f8B52EEd57977B84c458eaD4c3105E718`.
-- HTTP smoke: `/` and `/v2/` both returned 200; the V2 bundle contains the corrected contract address. Fresh Chrome inspection shows latest-final dashboard counts of three agents, one release, and three decisions. Responsive checks at 375, 768, and 1440 CSS pixels found no horizontal overflow.
-- The existing V1 project and its production URL [`https://deltaproof-ebon.vercel.app`](https://deltaproof-ebon.vercel.app) remain unchanged and return the V1 title.
+V2 browser code reads only `VITE_DELTAPROOF_V2_ADDRESS`. The exact production target is:
 
-Wallet signing and live V2 write flows have not been browser-tested. Chrome console logs show MetaMask could not install its provider because another extension already defined a getter-only `window.ethereum`; the page sees no provider. This is a conflict in the tested browser profile, not an app-side assignment. The signer cache is available only in the user's PowerShell terminal; the separate runner cannot access it. See the timestamped [`V2 live proof`](proofs/v2-live.md) for receipts and remaining work.
+```text
+VITE_DELTAPROOF_V2_ADDRESS=0x367C2B9f8B52EEd57977B84c458eaD4c3105E718
+StudioNet chain ID=61999
+RPC=https://studio.genlayer.com/api
+```
 
-The first deployment at `0x8addd2bC124C276130a8CAF4ED1341C7F42432a7` (transaction `0xdc6aff4084463b68b94e5e5c277dee266df4f1935d0c5437961b3ae9b7ca65a6`, source SHA-256 `20ee871691c4fd3ce5b44250d815082b4bf25bf38327a6b1f8b20607bf22b1f7`) was superseded after a live CI read exposed that `NO_DECISION` omitted the requested agent and release IDs. The corrected contract binds that denial to both IDs; the regression test passes. The old deployment remains immutable and must not be used by clients.
+For a local Vite build, copy the V2 value from `frontend/.env.example` into `frontend/.env.local`, or set it in the shell before `npm run build`. Do not substitute V1's `VITE_CONTRACT_ADDRESS`. The existing V1 root app and project remain separate.
 
-Agent and release registration confirm basic write finality and storage serialization. Checkout and Analytics deterministic adjudications and Refund semantic consensus are finalized. Analytics' targeted freeze and resolution finalized; latest-final state is revision 2 APPROVED / ALLOW. Refund's evidence-backed appeal finalized UPHELD; Refund remains BLOCKED. The safety challenge and injected-wallet interactions remain incomplete. The semantic adjudication and appeal-resolution receipts both report the same `tx_execution_hash`; the receipts were independently fetched and the protocol meaning of this repeated field remains unexplained.
+The latest Vercel deployment recorded in [`FRONTEND_ACCEPTANCE_V2.md`](FRONTEND_ACCEPTANCE_V2.md) is `dpl_51RTQ41JrmTegWhh4gY3bJhk25Dh`. A READY deployment and authenticated page load do not prove anonymous reviewer access: the `deltaproof-v2` project has SSO protection on non-custom domains. Do not disable project-wide protection without confirming its impact on preview deployments.
 
-## Next live verification steps
+## Repeatable read-only V2 runtime check
 
-Use the corrected active address only. Use GenLayer JS SDK typed `writeContract` arguments rather than CLI `--args` for JSON text parameters; the V1 incident showed that the CLI can decode object-shaped JSON strings into maps. For each write, record the hash, wait for `FINALIZED`, check execution success separately, and read latest-final state before continuing. If an outcome is unknown, reconcile that hash before considering any retry.
+From `frontend/`, select an existing pair and run the three-call latest-final smoke. This checks the protocol, overview schema, and exact authorization identity without signing or submitting:
 
-1. Use the guarded safety runner from the user's unlocked PowerShell wallet, one action at a time: register a distinct affected agent and release, adjudicate, then only if the real decision is APPROVED publish new counterevidence and continue the challenge.
-2. Keep the read-only Watchtower running and retain JSONL observations. It currently records only the new pair's initial `NO_DECISION`; no challenge transition has been observed.
-3. Run the live CI gate before, during, and after the challenge against actual finalized state. The current pre-registration baseline is `NO_DECISION`, deny, exit code 1.
-4. Test MetaMask or Rabby in a profile with a working provider injection and verify connect/disconnect/copy/persistence/network/account changes, writes, finality, and failure UI.
-5. Run the gated V2 GenVM StudioNet integration test when available; lint/typecheck and harness tests do not replace runtime execution.
+```powershell
+$env:VITE_DELTAPROOF_V2_ADDRESS = '0x367C2B9f8B52EEd57977B84c458eaD4c3105E718'
+$env:DELTAPROOF_V2_AGENT_ID = 'eventtrace-live-20261021'
+$env:DELTAPROOF_V2_RELEASE_ID = 'eventtrace-v2-20261021'
+npm run test:v2:runtime
+```
 
-## Contract controls
+An RPC failure prints `READ_ERROR`, not DENY. This command is not a write test. The repository's gated StudioNet `gltest` file remains a separate runtime suite; importing it is deferred until the live gate is enabled so a clean offline checkout can collect tests without installing `gltest`.
 
-Appeals retrieve and digest-check counterevidence, publisher responses, and original release evidence on leader and validators. A hash-only appeal cannot overturn. Approved pairs use a separate safety challenge: only the affected consumer controller can submit within seven days, with 1–4 verified sources; validators screen for new, relevant evidence before opening a targeted hold. The publisher has a two-day response window. Challenges are capped at two per pair. Missing, inconclusive, blocked, or timed-out evidence does not restore a stale approval; fresh adjudication is required. `get_authorization` is fail-closed. The read-only Watchtower polls bounded latest-final pairs and never signs or writes.
+For a fuller, sequential read-only audit of deployed contract source bytes, four representative finalized receipts, the overview and four recorded pair authorizations, run `npm run audit:v2:live` from `frontend/`. It makes ten read operations, no writes. Its output compares the deployed source hash to the deployment record and to the current branch file; preserve the result as a dated audit artifact before updating the live proof. Stop if StudioNet returns a rate-limit or RPC error; do not interpret that as an authorization state.
 
-Offline tests and static lint/typecheck do not replace real validator-driven lifecycle verification. See [`V2_STATUS.md`](V2_STATUS.md) and [`studionet-v2.json`](../deployments/studionet-v2.json) for the current status and evidence.
+## Historical lifecycle outcomes
 
+- Checkout: deterministic `BLOCKED` due the newly required `currency` request field.
+- Analytics: revision 2 `APPROVED` / `ALLOW` after targeted freeze resolution and fresh adjudication.
+- Refund: semantic `BLOCKED`; its evidence-backed appeal resolved `UPHELD` and the pair stayed blocked.
+- Event tracing: revision 1 was historically `APPROVED`; a safety challenge resolved `REVIEW_REQUIRED`, and revision 2 remained denied. The supporting tests are synthetic publisher-controlled fixtures, not production consumer evidence.
+
+These states come from the proof snapshot, not a fresh RPC read during this review. Do not treat a prior approval or dashboard count as current authorization. Query latest-final `get_authorization(release_id, agent_id)` before making a current release decision.

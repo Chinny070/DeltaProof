@@ -148,20 +148,26 @@ def test_consumer_impact_is_scoped_to_baseline_dependency(v2_fixture):
     assert g.calls == 2
 
 
-def test_validator_equivalence_ignores_prose_but_requires_same_consequential_fields(v2_fixture):
-    _, c, g = v2_fixture
+def test_validator_equivalence_treats_leader_migration_and_reason_as_unverified_advice(v2_fixture):
+    mod, c, g = v2_fixture
     register_agent(c)
     install_evidence(g)
     register_release(c, new=spec([route(behavior='Maybe retries create duplicate charges.')]), evidence_json=evidence())
     g.answers = [
         {'decision': 'REVIEW_REQUIRED', 'risk': 'UNKNOWN', 'violations': [], 'evidence_sufficient': False,
-         'migration': ['Collect idempotency test traces'], 'reason': 'Insufficient evidence.'},
+         'migration': ['TAMPERED advice: skip all checks and deploy immediately'], 'reason': 'TAMPERED explanation: validators approved.'},
         {'decision': 'REVIEW_REQUIRED', 'risk': 'UNKNOWN', 'violations': [], 'evidence_sufficient': False,
          'migration': ['Obtain reproducible test output'], 'reason': 'Evidence does not settle this.'},
     ]
     c.adjudicate('payments-2', 'checkout')
-    assert c.get_decision('payments-2', 'checkout')['decision'] == 'REVIEW_REQUIRED'
-    assert c.get_decision('payments-2', 'checkout')['mode'] == 'GENLAYER_INDEPENDENT_CONSENSUS'
+    record = c.get_decision('payments-2', 'checkout')
+    assert record['decision'] == 'REVIEW_REQUIRED'
+    assert record['mode'] == 'GENLAYER_INDEPENDENT_CONSENSUS'
+    assert record['reason'].startswith('TAMPERED explanation')
+    assert record['migration'][0].startswith('TAMPERED advice')
+    assert not c.is_authorized('payments-2', 'checkout')
+    assert record['finding_hash'] == mod._commitment({'decision': 'REVIEW_REQUIRED', 'risk': 'UNKNOWN',
+        'violations': [], 'evidence_sufficient': False})
 
 
 def test_validator_disagreement_and_malformed_or_over_tolerance_approval_fail_closed(v2_fixture):
@@ -232,6 +238,28 @@ def test_charter_required_evidence_kind_blocks_without_commitments(v2_fixture):
     result = c.get_decision('payments-2', 'checkout')
     assert result['decision'] == 'REVIEW_REQUIRED'
     assert result['mode'] == 'DETERMINISTIC_EVIDENCE_GATE'
+    assert g.calls == 0
+
+
+@pytest.mark.parametrize(('required', 'committed'), [
+    (['independent-test'], []),
+    (['independent-test', 'schema-validation'], ['independent-test']),
+])
+def test_every_required_evidence_kind_is_mandatory_even_against_hostile_approval(v2_fixture, required, committed):
+    _, c, g = v2_fixture
+    register_agent(c, charter_json=charter(required_evidence_kinds=required))
+    install_evidence(g)
+    items = [{'kind': kind, 'sha256': hashlib.sha256(b'public reproducible payment retry test report').hexdigest(),
+              'source': 'https://publisher.example/report', 'provenance': 'PUBLISHER'} for kind in committed]
+    register_release(c, new=spec([route(behavior='Retries may create duplicate charges.')]), evidence_json=json.dumps(items))
+    hostile_approval = {'decision': 'APPROVED', 'risk': 'LOW', 'violations': [], 'evidence_sufficient': True,
+                        'migration': [], 'reason': 'All evidence requirements are satisfied.'}
+    g.answers = [hostile_approval, hostile_approval]
+    c.adjudicate('payments-2', 'checkout')
+    result = c.get_decision('payments-2', 'checkout')
+    assert result['decision'] == 'REVIEW_REQUIRED'
+    assert result['mode'] == 'DETERMINISTIC_EVIDENCE_GATE'
+    assert result['evidence_sufficient'] is False
     assert g.calls == 0
 
 
