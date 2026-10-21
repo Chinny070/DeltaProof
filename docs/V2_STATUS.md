@@ -6,16 +6,20 @@
 **Public V2 UI:** [deltaproof-v2.vercel.app/v2](https://deltaproof-v2.vercel.app/v2/)  
 **Assessment:** **PARTIAL — not production ready.**
 
-V1 remains separate and unchanged. V2 has finalized StudioNet deployment and live test records; do not interpret controlled synthetic fixtures as production-service evidence. Full transaction and latest-final details are in [`proofs/v2-live.md`](proofs/v2-live.md) and [`proofs/v2-live.json`](proofs/v2-live.json).
+V1 remains separate and unchanged. V2 has finalized StudioNet deployment and live test records. Controlled synthetic fixtures are not production-service evidence. Full transaction details and latest-final snapshots are in [`proofs/v2-live.md`](proofs/v2-live.md) and [`proofs/v2-live.json`](proofs/v2-live.json).
 
 ## Verified live workflows
 
-- Checkout: deterministic `BLOCKED`, latest-final authorization denied.
-- Analytics: deterministic unaffected approval; targeted freeze and resolution finalized; latest-final state is revision 2 `APPROVED` / `ALLOW`. Passport history links the previous passport and a freeze-history commitment. The attempted reassess command did not submit because the current state was `ALLOW`, not `REASSESSMENT_REQUIRED`.
-- Refund: semantic GenLayer independent-consensus `BLOCKED`; the pinned synthetic evidence digest is `VERIFIED`. Evidence-backed appeal was finalized `UPHELD`; original/revised decision remains `BLOCKED`, and latest-final authorization remains denied.
-- CI gate: live checks for Checkout, Analytics, and Refund match their latest-final decisions. Unknown or not-yet-registered pair returns `NO_DECISION`, deny, exit code 1.
-- Watchtower: the new safety fixture observer captured four `NO_DECISION` observations and three transient `READ_ERROR` records during RPC fetch failures, then recovered to `NO_DECISION`; it was stopped after this diagnostic window. No safety-pair authorization transition has been observed.
-- Receipt audit: the semantic adjudication and appeal-resolution receipts were fetched independently by transaction hash. Both report the same `tx_execution_hash` despite distinct transaction hashes, methods, nonces, gas limits, votes, arguments, and return values. This is recorded as the node/SDK output; its protocol meaning is not inferred.
+- **Checkout:** deterministic `BLOCKED`, latest-final authorization denied.
+- **Analytics:** unaffected approval; targeted freeze and resolution finalized; fresh revision 2 is `APPROVED` / `ALLOW`. Revision history links the previous passport and freeze commitment.
+- **Refund:** independent semantic consensus returned `BLOCKED`; evidence-backed appeal finalized `UPHELD`; latest-final authorization remains denied.
+- **Event-tracing safety challenge:** the affected consumer and release were registered; initial semantic adjudication returned revision 1 `APPROVED`. A bounded strict-client test demonstrated that a strict JSON Schema consumer rejects added unknown fields. The challenge screen found the evidence credible and verified. Publisher response and all evidence retrievals were verified. Independent resolution returned `REVIEW_REQUIRED`, evidence insufficient because the synthetic case did not establish that the registered consumer uses strict schema validation. Fresh adjudication created revision 2 `REVIEW_REQUIRED`, MEDIUM risk. Its passport links to revision 1. Current authorization is `allow: false`, `REVIEW_REQUIRED`; the prior approval is historical only.
+- **Targeting:** while the event-tracing authorization was held and reviewed, the unrelated Analytics pair remained `ALLOW` at revision 2.
+- **Live CI gate:** run against event-tracing latest-final state after revision 2. It returned `allow: false`, `REVIEW_REQUIRED`, `LATEST_FINAL` and process exit code 1. This is an actual deployment-gate refusal.
+- **Watchtower:** observed the event-tracing pair transition `ALLOW` → `SAFETY_CHALLENGE_PENDING` → `REASSESSMENT_REQUIRED` → `REVIEW_REQUIRED`, and Analytics `ALLOW` at revision 2. It encountered the StudioNet 500-requests/hour limit and a transient read error, recovered on later reads, then was stopped to avoid additional load.
+- **Latest contract overview:** 4 agents, 2 releases, 4 decisions at the latest-final read.
+
+The safety challenge lifecycle is complete. The event-tracing candidate remains denied until genuine evidence about the registered consumer is supplied or a revised release addresses the strict-client risk and a later finalized decision authorizes it.
 
 ## Test and build results
 
@@ -24,18 +28,17 @@ V1 remains separate and unchanged. V2 has finalized StudioNet deployment and liv
 - GenVM typecheck: **no type errors** (UTF-8 console output enabled).
 - StudioNet gltest integration selection: `gltest tests/integration -q --network studionet` — **1 skipped**. This is not a live V2 GenVM execution test.
 - Frontend: `npm test` — **48 passed, 0 failed**.
-- Production build: both V1 root and V2 `/v2/` entries built; 460 and 459 modules transformed. Largest emitted chunk is about 330 kB (100 kB gzip); no Vite chunk-size warning appeared.
-- Public UI: Chrome rendered current live counts (3 agents, 1 release, 3 decisions). At 375, 768, and 1440 CSS pixels, document scroll width matched its client width (no horizontal overflow).
+- Production build: V1 and V2 entries built; 460 and 459 modules transformed. Largest emitted chunk was about 330 kB (100 kB gzip); no Vite chunk-size warning appeared.
+- Public UI browser snapshot: earlier acceptance showed 3 agents, 1 release, and 3 decisions before the event-tracing records. Responsive checks at 375, 768, and 1440 CSS pixels found no horizontal overflow.
 
 ## Remaining blockers
 
-- Safety challenge is incomplete. A new affected agent, release, and genuine semantic approval must first be submitted from the user's unlocked PowerShell terminal. Counterevidence may only be published after actual approval; response evidence must follow an opened challenge. The signer keychain is not available to the separate command runner.
-- The Watchtower captured the initial `NO_DECISION` observation and is running against the new pair. It has not yet observed `ALLOW → SAFETY_CHALLENGE_PENDING → resolution`; no raw log record may be described as a transition.
-- Browser wallet acceptance is incomplete. Chrome diagnostics show MetaMask failing provider injection because another wallet extension already defines a getter-only `window.ethereum`. The page sees no provider. Connect, disconnect, copy, persistence, network switching, account changes, wallet signing, frontend writes, finality UI, and transaction-error UI therefore remain unverified in a supported injected-wallet browser.
-- No actual V2 StudioNet GenVM execution test was run by the gltest suite; the suite skipped its gated test. Lint and typecheck do not establish GenVM runtime compatibility.
-- Fee totals are not exposed by the verified receipts. Explorer `0 GEN` transaction value and receipt gas limits are not settled-fee evidence.
+- **The event-tracing release is not approved for use.** Its latest-final decision and gate state are `REVIEW_REQUIRED` / deny. The evidence is synthetic and does not verify that the registered consumer rejects unknown fields. A production consumer schema or a revised compatibility-safe release is needed before an approving adjudication.
+- **Wallet browser acceptance is incomplete.** Chrome diagnostics showed MetaMask provider injection failing because another extension already defines a getter-only `window.ethereum`; the app saw no injected provider. Connect/disconnect, copy, persistence, network switching, signing, frontend writes, finality UI, and transaction-error UI remain unverified in a supported injected-wallet browser.
+- **Public Vercel deployment of the corrected current source is unverified.** The public V2 page had stale explanatory copy during the earlier browser check. The source branch has been corrected, but no Vercel deployment credential was available to publish that update.
+- **No actual V2 StudioNet GenVM execution test was run by gltest.** Its gated test was skipped. Lint and typecheck do not establish real GenVM runtime compatibility.
+- **Settled fee totals remain unknown.** Explorer transaction value of 0 GEN and a receipt gas limit are not settled-fee evidence; the verified receipts did not expose the total protocol fee.
 
 ## Readiness
 
-**PARTIAL / NO-GO for production readiness.** The verified bounded workflows and tests are real and useful, but the safety-challenge lifecycle and real wallet/browser acceptance are still outstanding, and a gltest runtime execution has not been captured. Do not claim full acceptance or production readiness until those gaps are closed.
-
+**PARTIAL / NO-GO for production readiness.** Live bounded workflows, independent consensus outcomes, safety challenge and response retrieval, targeted holds, passport revision history, a real CI gate rejection, and Watchtower state transitions are verified. The event-tracing authorization correctly fails closed at `REVIEW_REQUIRED`. Browser wallet acceptance, Vercel publication of corrected copy, settled protocol fee evidence, and real GenVM integration execution remain unverified. Do not claim full acceptance or production readiness until those requirements are addressed.
