@@ -14,7 +14,7 @@ V1 remains separate and unchanged. V2 has finalized StudioNet deployment and liv
 - Analytics: deterministic unaffected approval; targeted freeze and resolution finalized; latest-final state is revision 2 `APPROVED` / `ALLOW`. Passport history links the previous passport and a freeze-history commitment. The attempted reassess command did not submit because the current state was `ALLOW`, not `REASSESSMENT_REQUIRED`.
 - Refund: semantic GenLayer independent-consensus `BLOCKED`; the pinned synthetic evidence digest is `VERIFIED`. Evidence-backed appeal was finalized `UPHELD`; original/revised decision remains `BLOCKED`, and latest-final authorization remains denied.
 - CI gate: live checks for Checkout, Analytics, and Refund match their latest-final decisions. Unknown or not-yet-registered pair returns `NO_DECISION`, deny, exit code 1.
-- Watchtower: latest-final reads are functional. The new safety fixture observer has started and captured only its initial `NO_DECISION` state so far; no safety-pair transition has yet been observed.
+- Watchtower: the new safety fixture observer captured four `NO_DECISION` observations and three transient `READ_ERROR` records during RPC fetch failures, then recovered to `NO_DECISION`; it was stopped after this diagnostic window. No safety-pair authorization transition has been observed.
 - Receipt audit: the semantic adjudication and appeal-resolution receipts were fetched independently by transaction hash. Both report the same `tx_execution_hash` despite distinct transaction hashes, methods, nonces, gas limits, votes, arguments, and return values. This is recorded as the node/SDK output; its protocol meaning is not inferred.
 
 ## Test and build results
