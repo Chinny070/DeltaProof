@@ -1,27 +1,37 @@
 {
-  "recorded_at_utc": "2026-10-21T08:06:16Z",
+  "recorded_at_utc": "2026-10-21T13:12:26Z",
   "network": {
     "name": "GenLayer StudioNet",
     "chain_id": 61999,
     "rpc_url": "https://studio.genlayer.com/api",
-    "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
-    "explorer_url": "https://explorer-studio.genlayer.com/address/0x367c2b9f8b52eed57977b84c458ead4c3105e718"
+    "contract_address": "0xEf72A2db4EbeD151273B137D8a741e4C537415f9",
+    "explorer_url": "https://explorer-studio.genlayer.com/address/0xef72a2db4ebed151273b137d8a741e4c537415f9"
   },
   "deployment": {
     "status": "FINALIZED",
-    "transaction_hash": "0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e",
-    "explorer_url": "https://explorer-studio.genlayer.com/tx/0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e",
-    "source_sha256": "72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0",
+    "transaction_hash": "0xa40625af8b4a3b0ad83564e30f22cd149d399e7cd229dcf6189791662e41518e",
+    "explorer_url": "https://explorer-studio.genlayer.com/tx/0xa40625af8b4a3b0ad83564e30f22cd149d399e7cd229dcf6189791662e41518e",
+    "contract_address": "0xEf72A2db4EbeD151273B137D8a741e4C537415f9",
+    "deployer": "0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b",
+    "created_at_utc": "2026-10-21T13:12:26.683127Z",
+    "source_commit": "f74a37a053c2c14278221e17632cd26fca038e4c",
+    "source_sha256": "98c783f80a04caccab8077f55c6de8ee1ff792afb0c47594c26e4dcb92ec13ab",
+    "source_bytes": 80174,
     "consensus": "MAJORITY_AGREE",
     "validator_execution": {
       "rounds": 1,
-      "agree": 3,
-      "successful_executions": 3,
-      "idle_after_quorum": 2
+      "validators_revealed": 5,
+      "agree": 5,
+      "execution": "SUCCESS",
+      "execution_hash": "0xabf80e3e434f47508128448f3bac94568aeef2aac008e1e74e373870bc5d6a19"
     },
-    "execution_hash": "0xac684ea0210461ecc6797cbc3a71f0d6ed82080026abda52555f545cd64c3211",
+    "receipt_gas_limit": 3135,
+    "transaction_value_gen": null,
     "protocol_fee_gen": null,
-    "protocol_fee_status": "NOT_EXPOSED_IN_VERIFIED_RECEIPT"
+    "protocol_fee_status": "NOT_EXPOSED_IN_VERIFIED_RECEIPT",
+    "pre_deployment_balance_gen": "309.930289999999999977",
+    "post_deployment_balance_gen": "309.930289999999999977",
+    "fee_note": "No settled protocol fee was exposed; unchanged balance snapshots do not establish zero fee."
   },
   "lifecycle_transactions": [
     {
@@ -1691,20 +1701,75 @@
     "overview_counts_note": "The read-only StudioNet audit on 2026-10-21 freshly confirmed 4/2/4 and queried four pair-specific latest-final authorizations. The earlier post-sweep RPC failure remains recorded above as a historical failure, not current state."
   },
   "superseding_final_audit": {
-    "audit_file": "v2-final-audit-2026-10-21.json",
+    "record": "docs/proofs/v2-deployment-2026-10-21.json",
+    "current_source_matches_deployed_source": true,
+    "current_branch_source_sha256": "98c783f80a04caccab8077f55c6de8ee1ff792afb0c47594c26e4dcb92ec13ab",
+    "deployment_submitted": true,
+    "application_writes_submitted": false
+  },
+  "prior_deployment": {
+    "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+    "explorer_url": "https://explorer-studio.genlayer.com/address/0x367c2b9f8b52eed57977b84c458ead4c3105e718",
+    "deployment": {
+      "status": "FINALIZED",
+      "transaction_hash": "0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e",
+      "source_sha256": "72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0",
+      "consensus": "MAJORITY_AGREE",
+      "validator_execution": {
+        "rounds": 1,
+        "agree": 3,
+        "successful_executions": 3,
+        "idle_after_quorum": 2
+      },
+      "execution_hash": "0xac684ea0210461ecc6797cbc3a71f0d6ed82080026abda52555f545cd64c3211",
+      "protocol_fee_gen": null,
+      "protocol_fee_status": "NOT_EXPOSED_IN_VERIFIED_RECEIPT"
+    }
+  },
+  "historical_lifecycle_scope": "All lifecycle_transactions and prior latest-final records below refer to superseded contract 0x367C2B9f8B52EEd57977B84c458eaD4c3105E718; their finalized proofs are preserved and were not migrated.",
+  "current_contract_state": {
     "network": "StudioNet",
     "chain_id": 61999,
-    "read_only": true,
-    "latest_final_counts": {"agents": 4, "releases": 2, "decisions": 4},
-    "authorizations": {
-      "checkout-live-20261020 / v2api-20261020": "BLOCKED",
-      "analytics-live-20261020 / v2api-20261020": "ALLOW revision 2",
-      "refund-live-20261020 / v2api-20261020": "BLOCKED",
-      "eventtrace-live-20261021 / eventtrace-v2-20261021": "REVIEW_REQUIRED revision 2"
+    "address": "0xEf72A2db4EbeD151273B137D8a741e4C537415f9",
+    "state": "LATEST_FINAL",
+    "protocol": "deltaproof/2.0",
+    "overview": {
+      "agents": 0,
+      "releases": 0,
+      "decisions": 0
     },
-    "deployed_source_sha256": "72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0",
-    "current_branch_source_sha256": "98c783f80a04caccab8077f55c6de8ee1ff792afb0c47594c26e4dcb92ec13ab",
-    "source_drift": true,
-    "contract_write_submitted": false
+    "schema_methods": 34,
+    "reads": [
+      "get_protocol",
+      "get_overview",
+      "schema"
+    ],
+    "application_records_migrated": false,
+    "latest_final_authorization_probe": {
+      "release_id": "eventtrace-v2-20261021",
+      "agent_id": "eventtrace-live-20261021",
+      "status": "NO_DECISION",
+      "revision": 0,
+      "allow": false,
+      "reason": "No adjudication exists."
+    }
+  },
+  "frontend_current_target_status": {
+    "deployment_id": "dpl_5rFm7X1Tdj9DYfAfUhHRJGpmcqZC",
+    "target": "production",
+    "production_url": "https://deltaproof-v2.vercel.app/v2/",
+    "deployed_contract_address": "0xEf72A2db4EbeD151273B137D8a741e4C537415f9",
+    "status": "READY",
+    "asset_address_verified": true,
+    "chrome_browser_latest_final_counts": {
+      "agents": 0,
+      "releases": 0,
+      "decisions": 0
+    },
+    "deployment_protection": [
+      "vercel_authentication"
+    ],
+    "anonymous_reviewer_access": "NOT_VERIFIED; deployment protection is enabled"
   }
 }

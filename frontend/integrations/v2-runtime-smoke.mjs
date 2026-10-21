@@ -7,7 +7,7 @@ import { TransactionHashVariant } from 'genlayer-js/types';
 export const V2_DEPLOYMENT = Object.freeze({
   chainId: 61999,
   rpcUrl: 'https://studio.genlayer.com/api',
-  address: '0x367C2B9f8B52EEd57977B84c458eaD4c3105E718',
+  address: '0xEf72A2db4EbeD151273B137D8a741e4C537415f9',
   protocol: 'deltaproof/2.0',
 });
 

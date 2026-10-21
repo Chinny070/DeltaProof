@@ -1,0 +1,114 @@
+{
+  "network": {
+    "name": "GenLayer StudioNet",
+    "chain_id": 61999,
+    "rpc_url": "https://studio.genlayer.com/api",
+    "explorer": "https://explorer-studio.genlayer.com"
+  },
+  "authorization": "User-authorized one normal deployment using configured signer.",
+  "deployment": {
+    "contract_name": "DeltaProofV2",
+    "contract_address": "0xEf72A2db4EbeD151273B137D8a741e4C537415f9",
+    "transaction_hash": "0xa40625af8b4a3b0ad83564e30f22cd149d399e7cd229dcf6189791662e41518e",
+    "transaction_url": "https://explorer-studio.genlayer.com/tx/0xa40625af8b4a3b0ad83564e30f22cd149d399e7cd229dcf6189791662e41518e",
+    "contract_url": "https://explorer-studio.genlayer.com/address/0xef72a2db4ebed151273b137d8a741e4c537415f9",
+    "finality": "FINALIZED",
+    "consensus": "MAJORITY_AGREE",
+    "rounds": 1,
+    "validators_revealed": 5,
+    "validator_votes": [
+      "AGREE",
+      "AGREE",
+      "AGREE",
+      "AGREE",
+      "AGREE"
+    ],
+    "execution": "SUCCESS",
+    "execution_hash": "0xabf80e3e434f47508128448f3bac94568aeef2aac008e1e74e373870bc5d6a19",
+    "created_at_utc": "2026-10-21T13:12:26.683127Z",
+    "deployer": "0xaffE15eec45b68835cc9e5b4ab85dd5deae8e70b",
+    "gas_limit": 3135,
+    "settled_protocol_fee_gen": null,
+    "fee_evidence": "No settled fee field was returned. Pre/post balance reads both returned 309.930289999999999977 GEN; that does not prove a zero fee."
+  },
+  "source": {
+    "path": "contracts/deltaproof_v2.py",
+    "git_commit": "f74a37a053c2c14278221e17632cd26fca038e4c",
+    "sha256_utf8_lf": "98c783f80a04caccab8077f55c6de8ee1ff792afb0c47594c26e4dcb92ec13ab",
+    "retrieved_deployed_source_bytes": 80174,
+    "retrieved_source_sha256": "98c783f80a04caccab8077f55c6de8ee1ff792afb0c47594c26e4dcb92ec13ab",
+    "matches_branch_source": true
+  },
+  "read_only_verification": {
+    "verified_at_utc": "2026-10-21T13:12:26Z",
+    "protocol": "deltaproof/2.0",
+    "schema_method_count": 34,
+    "latest_final_overview": {
+      "agents": 0,
+      "releases": 0,
+      "decisions": 0,
+      "protocol": "deltaproof/2.0"
+    },
+    "latest_final_authorization_probe": {
+      "release_id": "eventtrace-v2-20261021",
+      "agent_id": "eventtrace-live-20261021",
+      "status": "NO_DECISION",
+      "revision": 0,
+      "allow": false,
+      "reason": "No adjudication exists."
+    },
+    "read_calls": [
+      "get_protocol",
+      "get_overview",
+      "getContractSchema",
+      "getContractCode"
+    ],
+    "application_records_migrated": false,
+    "live_runtime_smoke": {
+      "status": "PASS",
+      "network": "StudioNet",
+      "chain_id": 61999,
+      "address": "0xEf72A2db4EbeD151273B137D8a741e4C537415f9",
+      "state": "LATEST_FINAL",
+      "protocol": "deltaproof/2.0",
+      "overview": {
+        "agents": 0,
+        "releases": 0,
+        "decisions": 0
+      },
+      "authorization_probe": {
+        "release_id": "eventtrace-v2-20261021",
+        "agent_id": "eventtrace-live-20261021",
+        "status": "NO_DECISION",
+        "revision": 0,
+        "allow": false
+      }
+    }
+  },
+  "previous_contract": {
+    "address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+    "deployment_transaction": "0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e",
+    "lifecycle_records_preserved_at": "docs/proofs/v2-live.md",
+    "lifecycle_records_migrated": false
+  },
+  "frontend": {
+    "public_url": "https://deltaproof-v2.vercel.app/v2/",
+    "status": "NOT_YET_REBUILT_FOR_CURRENT_CONTRACT",
+    "required_build_address": "0xEf72A2db4EbeD151273B137D8a741e4C537415f9",
+    "deployment_id": "dpl_5rFm7X1Tdj9DYfAfUhHRJGpmcqZC",
+    "deployment_url": "https://deltaproof-v2-bum1uh6bw-chinny070s-projects.vercel.app",
+    "production_url": "https://deltaproof-v2.vercel.app/v2/",
+    "served_html_asset": "/v2/assets/index-8fgTholU.js",
+    "asset_contains_current_address": true,
+    "asset_contains_previous_address": false,
+    "chrome_latest_final_overview": {
+      "agents": 0,
+      "releases": 0,
+      "decisions": 0
+    },
+    "vercel_deployment_protection": [
+      "vercel_authentication"
+    ],
+    "anonymous_reviewer_access": "NOT_VERIFIED"
+  }
+}

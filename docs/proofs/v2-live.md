@@ -2,8 +2,12 @@
 
 **Snapshot:** 2026-10-20 18:18:00 UTC  
 **Network:** GenLayer StudioNet, chain 61999  
-**Active V2 contract:** [`0x367C2B9f8B52EEd57977B84c458eaD4c3105E718`](https://explorer-studio.genlayer.com/address/0x367c2b9f8b52eed57977b84c458ead4c3105e718)  
-**Deployment:** [`0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e`](https://explorer-studio.genlayer.com/tx/0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e), finalized with majority agreement. Embedded source SHA-256: `72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0`.
+> **Historical lifecycle record.** The transactions and states below refer to the superseded V2 contract `0x367C2B9f8B52EEd57977B84c458eaD4c3105E718`; they remain genuine finalized proofs and were not migrated.
+
+**Current V2 contract:** [`0xEf72A2db4EbeD151273B137D8a741e4C537415f9`](https://explorer-studio.genlayer.com/address/0xef72a2db4ebed151273b137d8a741e4c537415f9)  
+**Current deployment:** [`0xa40625af8b4a3b0ad83564e30f22cd149d399e7cd229dcf6189791662e41518e`](https://explorer-studio.genlayer.com/tx/0xa40625af8b4a3b0ad83564e30f22cd149d399e7cd229dcf6189791662e41518e), `FINALIZED`, `MAJORITY_AGREE`, successful GenVM execution, five validators agreed. The deployed code hash is `98c783f80a04caccab8077f55c6de8ee1ff792afb0c47594c26e4dcb92ec13ab`, matching commit `f74a37a053c2c14278221e17632cd26fca038e4c`. Latest-final reads returned `deltaproof/2.0`, 34 ABI methods, and zero agents/releases/decisions. See [`v2-deployment-2026-10-21.json`](v2-deployment-2026-10-21.json). The previous deployment transaction was `0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e`, source hash `72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0`.
+
+The Vercel production frontend is deployment `dpl_5rFm7X1Tdj9DYfAfUhHRJGpmcqZC`; its served bundle contains the current address. The actual Chrome page showed latest-final counts of zero. Vercel authentication protection remains enabled, so reviewer access without login has not been verified.
 
 ## First application write: Checkout agent
 
@@ -125,7 +129,7 @@ Chrome displayed the public dashboard with three agents, one release, and three 
 
 ## Event-tracing safety challenge lifecycle — verified 2026-10-21
 
-This section supersedes the earlier preflight note that said the safety challenge had not started. The V2 contract was not redeployed. All transactions below target StudioNet contract `0x367C2B9f8B52EEd57977B84c458eaD4c3105E718` and were reported FINALIZED / SUCCESS by the StudioNet Explorer; independent GenLayerJS receipt checks and latest-final reads were completed for the lifecycle. Explorer transaction value is 0 GEN; settled protocol fees were not exposed, so total fees are unknown.
+At the time this lifecycle section was written, the V2 contract was not redeployed. It supersedes an earlier preflight note that said the safety challenge had not started. All transactions in this historical lifecycle section target StudioNet contract `0x367C2B9f8B52EEd57977B84c458eaD4c3105E718` and were reported FINALIZED / SUCCESS by the StudioNet Explorer; independent GenLayerJS receipt checks and latest-final reads were completed for the lifecycle. Explorer transaction value is 0 GEN; settled protocol fees were not exposed, so total fees are unknown. The new current deployment is recorded at the top of this file.
 
 1. **Affected consumer registered:** [`0x28dda8c481db53abf235f8c0d623ccc1448c1cd074272ac20001f9c4f680776b`](https://explorer-studio.genlayer.com/tx/0x28dda8c481db53abf235f8c0d623ccc1448c1cd074272ac20001f9c4f680776b), nonce 3038. Latest-final read confirms active `eventtrace-live-20261021`, charter v1, critical dependency `GET /events/{event_id}`, guarantees stable event ID and payload preservation.
 2. **Release registered:** [`0x51ab176ab86748291787e3a55190ac98a8667c38b63b1c48fb39b630afc650de`](https://explorer-studio.genlayer.com/tx/0x51ab176ab86748291787e3a55190ac98a8667c38b63b1c48fb39b630afc650de), nonce 3039. Latest-final read verifies active release `eventtrace-v2-20261021`, version 2.1.0, baseline hash `50bba339dd3124322343d134c470ffdfc265002c4eecd2e749520bf53b4faf8c`, candidate hash `81d120a96bfc594e0289e850b97a1fec27b5260e3c377d89c040e29bde4811ed`, and evidence commitment.

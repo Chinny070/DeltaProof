@@ -8,13 +8,17 @@ import { TransactionHashVariant } from 'genlayer-js/types';
 import { V2_DEPLOYMENT } from './v2-runtime-smoke.mjs';
 import { requireSuccessfulV2Finality } from '../src/v2-api.js';
 
-export const DEPLOYED_SOURCE_SHA256 = '72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0';
-export const SOURCE_COMMIT = 'aee912c0635d6ca3b5782e97da2db733f9a20d6a';
+export const DEPLOYED_SOURCE_SHA256 = '98c783f80a04caccab8077f55c6de8ee1ff792afb0c47594c26e4dcb92ec13ab';
+export const SOURCE_COMMIT = 'f74a37a053c2c14278221e17632cd26fca038e4c';
 export const REPRESENTATIVE_TRANSACTIONS = Object.freeze([
-  { label: 'deployment', hash: '0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e' },
-  { label: 'semantic-refund-adjudication', hash: '0xa94d0375e5b09e4949af6a7aefaa236cafef17928bb9bbd0c417c8b11a61e81c' },
-  { label: 'safety-challenge-resolution', hash: '0x3ec964e9d026318c1d9c725f83ed6d5d87a0ca5d3ea38429be1b856f8c13937e' },
-  { label: 'eventtrace-final-adjudication', hash: '0x1568c7b546c075ee01b3e8d777781489173989e273a59adcb91f300e825f9198' },
+  { label: 'current-deployment', hash: '0xa40625af8b4a3b0ad83564e30f22cd149d399e7cd229dcf6189791662e41518e',
+    contract_address: '0xEf72A2db4EbeD151273B137D8a741e4C537415f9' },
+  { label: 'historical-semantic-refund-adjudication', hash: '0xa94d0375e5b09e4949af6a7aefaa236cafef17928bb9bbd0c417c8b11a61e81c',
+    contract_address: '0x367C2B9f8B52EEd57977B84c458eaD4c3105E718' },
+  { label: 'historical-safety-challenge-resolution', hash: '0x3ec964e9d026318c1d9c725f83ed6d5d87a0ca5d3ea38429be1b856f8c13937e',
+    contract_address: '0x367C2B9f8B52EEd57977B84c458eaD4c3105E718' },
+  { label: 'historical-eventtrace-final-adjudication', hash: '0x1568c7b546c075ee01b3e8d777781489173989e273a59adcb91f300e825f9198',
+    contract_address: '0x367C2B9f8B52EEd57977B84c458eaD4c3105E718' },
 ]);
 export const PAIRS = Object.freeze([
   { release_id: 'v2api-20261020', agent_id: 'checkout-live-20261020' },
@@ -39,7 +43,7 @@ export async function auditV2Deployment({ client, localSourceBytes }) {
       .map(leader => ({ execution_result: leader.execution_result,
         error_description: leader.genvm_result?.error_description ?? null,
         raw_error: leader.genvm_result?.raw_error ?? null }));
-    transactions.push({ label: item.label, hash: item.hash,
+    transactions.push({ label: item.label, hash: item.hash, contract_address: item.contract_address,
       status: receipt.statusName ?? receipt.status_name ?? receipt.status,
       consensus: receipt.result_name ?? receipt.resultName ?? null,
       tx_execution_hash: receipt.tx_execution_hash ?? receipt.txExecutionHash ?? null,

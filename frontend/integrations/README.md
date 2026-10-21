@@ -2,12 +2,12 @@
 
 ## Deployment target and latest-final runtime smoke
 
-V2 is pinned to the corrected StudioNet deployment at `0x367C2B9f8B52EEd57977B84c458eaD4c3105E718`, chain `61999`, RPC `https://studio.genlayer.com/api`, protocol `deltaproof/2.0`. The browser build reads `VITE_DELTAPROOF_V2_ADDRESS`; do not use the V1 `VITE_CONTRACT_ADDRESS` value as the V2 address. A sample environment file is [`../.env.example`](../.env.example).
+V2 is pinned to the current StudioNet deployment at `0xEf72A2db4EbeD151273B137D8a741e4C537415f9`, chain `61999`, RPC `https://studio.genlayer.com/api`, protocol `deltaproof/2.0`. This deployment contains the verified source from commit `f74a37a053c2c14278221e17632cd26fca038e4c`; it is a fresh deployment with zero application records. Earlier lifecycle transactions remain evidence for the superseded contract `0x367C2B9f8B52EEd57977B84c458eaD4c3105E718`. The browser build reads `VITE_DELTAPROOF_V2_ADDRESS`; do not use the V1 `VITE_CONTRACT_ADDRESS` value as the V2 address. A sample environment file is [`../.env.example`](../.env.example).
 
 From PowerShell, set the exact address and an existing pair, then run the read-only smoke check:
 
 ```powershell
-$env:VITE_DELTAPROOF_V2_ADDRESS = '0x367C2B9f8B52EEd57977B84c458eaD4c3105E718'
+$env:VITE_DELTAPROOF_V2_ADDRESS = '0xEf72A2db4EbeD151273B137D8a741e4C537415f9'
 $env:DELTAPROOF_V2_AGENT_ID = 'eventtrace-live-20261021'
 $env:DELTAPROOF_V2_RELEASE_ID = 'eventtrace-v2-20261021'
 npm run test:v2:runtime
@@ -24,7 +24,9 @@ $env:DELTAPROOF_RELEASE_ID = 'payments-2.0.0'
 node integrations/ci-gate.mjs
 ```
 
-The address is intentionally required from deployment configuration. V1's address cannot be used because its ABI has no V2 authorization method. The verified V2 StudioNet address is `0x367C2B9f8B52EEd57977B84c458eaD4c3105E718`. Every nonzero exit should be treated as a hard refusal.
+The address is intentionally required from deployment configuration. V1's address cannot be used because its ABI has no V2 authorization method. The current verified V2 StudioNet address is `0xEf72A2db4EbeD151273B137D8a741e4C537415f9`. Every nonzero exit should be treated as a hard refusal.
+
+The `live-*.mjs` lifecycle scripts are historical one-off write procedures pinned to the superseded contract address. Do not rerun them against the current fresh deployment or the old contract; the prior lifecycle proofs are preserved and any new application writes require separate authorization.
 
 ## Read-only Watchtower observer
 

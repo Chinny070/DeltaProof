@@ -6,14 +6,14 @@ import { runV2RuntimeSmoke, validateV2RuntimeReads, V2_DEPLOYMENT } from './v2-r
 const pair = { agentId: 'eventtrace-live-20261021', releaseId: 'eventtrace-v2-20261021' };
 const reads = {
   protocol: 'deltaproof/2.0',
-  overview: { protocol: 'deltaproof/2.0', agents: 4, releases: 2, decisions: 5 },
-  authorization: { agent_id: pair.agentId, release_id: pair.releaseId, status: 'REVIEW_REQUIRED', revision: 2, allow: false },
+  overview: { protocol: 'deltaproof/2.0', agents: 0, releases: 0, decisions: 0 },
+  authorization: { agent_id: pair.agentId, release_id: pair.releaseId, status: 'NO_DECISION', revision: 0, allow: false },
 };
 
 test('runtime smoke pins StudioNet 61999, the verified V2 address and protocol', () => {
   assert.deepEqual(V2_DEPLOYMENT, {
     chainId: 61999, rpcUrl: 'https://studio.genlayer.com/api',
-    address: '0x367C2B9f8B52EEd57977B84c458eaD4c3105E718', protocol: 'deltaproof/2.0',
+    address: '0xEf72A2db4EbeD151273B137D8a741e4C537415f9', protocol: 'deltaproof/2.0',
   });
 });
 
@@ -27,7 +27,7 @@ test('runtime smoke reads protocol, overview and exact pair at latest-final only
   } };
   const result = await runV2RuntimeSmoke({ client, ...pair });
   assert.equal(result.state, 'LATEST_FINAL');
-  assert.equal(result.authorization.status, 'REVIEW_REQUIRED');
+  assert.equal(result.authorization.status, 'NO_DECISION');
   assert.equal(result.authorization.allow, false);
   assert.equal(requests.length, 3);
   assert.ok(requests.every(request => request.address === V2_DEPLOYMENT.address));

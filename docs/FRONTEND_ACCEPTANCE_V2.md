@@ -2,12 +2,12 @@
 
 **Date:** 2026-10-21
 **Public URL:** [https://deltaproof-v2.vercel.app/v2/](https://deltaproof-v2.vercel.app/v2/)
-**Vercel production deployment:** `dpl_51RTQ41JrmTegWhh4gY3bJhk25Dh` (`READY`)
-**Contract:** `0x367C2B9f8B52EEd57977B84c458eaD4c3105E718` on StudioNet chain 61999.
+**Current Vercel production deployment:** `dpl_5rFm7X1Tdj9DYfAfUhHRJGpmcqZC` (`READY`)
+**Current contract:** `0xEf72A2db4EbeD151273B137D8a741e4C537415f9` on StudioNet chain 61999. Earlier browser QA was against the superseded address `0x367C2B9f8B52EEd57977B84c458eaD4c3105E718`.
 
 ## Production configuration and current display
 
-The public V2 app identifies StudioNet chain 61999, identifies the configured V2 contract, and labels reads as latest-final. A successful dashboard observation displayed **4 agents, 2 releases, and 4 decisions**. After read-heavy navigation, a later browser observation showed `checking RPC` and `No live value loaded` while StudioNet rate limiting took effect. Empty/loading placeholders are not on-chain state, and no authorization conclusion was drawn from them. Recorded lifecycle outcomes remain linked in [`proofs/v2-live.md`](proofs/v2-live.md).
+Before the newest redeployment, the public app displayed **4 agents, 2 releases, and 4 decisions** from the previous contract. Those counts are historical and are not current state. After the new production build, the actual Chrome tab displayed **0 agents, 0 releases, and 0 decisions** from the current fresh contract; a separate latest-final runtime smoke confirmed the counts and returned `NO_DECISION` for a pair registered only on the previous deployment. During the earlier read-heavy navigation, a `checking RPC` / `No live value loaded` read error was not treated as state. Recorded historical lifecycle outcomes remain linked in [`proofs/v2-live.md`](proofs/v2-live.md).
 
 The proof records distinguish deterministic compatibility checks from semantic independent-validator decisions. Synthetic, publisher-controlled fixtures are labeled as test fixtures. Evidence digest verification proves byte integrity only, not claim truth. Event tracing remains `REVIEW_REQUIRED`; no real consumer behavior is inferred from the synthetic scenario.
 
@@ -41,9 +41,9 @@ That receipt exposed a frontend defect: V2 requested the SDK's full raw transact
 
 The public Chrome tab at `/v2/` displayed four agents, two releases, and four decisions. A separate read-only audit retrieved the deployed source bytes, fetched four representative transaction receipts, and queried `get_overview` plus four pair-specific `get_authorization` values at `LATEST_FINAL`. The four current values were Checkout `BLOCKED`, Analytics revision 2 `ALLOW`, Refund `BLOCKED`, and event tracing revision 2 `REVIEW_REQUIRED`. See [`proofs/v2-final-audit-2026-10-21.json`](proofs/v2-final-audit-2026-10-21.json). This is a fresh chain read; it does not upgrade a historical approval into a permanent authorization.
 
-The retrieved deployed source hash matches the deployment record (`72f114...5285c0`) and historical source commit `aee912c0635d6ca3b5782e97da2db733f9a20d6a`. Current source is `98c783f80a04caccab8077f55c6de8ee1ff792afb0c47594c26e4dcb92ec13ab` (UTF-8 source normalized to LF) and differs. Required-evidence enforcement changes are therefore local source only and need separate deployment authorization before live use.
+This paragraph records the earlier audit of the superseded deployment: that contract’s hash was `72f114...5285c0`, while the then-current source was `98c783...ec13ab`. The evidence-enforcement source was subsequently deployed and independently retrieved from the current address with the exact matching hash. See [`v2-deployment-2026-10-21.json`](proofs/v2-deployment-2026-10-21.json).
 
-The current browser session verified the V2 page and its displayed live snapshot. Exact all-eight-section responsive checks at 375, 768, and 1440 pixels were not reproduced in this session. Wallet message signature recovery and existing finalized-transaction reads passed in the prior Rabby session; a new signed contract write, rejected write, pending-transaction account/network changes, and UI finality edge-paths remain unverified.
+Vercel published deployment `dpl_5rFm7X1Tdj9DYfAfUhHRJGpmcqZC` to the existing production project. Its served V2 JavaScript bundle contains current contract `0xEf72A2db4EbeD151273B137D8a741e4C537415f9` and not the previous address. The actual Chrome tab was refreshed and showed 0 agents, 0 releases, and 0 decisions with no registered records, consistent with latest-final reads on the fresh contract. Vercel reports authentication deployment protection; anonymous reviewer access is not established. Exact all-eight-section responsive checks at 375, 768, and 1440 pixels were not reproduced in this session. Prior Rabby message signature recovery and existing finalized-transaction reads passed; a new signed contract write, rejected write, pending-transaction account/network changes, and UI finality edge-paths remain unverified.
 
 ## Acceptance conclusion
 

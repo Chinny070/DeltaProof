@@ -19,10 +19,9 @@ test('deployment audit checks deployed source, representative receipts, and exac
     },
     readContract: async request => {
       readRequests.push(request);
-      if (request.functionName === 'get_overview') return { agents: 4, releases: 2, decisions: 4, protocol: 'deltaproof/2.0' };
+      if (request.functionName === 'get_overview') return { agents: 0, releases: 0, decisions: 0, protocol: 'deltaproof/2.0' };
       const [release_id, agent_id] = request.args;
-      return { release_id, agent_id, allow: agent_id === 'analytics-live-20261020',
-        status: agent_id === 'analytics-live-20261020' ? 'ALLOW' : 'REVIEW_REQUIRED', revision: 2 };
+      return { release_id, agent_id, allow: false, status: 'NO_DECISION', revision: 0 };
     },
   };
   const result = await auditV2Deployment({ client, localSourceBytes: Buffer.from('current branch source') });
