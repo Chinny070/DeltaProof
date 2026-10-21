@@ -6,7 +6,7 @@
   "explorer": "https://explorer-studio.genlayer.com",
   "contract_source": "contracts/deltaproof_v2.py",
   "contract_name": "DeltaProofV2",
-  "status": "THREE_LIVE_AGENTS_ONE_RELEASE_THREE_ADJUDICATIONS_CHECKOUT_BLOCKED_ANALYTICS_ALLOWED_REFUND_BLOCKED",
+  "status": "ACTIVE_STUDIONET_DEPLOYMENT; CHECKOUT_BLOCKED; ANALYTICS_REVISION_2_ALLOW_AFTER_FREEZE_RESOLUTION; REFUND_BLOCKED_AFTER_UPHELD_APPEAL; SAFETY_CHALLENGE_NOT_STARTED",
   "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
   "deployment_tx_hash": "0x1578c201d04155f61bf16594bdc0b663aacdf9c28be08b71b4ef07d0755a218e",
   "source_sha256": "72f114e73c91f34a10de53f2715323c87b3048fe830c6d32492cdd00cf5285c0",
@@ -495,5 +495,122 @@
     "passport_currently_authorized": false,
     "passport_hash": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b",
     "verified_read_variant": "LATEST_FINAL"
+  },
+  "latest_final_analytics_after_freeze_resolution": {
+    "decision": "APPROVED",
+    "revision": 2,
+    "authorization": {
+      "allow": true,
+      "status": "ALLOW",
+      "revision": 2
+    },
+    "passport_hash": "9c1faa0103660734288b4fe7c205bb0a50c4e72c21511b64249a7b88f3959ab0",
+    "previous_passport_hash": "523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb",
+    "freeze_history_hash": "1d07da299bfd03ff8c24fe1c4350939fa0d7a0ae11c41a886d38c2c799e3988b",
+    "verified_at_utc": "2026-10-21T06:41:51Z",
+    "transactions": [
+      {
+        "method": "freeze_authorization",
+        "hash": "0xcb3b5d88301abc713d0da43da9aa6889c5bd86aadc41b9f77b35a7c7b0d0e0c5",
+        "finality": "FINALIZED",
+        "execution": "SUCCESS"
+      },
+      {
+        "method": "resolve_freeze",
+        "hash": "0xfe963b610a6ad70a71a93ac06dddfd16dedc179cfe3870e22d632cae235448af",
+        "finality": "FINALIZED",
+        "execution": "SUCCESS"
+      }
+    ],
+    "verification": "User-provided finalized explorer receipts plus independent latest-final SDK reads."
+  },
+  "latest_final_refund_appeal": {
+    "status": "RESOLVED",
+    "outcome": "UPHELD",
+    "revised_decision": "BLOCKED",
+    "authorization": {
+      "allow": false,
+      "status": "BLOCKED",
+      "revision": 1
+    },
+    "evidence_items_verified": 3,
+    "transactions": [
+      {
+        "method": "open_appeal",
+        "hash": "0xc2ea312d379e107504f4e0dca145e58b19c9eb234137089315b068fbb7f501b7",
+        "finality": "FINALIZED",
+        "execution": "SUCCESS"
+      },
+      {
+        "method": "respond_to_appeal",
+        "hash": "0x2db0b0cbf867ba5ed5e11dd47e8cb9a47b331ccda20ef4348b3b0c1c9b198847",
+        "finality": "FINALIZED",
+        "execution": "SUCCESS"
+      },
+      {
+        "method": "resolve_appeal",
+        "hash": "0x368bfe2894ea2ff715cfdd3a401a7aaa08bc40c461b5c2d0824285dba2e542ab",
+        "finality": "FINALIZED",
+        "execution": "SUCCESS",
+        "consensus": "MAJORITY_AGREE",
+        "votes": [
+          "AGREE",
+          "IDLE",
+          "AGREE",
+          "IDLE",
+          "AGREE"
+        ],
+        "execution_hash": "0x35b5a08f8c509e6670af8894067f509fb9992da500d1b9d2fd976befdd281447"
+      }
+    ],
+    "verified_at_utc": "2026-10-21T06:41:51Z"
+  },
+  "repeated_execution_hash_audit": {
+    "tx_execution_hash": "0x35b5a08f8c509e6670af8894067f509fb9992da500d1b9d2fd976befdd281447",
+    "semantic_adjudication_tx": "0xa94d0375e5b09e4949af6a7aefaa236cafef17928bb9bbd0c417c8b11a61e81c",
+    "appeal_resolution_tx": "0x368bfe2894ea2ff715cfdd3a401a7aaa08bc40c461b5c2d0824285dba2e542ab",
+    "both_receipts_retrieved_independently": true,
+    "meaning": "Repeated node-reported value; protocol interpretation not established."
+  },
+  "safety_challenge_verification": {
+    "status": "NOT_STARTED",
+    "pair": {
+      "agent_id": "eventtrace-live-20261021",
+      "release_id": "eventtrace-v2-20261021"
+    },
+    "fixture": "Controlled synthetic API compatibility scenario; not production evidence.",
+    "watchtower": {
+      "interval_ms": 15000,
+      "raw_jsonl_path": "docs/proofs/safety-watchtower.jsonl",
+      "observations": 7,
+      "no_decision": 4,
+      "read_error": 3,
+      "recovered_to": "NO_DECISION",
+      "last_observed_at": "2026-10-21T07:06:44.096Z",
+      "auth_transition_observed": false
+    },
+    "ci_pre_registration": {
+      "status": "NO_DECISION",
+      "allow": false,
+      "exit_code": 1
+    },
+    "note": "No safety-pair transactions were submitted. Further steps require the user's unlocked PowerShell terminal."
+  },
+  "public_frontend_qa": {
+    "url": "https://deltaproof-v2.vercel.app/v2/",
+    "latest_final_counts": {
+      "agents": 3,
+      "releases": 1,
+      "decisions": 3
+    },
+    "responsive_css_widths": [
+      375,
+      768,
+      1440
+    ],
+    "horizontal_overflow": false,
+    "wallet_injection": "NOT_AVAILABLE_IN_TESTED_PROFILE",
+    "diagnostic": "MetaMask logs a getter-only window.ethereum collision attributed to another wallet extension; page context observes no provider.",
+    "published_copy_issue": "Stale sidebar text says V2 is not live although live contract data is displayed. Local source is corrected; no Vercel credential is available to publish the change."
   }
 }
