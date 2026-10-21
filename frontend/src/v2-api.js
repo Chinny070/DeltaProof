@@ -38,14 +38,34 @@ export async function v2Write(wallet, functionName, args = [], onSubmitted = () 
   return { hash, receipt };
 }
 
+export function requireSuccessfulV2Finality(hash, receipt) {
+  const status = receipt?.statusName ?? receipt?.status_name;
+  const decodedExecution = receipt?.txExecutionResultName ?? receipt?.tx_execution_result_name;
+  const leadersValue = receipt?.consensus_data?.leader_receipt;
+  const leaders = Array.isArray(leadersValue) ? leadersValue : leadersValue ? [leadersValue] : [];
+  // StudioNet's full GenLayer receipt exposes execution_result on leader_receipt;
+  // txExecutionResultName is absent in genlayer-js 1.1.8's raw transaction shape.
+  const leaderExecutionSucceeded = leaders.length > 0 && leaders.every(leader =>
+    leader?.execution_result === 'SUCCESS'
+      && !leader?.genvm_result?.error_description
+      && !leader?.genvm_result?.raw_error);
+  const executionSucceeded = decodedExecution
+    ? decodedExecution === 'FINISHED_WITH_RETURN'
+    : leaderExecutionSucceeded;
+  const consensus = receipt?.result_name ?? receipt?.resultName;
+  if (status !== 'FINALIZED' || !executionSucceeded || (consensus && consensus !== 'MAJORITY_AGREE')) {
+    const execution = decodedExecution || (leaderExecutionSucceeded ? 'FINISHED_WITH_RETURN' : 'unknown');
+    const consensusDetail = consensus && consensus !== 'MAJORITY_AGREE' ? ` / ${consensus}` : '';
+    throw Error(`Transaction ${hash} did not successfully finalize: ${status || 'unknown'} / ${execution}${consensusDetail}`);
+  }
+  return receipt;
+}
+
 export async function v2Track(hash) {
   configured();
-  const { createClient, studionet, TransactionStatus, ExecutionResult } = await sdk();
+  const { createClient, studionet, TransactionStatus } = await sdk();
   const client = createClient({ chain: studionet });
   const receipt = await client.waitForTransactionReceipt({ hash, status: TransactionStatus.FINALIZED,
     interval: 3000, retries: 100, fullTransaction: true });
-  if (receipt?.statusName !== 'FINALIZED' || receipt?.txExecutionResultName !== ExecutionResult.FINISHED_WITH_RETURN) {
-    throw Error(`Transaction ${hash} did not successfully finalize: ${receipt?.statusName || 'unknown'} / ${receipt?.txExecutionResultName || 'unknown'}`);
-  }
-  return receipt;
+  return requireSuccessfulV2Finality(hash, receipt);
 }
