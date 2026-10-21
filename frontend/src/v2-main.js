@@ -189,3 +189,4 @@ app.addEventListener('submit', async event => {
 });
 
 render();wallet.discover();wallet.restore().catch(()=>{});reload();
+
