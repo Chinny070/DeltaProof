@@ -1312,25 +1312,30 @@
       "source_commit": "a310f3cd59d83fe43c2c264b648225c5302d6825"
     },
     "watchtower": {
-      "status": "RUNNING",
-      "target": "eventtrace-live-20261021 / eventtrace-v2-20261021",
+      "status": "STOPPED_AFTER_DIAGNOSTIC_WINDOW",
+      "target": "eventtrace-v2-20261021 / eventtrace-live-20261021",
       "interval_ms": 15000,
       "raw_jsonl_path": "docs/proofs/safety-watchtower.jsonl",
-      "first_observation": {
+      "observations": 7,
+      "no_decision": 4,
+      "read_error": 3,
+      "last_recovery": {
         "status": "NO_DECISION",
         "allow": false,
         "revision": 0,
         "state": "LATEST_FINAL",
-        "observed_at": "2026-10-21T06:47:44.656Z"
+        "observed_at": "2026-10-21T07:06:44.096Z"
       },
-      "transitions_observed": []
+      "authorization_transition_observed": false,
+      "note": "Three transient RPC fetch errors were followed by repeated NO_DECISION responses. A separate read-only Analytics CI call later succeeded (ALLOW, revision 2, exit code 0)."
     },
     "ci_gate_pre_registration": {
       "status": "NO_DECISION",
       "allow": false,
       "revision": 0,
       "state": "LATEST_FINAL",
-      "exit_code": 1
+      "exit_code": 1,
+      "note": "Pre-registration baseline only, not the approval-before-challenge check."
     },
     "note": "No safety-pair transaction has been submitted; actual challenge write sequence requires the user's unlocked PowerShell wallet because the separate runner cannot access its OS keychain."
   },
@@ -1350,5 +1355,16 @@
     "wallet_injection": "NOT_AVAILABLE_IN_TESTED_PROFILE",
     "diagnostics": "MetaMask console error identifies a getter-only window.ethereum collision attributed to another wallet extension. The page context sees no injected provider. Wallet flows remain unverified.",
     "published_sidebar_defect": "Public deployment still says V2 is not live until a V2 address is configured although live reads load. Local source is corrected; Vercel publishing credential unavailable."
+  },
+  "latest_final_ci_gate_after_watchtower_window": {
+    "pair": {
+      "release_id": "v2api-20261020",
+      "agent_id": "analytics-live-20261020"
+    },
+    "status": "ALLOW",
+    "allow": true,
+    "revision": 2,
+    "exit_code": 0,
+    "verified_at_utc": "2026-10-21T07:14:35Z"
   }
 }
