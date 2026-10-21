@@ -40,3 +40,4 @@ Wallet acceptance was **not achieved**. The public page in the available in-app 
 **PARTIAL / NO-GO for a claim of complete reviewer acceptance.** Responsive production UI and the offline frontend suite pass; live chain data is visible. A genuine injected-wallet browser session is still required to finish wallet acceptance. The separate `gltest` runtime remains unverified. No additional paid chain transaction is needed to resolve the wallet blocker.
 
 
+

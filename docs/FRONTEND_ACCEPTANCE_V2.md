@@ -39,3 +39,4 @@ The following acceptance checks therefore remain open: connect; display/copy add
 ## Acceptance conclusion
 
 Responsive presentation and offline frontend tests pass. Production chain configuration and live dashboard counts are confirmed. Complete wallet acceptance is still blocked on a browser session where one supported extension injects its provider; no wallet functionality should be described as verified until those interactions succeed.
+

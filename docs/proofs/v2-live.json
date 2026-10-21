@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-21T06:53:00Z",
+  "recorded_at_utc": "2026-10-21T08:06:16Z",
   "network": {
     "name": "GenLayer StudioNet",
     "chain_id": 61999,
@@ -356,6 +356,320 @@
       "transaction_value_gen": "0",
       "settled_fee_gen": null,
       "fee_note": "Explorer transaction value is 0 GEN; settled protocol fee is not exposed in the receipt."
+    },
+    {
+      "scenario": "Targeted Analytics authorization freeze",
+      "hash": "0xcb3b5d88301abc713d0da43da9aa6889c5bd86aadc41b9f77b35a7c7b0d0e0c5",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0xcb3b5d88301abc713d0da43da9aa6889c5bd86aadc41b9f77b35a7c7b0d0e0c5",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9e5b4ab85dd5dea8e70b",
+      "method": "freeze_authorization",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "consensus": "ACCEPTED",
+      "initial_validators": 5,
+      "arguments": [
+        "v2api-20261020",
+        "analytics-live-20261020",
+        "Authorized targeted live freeze lifecycle verification",
+        1800
+      ],
+      "value_gen": "0",
+      "gas_limit": null,
+      "nonce": 3003,
+      "settled_fee_gen": null,
+      "fee_note": "Explorer shows 0 GEN transaction value and no gas limit; settled protocol fee is not exposed, so total expenditure is unknown.",
+      "source": "Explorer transaction page and public frontend latest-final gate reads."
+    },
+    {
+      "scenario": "Resolve targeted Analytics freeze",
+      "hash": "0xfe963b610a6ad70a71a93ac06dddfd16dedc179cfe3870e22d632cae235448af",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0xfe963b610a6ad70a71a93ac06dddfd16dedc179cfe3870e22d632cae235448af",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9e5b4ab85dd5dea8e70b",
+      "method": "resolve_freeze",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "consensus": "ACCEPTED",
+      "initial_validators": 5,
+      "arguments": [
+        "v2api-20261020",
+        "analytics-live-20261020"
+      ],
+      "value_gen": "0",
+      "gas_limit": null,
+      "nonce": 3004,
+      "settled_fee_gen": null,
+      "fee_note": "Explorer shows 0 GEN transaction value and no gas limit; settled protocol fee is not exposed.",
+      "source": "Explorer transaction page and public frontend latest-final gate reads."
+    },
+    {
+      "scenario": "Fresh Analytics reassessment after freeze resolution",
+      "hash": "0xc9779d7d8607015a498b3a4d5739e300f38ba4ab3ed2567dcd1d8cd9d36814b5",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0xc9779d7d8607015a498b3a4d5739e300f38ba4ab3ed2567dcd1d8cd9d36814b5",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9e5b4ab85dd5dea8e70b",
+      "method": "adjudicate",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "consensus": "ACCEPTED",
+      "initial_validators": 5,
+      "return_value": "9c1faa0103660734288b4fe7c205bb0a50c4e72c21511b64249a7b88f3959ab0",
+      "value_gen": "0",
+      "gas_limit": null,
+      "nonce": 3005,
+      "settled_fee_gen": null,
+      "fee_note": "Explorer shows transaction value 0 GEN and no gas limit; settled protocol fee is not exposed.",
+      "source": "StudioNet Explorer transaction page and GenLayerJS latest-final read-only calls."
+    },
+    {
+      "scenario": "Open evidence-backed Refund appeal",
+      "hash": "0xc2ea312d379e107504f4e0dca145e58b19c9eb234137089315b068fbb7f501b7",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0xc2ea312d379e107504f4e0dca145e58b19c9eb234137089315b068fbb7f501b7",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9e5b4ab85dd5dea8e70b",
+      "method": "open_appeal",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "consensus": "ACCEPTED",
+      "initial_validators": 5,
+      "return_value": "12858fe77eb493861c2f4152173ee4f0e491f2c521db1e9576e3d9296ac70bb7",
+      "arguments": [
+        "v2api-20261020",
+        "refund-live-20261020",
+        "[counterevidence commitment d962e37957fc5ac424b2e8fb2cf2f0fa3a33aaf6a9a5b91fd9d0b8e17421bbc0]"
+      ],
+      "value_gen": "0",
+      "gas_limit": null,
+      "nonce": 3006,
+      "settled_fee_gen": null,
+      "fee_note": "Explorer shows transaction value 0 GEN and no gas limit; settled protocol fee is not exposed."
+    },
+    {
+      "scenario": "Submit publisher response to Refund appeal",
+      "hash": "0x2db0b0cbf867ba5ed5e11dd47e8cb9a47b331ccda20ef4348b3b0c1c9b198847",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0x2db0b0cbf867ba5ed5e11dd47e8cb9a47b331ccda20ef4348b3b0c1c9b198847",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "method": "respond_to_appeal",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "consensus": "ACCEPTED",
+      "initial_validators": 5,
+      "created_at_display": "Oct 20, 2026, 11:26:57 PM (as shown in user-provided explorer details)",
+      "nonce": 3007,
+      "return_value": null,
+      "arguments": [
+        "v2api-20261020",
+        "refund-live-20261020",
+        "[publisher response commitment 08447a5517b38801586b18b71e502a79b2108963c2396fc4f8d6a7a74912ef00]"
+      ],
+      "value_gen": "0",
+      "gas_limit": null,
+      "settled_fee_gen": null,
+      "fee_note": "Explorer shows 0 GEN transaction value and no gas limit; total/settled protocol fee is not established.",
+      "source": "User-provided StudioNet Explorer transaction details; latest-final state independently queried via GenLayerJS."
+    },
+    {
+      "scenario": "Resolve evidence-backed Refund appeal",
+      "hash": "0x368bfe2894ea2ff715cfdd3a401a7aaa08bc40c461b5c2d0824285dba2e542ab",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0x368bfe2894ea2ff715cfdd3a401a7aaa08bc40c461b5c2d0824285dba2e542ab",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffE15eEc45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "method": "resolve_appeal",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "explorer_consensus": "ACCEPTED",
+      "sdk_consensus": "MAJORITY_AGREE",
+      "rounds": 1,
+      "initial_validators": 5,
+      "validator_votes": [
+        "AGREE",
+        "IDLE",
+        "AGREE",
+        "IDLE",
+        "AGREE"
+      ],
+      "successful_validator_executions_observed": 2,
+      "idle_executions_cancelled_after_quorum": 2,
+      "execution_hash": "0x35b5a08f8c509e6670af8894067f509fb9992da500d1b9d2fd976befdd281447",
+      "return_value": "4b56cc9093f26cec77636246f20cc1df451d462755be21039ca9ece89f8e0514",
+      "appeal_outcome": "UPHELD",
+      "revised_decision": "BLOCKED",
+      "evidence_profile": [
+        {
+          "characters": 967,
+          "sha256": "d962e37957fc5ac424b2e8fb2cf2f0fa3a33aaf6a9a5b91fd9d0b8e17421bbc0",
+          "status": "VERIFIED",
+          "kind": "counterevidence"
+        },
+        {
+          "characters": 1077,
+          "sha256": "08447a5517b38801586b18b71e502a79b2108963c2396fc4f8d6a7a74912ef00",
+          "status": "VERIFIED",
+          "kind": "publisher_response"
+        },
+        {
+          "characters": 1111,
+          "sha256": "17014b71c97c5b08cda20058e7b68747a2c17930c9e9a1f37e30b02e0cefd6a9",
+          "status": "VERIFIED",
+          "kind": "original_release_evidence"
+        }
+      ],
+      "value_gen": "0",
+      "gas_limit": 3008,
+      "nonce": 3008,
+      "settled_fee_gen": null,
+      "fee_note": "Explorer value is 0 GEN; SDK gas limit is 3008; settled protocol fee is not exposed.",
+      "source": "User-provided StudioNet transaction details plus independently queried GenLayerJS 1.1.8 receipt and latest-final contract reads."
+    },
+    {
+      "scenario": "Register event-tracing consumer",
+      "hash": "0x28dda8c481db53abf235f8c0d623ccc1448c1cd074272ac20001f9c4f680776b",
+      "method": "register_agent",
+      "nonce": 3038,
+      "return_value": "c75ec2c295a91206136fc359c1ba8db2ea99c2fe0c03a0c2e2837fed01328292",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0x28dda8c481db53abf235f8c0d623ccc1448c1cd074272ac20001f9c4f680776b",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "explorer_consensus": "ACCEPTED",
+      "transaction_value_gen": "0",
+      "settled_fee_gen": null,
+      "fee_note": "Explorer transaction value was 0 GEN; the settled protocol fee was not exposed in the verified receipt and is not inferred."
+    },
+    {
+      "scenario": "Register event-tracing compatibility release",
+      "hash": "0x51ab176ab86748291787e3a55190ac98a8667c38b63b1c48fb39b630afc650de",
+      "method": "register_release",
+      "nonce": 3039,
+      "return_value": "db6fd22ff869a582c7b1f0eeb298a4eb5b82db446d32a37548d59ca495604692",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0x51ab176ab86748291787e3a55190ac98a8667c38b63b1c48fb39b630afc650de",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "explorer_consensus": "ACCEPTED",
+      "transaction_value_gen": "0",
+      "settled_fee_gen": null,
+      "fee_note": "Explorer transaction value was 0 GEN; the settled protocol fee was not exposed in the verified receipt and is not inferred."
+    },
+    {
+      "scenario": "Initial event-tracing semantic adjudication",
+      "hash": "0x7f0ceaa5fd391d44d1e71890433000149a427803e07ecf0ac55a0b7883f7f496",
+      "method": "adjudicate",
+      "nonce": 3040,
+      "return_value": "9d739f57b9b8ac5d6624d50396088efd3b511e4f494db0bca0fc84fef24aa786",
+      "decision": "APPROVED",
+      "risk": "LOW",
+      "mode": "GENLAYER_INDEPENDENT_CONSENSUS",
+      "evidence_sha256": "dab5d3a1431c08b850ebe09f910ec28a8c4a56a6108654d55a944422e0f08d25",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0x7f0ceaa5fd391d44d1e71890433000149a427803e07ecf0ac55a0b7883f7f496",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "explorer_consensus": "ACCEPTED",
+      "transaction_value_gen": "0",
+      "settled_fee_gen": null,
+      "fee_note": "Explorer transaction value was 0 GEN; the settled protocol fee was not exposed in the verified receipt and is not inferred."
+    },
+    {
+      "scenario": "Open event-tracing safety challenge",
+      "hash": "0x4778b15ea4ccc12da2af3ebd829710b78e9437053f3b9d20292a20a0fa3d960f",
+      "method": "open_safety_challenge",
+      "nonce": 3041,
+      "return_value": "dbb0340434b1954c665c2a88d6fe4d26a8912dec5f5fac28c3da0c9531fb02da",
+      "screening": "CREDIBLE",
+      "counterevidence_sha256": "947ad0040e20bfc997e0254f3c5acaca569599a7f2b22a9a62a7626b2e48f7d1",
+      "targeted_authorization": "SAFETY_CHALLENGE_PENDING",
+      "unrelated_analytics": "ALLOW",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0x4778b15ea4ccc12da2af3ebd829710b78e9437053f3b9d20292a20a0fa3d960f",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "explorer_consensus": "ACCEPTED",
+      "transaction_value_gen": "0",
+      "settled_fee_gen": null,
+      "fee_note": "Explorer transaction value was 0 GEN; the settled protocol fee was not exposed in the verified receipt and is not inferred."
+    },
+    {
+      "scenario": "Submit event-tracing safety publisher response",
+      "hash": "0xfa986d45c1dfc5773cb13ab374180e8bc129ee270ae0027ab8c2baacb7329e62",
+      "method": "respond_to_safety_challenge",
+      "nonce": 3042,
+      "response_sha256": "9d1367b4a320ea98c7fdf03dddb6c6e4c1c40b28c66c0c4abe90f0a6c337b6f8",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0xfa986d45c1dfc5773cb13ab374180e8bc129ee270ae0027ab8c2baacb7329e62",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "explorer_consensus": "ACCEPTED",
+      "transaction_value_gen": "0",
+      "settled_fee_gen": null,
+      "fee_note": "Explorer transaction value was 0 GEN; the settled protocol fee was not exposed in the verified receipt and is not inferred."
+    },
+    {
+      "scenario": "Resolve event-tracing safety challenge",
+      "hash": "0x3ec964e9d026318c1d9c725f83ed6d5d87a0ca5d3ea38429be1b856f8c13937e",
+      "method": "resolve_safety_challenge",
+      "nonce": 3043,
+      "return_value": "a197579c69779bd8ddfdc341d00355c8450664b47ef32e9ac8f3251915e316b6",
+      "outcome": "REVIEW_REQUIRED",
+      "risk": "MEDIUM",
+      "evidence_sufficient": false,
+      "evidence_profile": [
+        {
+          "kind": "counterevidence",
+          "characters": 2682,
+          "sha256": "947ad0040e20bfc997e0254f3c5acaca569599a7f2b22a9a62a7626b2e48f7d1",
+          "status": "VERIFIED"
+        },
+        {
+          "kind": "publisher_response",
+          "characters": 1847,
+          "sha256": "9d1367b4a320ea98c7fdf03dddb6c6e4c1c40b28c66c0c4abe90f0a6c337b6f8",
+          "status": "VERIFIED"
+        },
+        {
+          "kind": "initial_compatibility_evidence",
+          "characters": 1799,
+          "sha256": "dab5d3a1431c08b850ebe09f910ec28a8c4a56a6108654d55a944422e0f08d25",
+          "status": "VERIFIED"
+        }
+      ],
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0x3ec964e9d026318c1d9c725f83ed6d5d87a0ca5d3ea38429be1b856f8c13937e",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "explorer_consensus": "ACCEPTED",
+      "transaction_value_gen": "0",
+      "settled_fee_gen": null,
+      "fee_note": "Explorer transaction value was 0 GEN; the settled protocol fee was not exposed in the verified receipt and is not inferred."
+    },
+    {
+      "scenario": "Fresh event-tracing adjudication after safety challenge",
+      "hash": "0x1568c7b546c075ee01b3e8d777781489173989e273a59adcb91f300e825f9198",
+      "method": "adjudicate",
+      "nonce": 3044,
+      "return_value": "5609a8732ec63b7a16890a365458bfff05881fa085686f9b59f90f1f518fead9",
+      "decision": "REVIEW_REQUIRED",
+      "revision": 2,
+      "risk": "MEDIUM",
+      "mode": "GENLAYER_INDEPENDENT_CONSENSUS",
+      "previous_passport_hash": "9d739f57b9b8ac5d6624d50396088efd3b511e4f494db0bca0fc84fef24aa786",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0x1568c7b546c075ee01b3e8d777781489173989e273a59adcb91f300e825f9198",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "explorer_consensus": "ACCEPTED",
+      "transaction_value_gen": "0",
+      "settled_fee_gen": null,
+      "fee_note": "Explorer transaction value was 0 GEN; the settled protocol fee was not exposed in the verified receipt and is not inferred."
     }
   ],
   "latest_final_state_after_registration": {
@@ -517,7 +831,7 @@
     "evidence_hash": "7ca7f285d0c1bd846472eebcae4dc2f2bda799b182be791093d2688860b38bb7",
     "evidence_profile_status": "NOT_YET_RETRIEVED_BY_ADJUDICATION"
   },
-  "lifecycle_status": "CHECKOUT_BLOCKED; ANALYTICS_FREEZE_RESOLVED_AND_REVISION_2_ALLOW; REFUND_SEMANTIC_BLOCKED_AND_APPEAL_UPHELD; SAFETY_CHALLENGE_NOT_STARTED_PENDING_USER_TERMINAL_SIGNER; WATCHTOWER_RUNNING_AWAITING_SAFETY_PAIR_TRANSITIONS",
+  "lifecycle_status": "CHECKOUT_BLOCKED; ANALYTICS_ALLOW_REVISION_2; REFUND_BLOCKED_APPEAL_UPHELD; EVENTTRACE_SAFETY_CHALLENGE_RESOLVED_REVIEW_REQUIRED_REVISION_2; EVENTTRACE_AUTHORIZATION_DENIED; SAFETY_CYCLE_COMPLETE",
   "signer_diagnostic": {
     "authorized_public_address": "0xaffe15eec45b68835cc9e5b4ab85dd5deae8e70b",
     "unlocked_in_user_codex_terminal": true,
@@ -658,6 +972,322 @@
     "release_id": "v2api-20261020",
     "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
     "read_state": "LATEST_FINAL",
+    "verified_at_utc": "2026-10-20T22:45:02Z",
+    "results": [
+      {
+        "agent_id": "checkout-live-20261020",
+        "allow": false,
+        "status": "BLOCKED",
+        "revision": 1,
+        "passport_hash": "ff515fb61c0c511b7628dcb3b11946bb51beb7a23956d90308b73d84be5c8cbc"
+      },
+      {
+        "agent_id": "analytics-live-20261020",
+        "allow": true,
+        "status": "ALLOW",
+        "revision": 2,
+        "passport_hash": "9c1faa0103660734288b4fe7c205bb0a50c4e72c21511b64249a7b88f3959ab0"
+      },
+      {
+        "agent_id": "refund-live-20261020",
+        "allow": false,
+        "status": "BLOCKED",
+        "revision": 1,
+        "passport_hash": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b"
+      }
+    ]
+  },
+  "execution_checkpoint": {
+    "recorded_at_utc": "2026-10-20T19:55:37Z",
+    "transactions_submitted": 0,
+    "reason": "Workspace runner could not read the user's unlocked GenLayer CLI keychain account; no write attempted.",
+    "readonly_preflight": {
+      "script": "frontend/integrations/live-freeze-cycle.mjs",
+      "steps": [
+        "freeze",
+        "resolve-freeze",
+        "reassess"
+      ],
+      "result": "PASS",
+      "network": "StudioNet",
+      "chain_id": 61999,
+      "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "target_pair": [
+        "v2api-20261020",
+        "analytics-live-20261020"
+      ],
+      "transaction_sent": false
+    },
+    "pending": [
+      "targeted freeze and resolve",
+      "fresh reassessment",
+      "evidence-backed appeal",
+      "eligible safety challenge",
+      "Watchtower transition capture",
+      "real-browser wallet acceptance"
+    ]
+  },
+  "public_frontend_readonly_acceptance": {
+    "verified_at_utc": "2026-10-20T20:18:19Z",
+    "url": "https://deltaproof-v2.vercel.app/v2/",
+    "page_loaded": true,
+    "network": "StudioNet",
+    "chain_id": 61999,
+    "counts": {
+      "agents": 3,
+      "releases": 1,
+      "decisions": 3
+    },
+    "authorization_gate": {
+      "read_state": "LATEST_FINAL",
+      "results": [
+        {
+          "agent_id": "analytics-live-20261020",
+          "release_id": "v2api-20261020",
+          "status": "ALLOW",
+          "allow": true,
+          "revision": 1,
+          "passport_hash": "523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb"
+        },
+        {
+          "agent_id": "checkout-live-20261020",
+          "release_id": "v2api-20261020",
+          "status": "BLOCKED",
+          "allow": false,
+          "revision": 1,
+          "passport_hash": "ff515fb61c0c511b7628dcb3b11946bb51beb7a23956d90308b73d84be5c8cbc"
+        }
+      ]
+    },
+    "wallet": {
+      "connection_attempted": false,
+      "window_ethereum": "undefined",
+      "console_observation": "MetaMask could not install window.ethereum because the property was getter-only.",
+      "connection_signing_and_responsive_qa": "NOT_VERIFIED"
+    }
+  },
+  "latest_final_state_after_targeted_freeze": {
+    "verified_at_utc": "2026-10-20T20:18:19Z",
+    "read_variant": "LATEST_FINAL",
+    "release_id": "v2api-20261020",
+    "target_agent_id": "analytics-live-20261020",
+    "target_authorization": {
+      "status": "FROZEN",
+      "allow": false,
+      "revision": 1,
+      "passport_hash": "523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb"
+    },
+    "unaffected_pairs": [
+      {
+        "agent_id": "checkout-live-20261020",
+        "status": "BLOCKED",
+        "allow": false,
+        "revision": 1,
+        "passport_hash": "ff515fb61c0c511b7628dcb3b11946bb51beb7a23956d90308b73d84be5c8cbc"
+      },
+      {
+        "agent_id": "refund-live-20261020",
+        "status": "BLOCKED",
+        "allow": false,
+        "revision": 1,
+        "passport_hash": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b"
+      }
+    ]
+  },
+  "latest_final_state_after_freeze_resolution": {
+    "verified_at_utc": "2026-10-20T21:30:21Z",
+    "read_variant": "LATEST_FINAL",
+    "release_id": "v2api-20261020",
+    "analytics": {
+      "agent_id": "analytics-live-20261020",
+      "status": "REASSESSMENT_REQUIRED",
+      "allow": false,
+      "revision": 1,
+      "passport_hash": "523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb",
+      "reason": "A safety event requires a fresh adjudication."
+    },
+    "unaffected_pairs": [
+      {
+        "agent_id": "checkout-live-20261020",
+        "status": "BLOCKED",
+        "allow": false,
+        "revision": 1,
+        "passport_hash": "ff515fb61c0c511b7628dcb3b11946bb51beb7a23956d90308b73d84be5c8cbc"
+      },
+      {
+        "agent_id": "refund-live-20261020",
+        "status": "BLOCKED",
+        "allow": false,
+        "revision": 1,
+        "passport_hash": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b"
+      }
+    ]
+  },
+  "latest_final_state_after_analytics_reassessment": {
+    "verified_at_utc": "2026-10-20T22:06:39Z",
+    "read_variant": "LATEST_FINAL",
+    "release_id": "v2api-20261020",
+    "decision": {
+      "agent_id": "analytics-live-20261020",
+      "revision": 2,
+      "decision": "APPROVED",
+      "risk": "LOW",
+      "mode": "DETERMINISTIC_UNAFFECTED",
+      "impacted_dependencies": [],
+      "passport_hash": "9c1faa0103660734288b4fe7c205bb0a50c4e72c21511b64249a7b88f3959ab0",
+      "previous_passport_hash": "523d0e077f3919832f0e6bc0e1217fab271a91535cd0c9845d966f831d7bc5cb"
+    },
+    "authorization": {
+      "status": "ALLOW",
+      "allow": true,
+      "revision": 2,
+      "passport_hash": "9c1faa0103660734288b4fe7c205bb0a50c4e72c21511b64249a7b88f3959ab0"
+    },
+    "passport_verification": {
+      "revision_1": true,
+      "revision_2": true,
+      "invalid_zero_hash": false
+    },
+    "unaffected_pairs": [
+      {
+        "agent_id": "checkout-live-20261020",
+        "status": "BLOCKED",
+        "allow": false,
+        "revision": 1,
+        "passport_hash": "ff515fb61c0c511b7628dcb3b11946bb51beb7a23956d90308b73d84be5c8cbc"
+      },
+      {
+        "agent_id": "refund-live-20261020",
+        "status": "BLOCKED",
+        "allow": false,
+        "revision": 1,
+        "passport_hash": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b"
+      }
+    ]
+  },
+  "latest_final_state_after_refund_appeal_open": {
+    "verified_at_utc": "2026-10-20T22:33:12Z",
+    "read_variant": "LATEST_FINAL",
+    "decision": {
+      "agent_id": "refund-live-20261020",
+      "revision": 1,
+      "decision": "BLOCKED"
+    },
+    "authorization": {
+      "status": "BLOCKED",
+      "allow": false,
+      "revision": 1,
+      "passport_hash": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b"
+    },
+    "appeal": {
+      "status": "OPEN",
+      "outcome": "",
+      "response_submitted": true,
+      "response_deadline": 1792707695,
+      "counterevidence": [
+        {
+          "kind": "http-semantics-reference",
+          "sha256": "d962e37957fc5ac424b2e8fb2cf2f0fa3a33aaf6a9a5b91fd9d0b8e17421bbc0",
+          "provenance": "MDN POST semantics excerpt; scope-limited"
+        }
+      ],
+      "response": [
+        {
+          "kind": "publisher-scope-response",
+          "sha256": "08447a5517b38801586b18b71e502a79b2108963c2396fc4f8d6a7a74912ef00",
+          "provenance": "Publisher scope clarification for synthetic fixture"
+        }
+      ],
+      "response_hash": "eb92b20ac55750bfc2ef259cb88bd24f3d6cc87a4bda43381f9c1a4ecbde95df",
+      "counterevidence_hash": "539752911ca0b525f600987b51bd4fb0b8120f2a1b81fba13b9417178f3279dc"
+    }
+  },
+  "latest_final_state_after_refund_appeal_response": {
+    "verified_at_utc": "2026-10-20T22:33:12Z",
+    "read_variant": "LATEST_FINAL",
+    "decision": {
+      "agent_id": "refund-live-20261020",
+      "revision": 1,
+      "decision": "BLOCKED"
+    },
+    "authorization": {
+      "status": "BLOCKED",
+      "allow": false,
+      "revision": 1,
+      "passport_hash": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b"
+    },
+    "appeal": {
+      "status": "OPEN",
+      "outcome": "",
+      "response_submitted": true,
+      "counterevidence_hash": "539752911ca0b525f600987b51bd4fb0b8120f2a1b81fba13b9417178f3279dc",
+      "response_hash": "eb92b20ac55750bfc2ef259cb88bd24f3d6cc87a4bda43381f9c1a4ecbde95df",
+      "response_deadline": 1792707695
+    }
+  },
+  "latest_final_state_after_refund_appeal_resolution": {
+    "verified_at_utc": "2026-10-20T22:45:02Z",
+    "read_variant": "LATEST_FINAL",
+    "appeal": {
+      "status": "RESOLVED",
+      "outcome": "UPHELD",
+      "revised_decision": "BLOCKED",
+      "risk": "HIGH",
+      "sufficient": true,
+      "evidence_status": "VERIFIED",
+      "resolved_at": 1792536063,
+      "revised_decision_hash": "4b56cc9093f26cec77636246f20cc1df451d462755be21039ca9ece89f8e0514",
+      "evidence_profile": [
+        {
+          "characters": 967,
+          "sha256": "d962e37957fc5ac424b2e8fb2cf2f0fa3a33aaf6a9a5b91fd9d0b8e17421bbc0",
+          "status": "VERIFIED"
+        },
+        {
+          "characters": 1077,
+          "sha256": "08447a5517b38801586b18b71e502a79b2108963c2396fc4f8d6a7a74912ef00",
+          "status": "VERIFIED"
+        },
+        {
+          "characters": 1111,
+          "sha256": "17014b71c97c5b08cda20058e7b68747a2c17930c9e9a1f37e30b02e0cefd6a9",
+          "status": "VERIFIED"
+        }
+      ],
+      "resolved_event_snapshot_hash": "8d0694c0bc3e743ea2cff16696679c594d7d09ec6b98246e3a99c83e7a838e09"
+    },
+    "decision": {
+      "agent_id": "refund-live-20261020",
+      "revision": 1,
+      "decision": "BLOCKED",
+      "risk": "HIGH",
+      "mode": "GENLAYER_INDEPENDENT_CONSENSUS"
+    },
+    "authorization": {
+      "status": "BLOCKED",
+      "allow": false,
+      "revision": 1,
+      "passport_hash": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b"
+    },
+    "passport": {
+      "commitment": "5f42f8d02d3854449a1680d0b238c1c15b491cc354a4b8fd80d4c4256c729b1b",
+      "currently_authorized": false
+    }
+  },
+  "live_ci_gate_execution": {
+    "verified_at_utc": "2026-10-20T22:45:02Z",
+    "agent_id": "refund-live-20261020",
+    "release_id": "v2api-20261020",
+    "allow": false,
+    "status": "BLOCKED",
+    "revision": 1,
+    "process_exit_code": 1,
+    "result": "Actual CLI gate rejection against StudioNet LATEST_FINAL authorization."
+  },
+  "latest_final_watchtower_snapshot": {
+    "verified_at_utc": "2026-10-20T22:45:02Z",
+    "read_variant": "LATEST_FINAL",
+    "observation": "Read-only current snapshots; no state transition occurred during this poll.",
     "results": [
       {
         "agent_id": "checkout-live-20261020",
@@ -669,7 +1299,7 @@
         "agent_id": "analytics-live-20261020",
         "allow": true,
         "status": "ALLOW",
-        "revision": 1
+        "revision": 2
       },
       {
         "agent_id": "refund-live-20261020",
@@ -682,8 +1312,6 @@
   "repeated_execution_hash_audit": {
     "verified_at_utc": "2026-10-21T06:50:00Z",
     "sdk": "genlayer-js 1.1.8",
-    "method": "waitForTransactionReceipt(..., status: FINALIZED, fullTransaction: true)",
-    "tx_execution_hash": "0x35b5a08f8c509e6670af8894067f509fb9992da500d1b9d2fd976befdd281447",
     "receipts": [
       {
         "transaction_hash": "0xa94d0375e5b09e4949af6a7aefaa236cafef17928bb9bbd0c417c8b11a61e81c",
@@ -718,7 +1346,7 @@
         "execution_hash": "0x35b5a08f8c509e6670af8894067f509fb9992da500d1b9d2fd976befdd281447"
       }
     ],
-    "conclusion": "Both requested hashes independently returned the same node-reported tx_execution_hash. Their transaction hashes, methods, nonces, gas limits, votes, call arguments, and return values differ. No local substitution was found; the repeated execution hash is confirmed as returned by the SDK/node. Its underlying protocol meaning is unexplained here, so it is recorded without interpreting it as a unique transaction identifier."
+    "conclusion": "Both independently fetched SDK receipts report the same tx_execution_hash while the transaction hashes, methods, nonces, gas limits, votes, arguments, and return values differ. The value is confirmed as node/SDK output; its protocol meaning is not established and it is not treated as a unique transaction identifier."
   },
   "latest_final_state_after_analytics_freeze_and_resolution": {
     "verified_at_utc": "2026-10-21T06:41:51Z",
@@ -741,8 +1369,10 @@
         "execution": "SUCCESS"
       }
     ],
-    "decision_revision": 2,
-    "decision": "APPROVED",
+    "decision": {
+      "revision": 2,
+      "result": "APPROVED"
+    },
     "authorization": {
       "allow": true,
       "status": "ALLOW",
@@ -754,7 +1384,7 @@
       "freeze_history_hash": "1d07da299bfd03ff8c24fe1c4350939fa0d7a0ae11c41a886d38c2c799e3988b",
       "currently_authorized": true
     },
-    "note": "The initial freeze and resolution transactions were supplied by the user as finalized StudioNet explorer records. Latest-final reads now verify revision 2 and ALLOW. The attempted reassess step was correctly not submitted because current state was ALLOW, not REASSESSMENT_REQUIRED."
+    "note": "The freeze and resolution hashes were supplied by the user as finalized explorer records; the revision-2 latest-final decision, authorization, and passport history commitments were independently read via GenLayerJS. Reassessment was not submitted because authorization already returned ALLOW."
   },
   "latest_final_refund_appeal": {
     "verified_at_utc": "2026-10-21T06:41:51Z",
@@ -781,12 +1411,18 @@
         "status": "FINALIZED",
         "execution": "SUCCESS",
         "consensus": "MAJORITY_AGREE",
+        "votes": [
+          "AGREE",
+          "IDLE",
+          "AGREE",
+          "IDLE",
+          "AGREE"
+        ],
         "execution_hash": "0x35b5a08f8c509e6670af8894067f509fb9992da500d1b9d2fd976befdd281447"
       }
     ],
     "status": "RESOLVED",
     "outcome": "UPHELD",
-    "original_decision": "BLOCKED",
     "revised_decision": "BLOCKED",
     "evidence_status": "VERIFIED",
     "evidence_items_verified": 3,
@@ -795,96 +1431,253 @@
       "status": "BLOCKED",
       "revision": 1
     },
-    "note": "Appeal used independently retrieved counterevidence, publisher response, and original release evidence. It was upheld; no overturn or reassessment was required."
+    "note": "Latest-final get_appeal read confirms upheld outcome, verified evidence profiles, and unchanged blocked decision."
   },
-  "safety_challenge_verification": {
-    "status": "COMPLETED_REVIEW_REQUIRED",
-    "network": "StudioNet",
+  "safety_challenge_preflight": {
+    "status": "NOT_STARTED",
+    "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+    "pair": {
+      "release_id": "eventtrace-v2-20261021",
+      "agent_id": "eventtrace-live-20261021"
+    },
+    "fixture": "Publisher-controlled synthetic API compatibility scenario; not production evidence.",
+    "rpc_preflight": {
+      "network": "studionet",
+      "chain_id": 61999,
+      "overview": {
+        "agents": 3,
+        "releases": 1,
+        "decisions": 3
+      },
+      "agent_exists": false,
+      "release_exists": false,
+      "decision_exists": false,
+      "transaction_sent": false
+    },
+    "initial_evidence": {
+      "sha256": "dab5d3a1431c08b850ebe09f910ec28a8c4a56a6108654d55a944422e0f08d25",
+      "characters": 1799,
+      "source_commit": "a310f3cd59d83fe43c2c264b648225c5302d6825"
+    },
+    "watchtower": {
+      "status": "STOPPED_AFTER_DIAGNOSTIC_WINDOW",
+      "target": "eventtrace-v2-20261021 / eventtrace-live-20261021",
+      "interval_ms": 15000,
+      "raw_jsonl_path": "docs/proofs/safety-watchtower.jsonl",
+      "observations": 7,
+      "no_decision": 4,
+      "read_error": 3,
+      "last_recovery": {
+        "status": "NO_DECISION",
+        "allow": false,
+        "revision": 0,
+        "state": "LATEST_FINAL",
+        "observed_at": "2026-10-21T07:06:44.096Z"
+      },
+      "authorization_transition_observed": false,
+      "note": "Three transient RPC fetch errors were followed by repeated NO_DECISION responses. A separate read-only Analytics CI call later succeeded (ALLOW, revision 2, exit code 0)."
+    },
+    "ci_gate_pre_registration": {
+      "status": "NO_DECISION",
+      "allow": false,
+      "revision": 0,
+      "state": "LATEST_FINAL",
+      "exit_code": 1,
+      "note": "Pre-registration baseline only, not the approval-before-challenge check."
+    },
+    "note": "No safety-pair transaction has been submitted; actual challenge write sequence requires the user's unlocked PowerShell wallet because the separate runner cannot access its OS keychain."
+  },
+  "public_frontend_qa": {
+    "url": "https://deltaproof-v2.vercel.app/v2/",
+    "production_deployment_id": "dpl_51RTQ41JrmTegWhh4gY3bJhk25Dh",
+    "vercel_project": "deltaproof-v2",
+    "deployment_status": "READY",
+    "latest_final_counts": {
+      "agents": 4,
+      "releases": 2,
+      "decisions": 4
+    },
+    "observed_at": "2026-10-21",
+    "responsive_css_widths": [
+      375,
+      768,
+      1440
+    ],
+    "sections_tested_per_width": 8,
+    "horizontal_document_overflow": false,
+    "wallet_injection": "NOT_AVAILABLE_IN_TESTED_BROWSER",
+    "wallet_acceptance": "NOT_VERIFIED",
+    "correction": "Current production serves the responsive CSS bundle with wrapping for card code blocks; the earlier 2026-10-20 notes are historical."
+  },
+  "latest_final_ci_gate_after_watchtower_window": {
+    "pair": {
+      "release_id": "v2api-20261020",
+      "agent_id": "analytics-live-20261020"
+    },
+    "status": "ALLOW",
+    "allow": true,
+    "revision": 2,
+    "exit_code": 0,
+    "verified_at_utc": "2026-10-21T07:14:35Z"
+  },
+  "latest_final_state_after_safety_challenge": {
+    "verified_at_utc": "2026-10-21T08:06:16Z",
+    "network": "GenLayer StudioNet",
     "chain_id": 61999,
     "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
     "pair": {
       "release_id": "eventtrace-v2-20261021",
       "agent_id": "eventtrace-live-20261021"
     },
-    "evidence_type": "Publisher-controlled synthetic compatibility fixtures; not production consumer evidence",
-    "latest_final_decision": "REVIEW_REQUIRED",
-    "authorization": "Not freshly queried in this frontend acceptance pass. REVIEW_REQUIRED is not an approval; the gate requires an explicit current ALLOW.",
-    "transactions": [
+    "challenge": {
+      "status": "RESOLVED",
+      "outcome": "REVIEW_REQUIRED",
+      "sufficient": false,
+      "risk": "MEDIUM",
+      "resolution_hash": "a197579c69779bd8ddfdc341d00355c8450664b47ef32e9ac8f3251915e316b6",
+      "all_three_evidence_sources": "VERIFIED"
+    },
+    "current_decision": {
+      "revision": 2,
+      "decision": "REVIEW_REQUIRED",
+      "risk": "MEDIUM",
+      "mode": "GENLAYER_INDEPENDENT_CONSENSUS",
+      "passport_hash": "5609a8732ec63b7a16890a365458bfff05881fa085686f9b59f90f1f518fead9",
+      "previous_passport_hash": "9d739f57b9b8ac5d6624d50396088efd3b511e4f494db0bca0fc84fef24aa786",
+      "impacted_dependencies": [
+        {
+          "method": "GET",
+          "path": "/events/{event_id}",
+          "critical": true
+        }
+      ]
+    },
+    "current_authorization": {
+      "allow": false,
+      "status": "REVIEW_REQUIRED",
+      "revision": 2,
+      "reason": "The latest decision is not an approval."
+    },
+    "previous_decision": {
+      "revision": 1,
+      "decision": "APPROVED",
+      "risk": "LOW",
+      "passport_hash": "9d739f57b9b8ac5d6624d50396088efd3b511e4f494db0bca0fc84fef24aa786"
+    },
+    "unrelated_analytics_authorization": {
+      "allow": true,
+      "status": "ALLOW",
+      "revision": 2,
+      "passport_hash": "9c1faa0103660734288b4fe7c205bb0a50c4e72c21511b64249a7b88f3959ab0"
+    },
+    "note": "Latest-final reads independently verified the challenge, revision history, targeted deny state and unaffected Analytics ALLOW."
+  },
+  "latest_final_ci_gate_after_safety_challenge": {
+    "verified_at_unix": 1792569902,
+    "network": "GenLayer StudioNet",
+    "chain_id": 61999,
+    "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+    "pair": {
+      "release_id": "eventtrace-v2-20261021",
+      "agent_id": "eventtrace-live-20261021"
+    },
+    "output": {
+      "allow": false,
+      "status": "REVIEW_REQUIRED",
+      "revision": 2,
+      "state": "LATEST_FINAL",
+      "chainId": 61999
+    },
+    "process_exit_code": 1,
+    "transaction_sent": false
+  },
+  "safety_watchtower_lifecycle": {
+    "status": "STOPPED_AFTER_VERIFIED_TRANSITIONS_AND_RPC_RATE_LIMIT",
+    "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+    "interval_ms": 15000,
+    "transitions": [
       {
-        "step": "register_agent",
-        "consensus": "ACCEPTED",
-        "status": "FINALIZED",
-        "execution": "SUCCESS",
-        "hash": "0x28dda8c481db53abf235f8c0d623ccc1448c1cd074272ac20001f9c4f680776b"
+        "agent_id": "eventtrace-live-20261021",
+        "release_id": "eventtrace-v2-20261021",
+        "status": "ALLOW",
+        "allow": true,
+        "revision": 1,
+        "observed_at": "2026-10-21T07:38:27.459Z"
       },
       {
-        "step": "register_release",
-        "consensus": "ACCEPTED",
-        "status": "FINALIZED",
-        "execution": "SUCCESS",
-        "hash": "0x51ab176ab86748291787e3a55190ac98a8667c38b63b1c48fb39b630afc650de"
+        "agent_id": "eventtrace-live-20261021",
+        "release_id": "eventtrace-v2-20261021",
+        "status": "SAFETY_CHALLENGE_PENDING",
+        "allow": false,
+        "revision": 1,
+        "observed_at": "2026-10-21T07:44:36.109Z"
       },
       {
-        "status": "FINALIZED",
-        "step": "adjudicate_initial_approval",
-        "decision": "APPROVED",
-        "consensus": "ACCEPTED",
-        "execution": "SUCCESS",
-        "hash": "0x7f0ceaa5fd391d44d1e71890433000149a427803e07ecf0ac55a0b7883f7f496"
+        "agent_id": "eventtrace-live-20261021",
+        "release_id": "eventtrace-v2-20261021",
+        "status": "REASSESSMENT_REQUIRED",
+        "allow": false,
+        "revision": 1,
+        "observed_at": "2026-10-21T07:54:24.742Z"
       },
       {
-        "status": "FINALIZED",
-        "step": "open_safety_challenge",
-        "screen_credible": true,
-        "consensus": "ACCEPTED",
-        "execution": "SUCCESS",
-        "hash": "0x4778b15ea4ccc12da2af3ebd829710b78e9437053f3b9d20292a20a0fa3d960f"
+        "agent_id": "eventtrace-live-20261021",
+        "release_id": "eventtrace-v2-20261021",
+        "status": "REVIEW_REQUIRED",
+        "allow": false,
+        "revision": 2,
+        "observed_at": "2026-10-21T08:01:02.205Z"
       },
       {
-        "step": "respond_to_safety_challenge",
-        "consensus": "ACCEPTED",
-        "status": "FINALIZED",
-        "execution": "SUCCESS",
-        "hash": "0xfa986d45c1dfc5773cb13ab374180e8bc129ee270ae0027ab8c2baacb7329e62"
-      },
-      {
-        "status": "FINALIZED",
-        "step": "resolve_safety_challenge",
-        "consensus": "ACCEPTED",
-        "execution": "SUCCESS",
-        "outcome": "REVIEW_REQUIRED",
-        "hash": "0x3ec964e9d026318c1d9c725f83ed6d5d87a0ca5d3ea38429be1b856f8c13937e",
-        "evidence_sufficient": false
-      },
-      {
-        "status": "FINALIZED",
-        "step": "adjudicate_follow_up",
-        "decision": "REVIEW_REQUIRED",
-        "consensus": "ACCEPTED",
-        "execution": "SUCCESS",
-        "hash": "0x1568c7b546c075ee01b3e8d777781489173989e273a59adcb91f300e825f9198"
+        "agent_id": "analytics-live-20261020",
+        "release_id": "v2api-20261020",
+        "status": "ALLOW",
+        "allow": true,
+        "revision": 2,
+        "observed_at": "2026-10-21T08:01:03.546Z"
       }
     ],
-    "details_source": "User-supplied finalized explorer records",
-    "interpretation": "Independent consensus completed the challenge and follow-up review; insufficient evidence for a confirmed consumer-specific incompatibility, so do not treat the historical approval as current authorization."
+    "transient_read_errors": [
+      "2026-10-21T07:59:52.200Z rate limit exceeded: 500 requests per hour; later read recovered to latest-final Analytics ALLOW and eventtrace REVIEW_REQUIRED."
+    ],
+    "log_path": "docs/proofs/safety-watchtower.jsonl",
+    "note": "Read-only observer. Stopped after the StudioNet RPC rate limit was reached; no write was sent by Watchtower."
+  },
+  "deployment_readiness_assessment": "PARTIAL: safety challenge lifecycle is complete and evidence/decisions are recorded. Event-tracing release is fail-closed at REVIEW_REQUIRED pending real consumer/schema evidence or an implementation change and a new separately authorized adjudication. Browser wallet acceptance and Vercel deployment of corrected public copy remain outstanding.",
+  "historical_public_frontend_qa": {
+    "url": "https://deltaproof-v2.vercel.app/v2/",
+    "latest_final_counts": {
+      "agents": 3,
+      "releases": 1,
+      "decisions": 3
+    },
+    "responsive_css_widths": [
+      375,
+      768,
+      1440
+    ],
+    "horizontal_overflow": false,
+    "wallet_injection": "NOT_AVAILABLE_IN_TESTED_PROFILE",
+    "diagnostics": "MetaMask console error identifies a getter-only window.ethereum collision attributed to another wallet extension. The page context sees no injected provider. Wallet flows remain unverified.",
+    "published_sidebar_defect": "Public deployment still says V2 is not live until a V2 address is configured although live reads load. Local source is corrected; Vercel publishing credential unavailable."
   },
   "frontend_acceptance_snapshot": {
     "observed_at": "2026-10-21",
     "production_url": "https://deltaproof-v2.vercel.app/v2/",
     "vercel_deployment_id": "dpl_51RTQ41JrmTegWhh4gY3bJhk25Dh",
     "overview_counts": {
-      "decisions": 4,
+      "agents": 4,
       "releases": 2,
-      "agents": 4
+      "decisions": 4
     },
-    "counts_source": "Fresh public V2 page load; latest-final display",
-    "wallet_injected_provider_available": false,
     "responsive_widths_px": [
       375,
       768,
       1440
     ],
     "sections_per_width": 8,
-    "document_horizontal_overflow": false
+    "document_horizontal_overflow": false,
+    "wallet_injected_provider_available": false,
+    "wallet_status": "NOT_VERIFIED"
   }
 }
