@@ -98,7 +98,7 @@ Latest-final state confirms the appeal is `RESOLVED` / `UPHELD`, Refund remains 
 
 ## Remaining live lifecycle work
 
-The Refund appeal lifecycle is complete and upheld with all submitted evidence digests verified. No reassessment is indicated because the decision remains BLOCKED. The existing Analytics approval is unaffected and therefore is not eligible for a safety challenge; a separate genuinely approved affected pair would be required. Watchtower transition capture, CI rejection exercise, and injected-wallet browser acceptance remain outstanding. The prior browser console showed MetaMask failing to inject `window.ethereum` because the property was getter-only; wallet connection and signing remain unverified.
+The Refund appeal lifecycle is complete and upheld with all submitted evidence digests verified. No reassessment is indicated because the decision remains BLOCKED. Analytics is unaffected and ineligible for a challenge; a separate affected pair is prepared but not yet registered or approved. A read-only Watchtower now polls that fixture pair and has only recorded its initial `NO_DECISION`; no transition has yet occurred. The CI gate baseline for the unregistered pair returned `NO_DECISION`, deny, exit code 1. The previous account-wide CI checks still show Checkout BLOCKED, Analytics ALLOW at revision 2, and Refund BLOCKED.
 
 ## Watchtower and CI gate latest-final verification
 
@@ -109,3 +109,16 @@ The CI gate was executed as a process for Refund using the configured V2 contrac
 ## Current assessment
 
 PARTIAL. The V2 deployment, three consumer records, release, Checkout deterministic BLOCKED result, Refund semantic-consensus BLOCKED result, Analytics revision 2 APPROVED after targeted freeze and reassessment, passport history, targeted freeze resolution, unaffected Checkout/Refund authorizations, and evidence-backed Refund appeal UPHELD outcome are verified. The CI gate has produced a genuine nonzero rejection for Refund, and Watchtower latest-final snapshots match on-chain authorization state. A safety challenge is not eligible for the current unaffected Analytics approval. Capturing a Watchtower transition during a live state change and injected-wallet browser acceptance remain unverified.
+
+
+## Repeated execution hash receipt audit
+
+Both transaction receipts were independently fetched again with GenLayerJS 1.1.8 using each transaction hash. The Refund semantic adjudication `0xa94d0375e5b09e4949af6a7aefaa236cafef17928bb9bbd0c417c8b11a61e81c` and the appeal-resolution transaction `0x368bfe2894ea2ff715cfdd3a401a7aaa08bc40c461b5c2d0824285dba2e542ab` each returned `tx_execution_hash: 0x35b5a08f8c509e6670af8894067f509fb9992da500d1b9d2fd976befdd281447`. They have different transaction hashes, methods, nonces (2936 and 3008), gas limits (2936 and 3008), vote arrays, arguments, and return values. The shared value is confirmed as node/SDK output rather than an accidental local copy. Its protocol semantics are not established here; it is preserved verbatim and not used as a unique transaction identifier.
+
+## Safety fixture and observer start
+
+The new affected-pair fixture `eventtrace-live-20261021` / `eventtrace-v2-20261021` is explicitly synthetic and publisher-controlled. Its bounded compatibility evidence is pinned to a public GitHub commit and preflight fetched the exact bytes and verified SHA-256 `dab5d3a1431c08b850ebe09f910ec28a8c4a56a6108654d55a944422e0f08d25`. Read-only preflight found the agent, release, and decision do not yet exist; no transaction was sent. Before any safety writes, Watchtower polling began at 15-second intervals. The first raw JSONL observation is `NO_DECISION`, allow false, revision 0, `LATEST_FINAL`, timestamp `2026-10-21T06:47:44.656Z`. No approval, challenge, or resolution transition has been observed. The separate command runner cannot access the signer cached in the user's unlocked PowerShell terminal, so these remaining writes require that terminal.
+
+## Browser checks and public copy
+
+Chrome displayed the public dashboard with three agents, one release, and three decisions. Responsive viewport checks at 375, 768, and 1440 CSS pixels found no horizontal overflow. The tested profile's console says MetaMask could not set the global provider because another extension had already installed a getter-only `window.ethereum`; the app context saw no provider. No source code assignment to `window.ethereum` was found. Wallet connection and signing remain unverified. The deployed sidebar still contains the stale sentence “V2 is not live until a V2 contract address is configured,” even while displaying live state; the local source copy is corrected, but no Vercel deployment credential is available to publish that copy.
