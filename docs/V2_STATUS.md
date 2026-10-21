@@ -7,7 +7,7 @@
 **Latest verified Vercel production deployment:** `dpl_51RTQ41JrmTegWhh4gY3bJhk25Dh` (`READY`; alias remains the production URL above)  
 **Assessment:** **PARTIAL — browser and wallet acceptance is incomplete.**
 
-V1 remains separate and unchanged. No contract redeployment or paid StudioNet transaction was performed for this acceptance pass. The published frontend is configured for the existing V2 contract and reads finalized state from StudioNet. A fresh production page load displayed four agents, two releases, and four decisions. Transaction-by-transaction live proofs and their provenance are in [`proofs/v2-live.md`](proofs/v2-live.md) and [`proofs/v2-live.json`](proofs/v2-live.json).
+V1 remains separate and unchanged. No contract redeployment or paid StudioNet transaction was performed for this acceptance pass. The published frontend is configured for the existing V2 contract and reads finalized state from StudioNet. An earlier public page load during this pass displayed four agents, two releases, and four decisions. After the repeated read-only browser sweep, the current page began showing `checking RPC` / `No live value loaded` as the StudioNet request limit was reached; these placeholders are read failures, not authorization states. Transaction-by-transaction live proofs and their provenance are in [`proofs/v2-live.md`](proofs/v2-live.md) and [`proofs/v2-live.json`](proofs/v2-live.json).
 
 ## Live state and evidence boundaries
 
@@ -41,3 +41,8 @@ Wallet acceptance was **not achieved**. The public page in the available in-app 
 
 
 
+
+
+## RPC rate-limit observation
+
+The latest browser screenshot after the responsive sweep showed `StudioNet · chain 61999 · checking RPC` and `No live value loaded`. No RPC error was interpreted as DENY, ALLOW, or a contract transition. Allow the StudioNet request budget to recover, then repeat only the read-only refresh needed to confirm the dashboard values.

@@ -7,7 +7,7 @@
 
 ## Production configuration and current display
 
-The served V2 app identifies StudioNet chain 61999, identifies the V2 contract as configured, and labels reads as latest-final. A fresh dashboard load displayed **4 agents, 2 releases, and 4 decisions**. This confirms the public deployment is reading the populated contract rather than displaying an empty placeholder or mock count. The browser check did not independently re-query every authorization pair; recorded outcomes remain linked in [`proofs/v2-live.md`](proofs/v2-live.md).
+The served V2 app identifies StudioNet chain 61999, identifies the V2 contract as configured, and labels reads as latest-final. An initial dashboard load during this pass displayed **4 agents, 2 releases, and 4 decisions**. After the read-heavy section sweep, a later page observation showed `checking RPC` and `No live value loaded` as StudioNet rate limiting took effect. The empty/loading values are not on-chain state, and no authorization conclusion was drawn from them. The browser check did not independently re-query every authorization pair; recorded outcomes remain linked in [`proofs/v2-live.md`](proofs/v2-live.md).
 
 The current proof records distinguish deterministic compatibility checks from the semantic independent-validator path. Synthetic, publisher-controlled fixtures are labeled as test fixtures. Evidence digest verification is reported as byte-integrity verification only, not proof that a claim is true. Event tracing remains `REVIEW_REQUIRED`; do not relabel it as approved or infer behavior of a real consumer from the synthetic scenario.
 
@@ -40,3 +40,8 @@ The following acceptance checks therefore remain open: connect; display/copy add
 
 Responsive presentation and offline frontend tests pass. Production chain configuration and live dashboard counts are confirmed. Complete wallet acceptance is still blocked on a browser session where one supported extension injects its provider; no wallet functionality should be described as verified until those interactions succeed.
 
+
+
+## Read-limit behavior observed
+
+The last screenshots in this browser session showed the RPC checking state and empty live-value placeholders. This pass did not treat a throttled read as a confirmed authorization transition. The earlier 4/2/4 counts are the last successful dashboard observation; a fresh post-recovery read remains outstanding.

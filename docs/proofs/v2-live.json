@@ -1678,6 +1678,17 @@
     "sections_per_width": 8,
     "document_horizontal_overflow": false,
     "wallet_injected_provider_available": false,
-    "wallet_status": "NOT_VERIFIED"
+    "wallet_status": "NOT_VERIFIED",
+    "last_public_read_after_sweep": {
+      "status": "RPC_READ_UNAVAILABLE_OR_RATE_LIMITED",
+      "ui_indicators": [
+        "StudioNet · chain 61999 · checking RPC",
+        "No live value loaded"
+      ],
+      "observed_at": "2026-10-21",
+      "interpretation": "Read error/loading state only; not an on-chain DENY, ALLOW, or transition.",
+      "fresh_post_recovery_read": "NOT_PERFORMED"
+    },
+    "overview_counts_note": "4/2/4 counts were seen on an earlier successful public read in this pass; latest post-sweep read showed RPC checking/loading."
   }
 }
