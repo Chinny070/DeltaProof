@@ -5,7 +5,7 @@ import { createAccount, createClient } from 'genlayer-js';
 import { studionet } from 'genlayer-js/chains';
 import { TransactionHashVariant, TransactionStatus } from 'genlayer-js/types';
 
-const address = '0x367C2B9f8B52EEd57977B84c458eaD4c3105E718';
+const address = process.env.DELTAPROOF_V2_ADDRESS || '0xEf72A2db4EbeD151273B137D8a741e4C537415f9';
 const signerAddress = '0xaffe15eec45b68835cc9e5b4ab85dd5deae8e70b';
 const accountName = 'my-studionet-wallet';
 const releaseId = 'v2api-20261020';

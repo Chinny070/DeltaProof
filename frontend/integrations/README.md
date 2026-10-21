@@ -2,7 +2,7 @@
 
 ## Deployment target and latest-final runtime smoke
 
-V2 is pinned to the current StudioNet deployment at `0xEf72A2db4EbeD151273B137D8a741e4C537415f9`, chain `61999`, RPC `https://studio.genlayer.com/api`, protocol `deltaproof/2.0`. This deployment contains the verified source from commit `f74a37a053c2c14278221e17632cd26fca038e4c`; it is a fresh deployment with zero application records. Earlier lifecycle transactions remain evidence for the superseded contract `0x367C2B9f8B52EEd57977B84c458eaD4c3105E718`. The browser build reads `VITE_DELTAPROOF_V2_ADDRESS`; do not use the V1 `VITE_CONTRACT_ADDRESS` value as the V2 address. A sample environment file is [`../.env.example`](../.env.example).
+V2 is pinned to the current StudioNet deployment at `0xEf72A2db4EbeD151273B137D8a741e4C537415f9`, chain `61999`, RPC `https://studio.genlayer.com/api`, protocol `deltaproof/2.0`. Its verified contract source hash is `98c783f80a04caccab8077f55c6de8ee1ff792afb0c47594c26e4dcb92ec13ab` (deployed source corresponding to commit `f74a37a053c2c14278221e17632cd26fca038e4c`). It currently has four registered agents, two releases, and four decisions. Earlier lifecycle transactions for `0x367C2B9f8B52EEd57977B84c458eaD4c3105E718` are historical and kept separate. The browser build reads `VITE_DELTAPROOF_V2_ADDRESS`; do not use the V1 `VITE_CONTRACT_ADDRESS` value as the V2 address. A sample environment file is [`../.env.example`](../.env.example).
 
 From PowerShell, set the exact address and an existing pair, then run the read-only smoke check:
 
@@ -26,7 +26,7 @@ node integrations/ci-gate.mjs
 
 The address is intentionally required from deployment configuration. V1's address cannot be used because its ABI has no V2 authorization method. The current verified V2 StudioNet address is `0xEf72A2db4EbeD151273B137D8a741e4C537415f9`. Every nonzero exit should be treated as a hard refusal.
 
-The `live-*.mjs` lifecycle scripts are historical one-off write procedures pinned to the superseded contract address. Do not rerun them against the current fresh deployment or the old contract; the prior lifecycle proofs are preserved and any new application writes require separate authorization.
+The `live-*.mjs` lifecycle scripts are explicitly pinned to the current V2 address and skip already finalized fixture records. Do not rerun write steps unless there is fresh authorization for the specific transaction; do not repeat completed lifecycle transactions. Current lifecycle hashes and outcomes are in [`../../docs/proofs/v2-live-current-2026-10-21.md`](../../docs/proofs/v2-live-current-2026-10-21.md). The earlier lifecycle proofs on the superseded address remain historical.
 
 ## Read-only Watchtower observer
 

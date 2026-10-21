@@ -2,12 +2,14 @@ import { createWalletController } from './wallet.js';
 import { CHAIN, EXPLORER } from './config.js';
 import { V2_ADDRESS, V2_CONFIGURED, v2Read, v2Write, v2Track } from './v2-api.js';
 import { buildV2WriteArgs, getV2Method } from './v2-forms.js';
+import { gateResultMatchesQuery } from './v2-gate-state.mjs';
 import './v2.css';
 
 const app = document.querySelector('#v2-app');
 const PENDING_KEY = 'deltaproof.v2.pending-tx';
 const state = { page: 'overview', wallet: null, overview: null, agents: [], releases: [], error: '', notice: '', busy: false,
-  pending: localStorage.getItem(PENDING_KEY) || '', pendingStatus: '', selected: null, safetyRecord: null, appealRecord: null, impact: null };
+  pending: localStorage.getItem(PENDING_KEY) || '', pendingStatus: '', selected: null, safetyRecord: null, appealRecord: null, impact: null,
+  gateQuery: null, gateResult: null };
 const wallet = createWalletController({ onChange: () => render() });
 state.wallet = wallet.state;
 const esc = x => String(x ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -17,7 +19,7 @@ function configuredNote() { return !V2_CONFIGURED ? 'V2 contract address not con
 const nav = [['overview','Protocol'],['agents','Agent registry'],['releases','Releases'],['gate','Authorization gate'],['safety','Safety & appeals'],['passport','Passports'],['integration','CI/CD'],['docs','Protocol guide']];
 
 function button(action, label, cls='secondary') { return `<button class="${cls}" data-action="${esc(action)}">${label}</button>`; }
-function field(label, name, placeholder='', type='text') { return `<label class="field"><span>${esc(label)}</span><input name="${esc(name)}" type="${type}" placeholder="${esc(placeholder)}" required /></label>`; }
+function field(label, name, placeholder='', type='text', value=null) { return `<label class="field"><span>${esc(label)}</span><input name="${esc(name)}" type="${type}" placeholder="${esc(placeholder)}"${value===null?'':` value="${esc(value)}"`} required /></label>`; }
 function area(label, name, placeholder, rows=7) { return `<label class="field"><span>${esc(label)}</span><textarea name="${esc(name)}" rows="${rows}" placeholder="${esc(placeholder)}" required></textarea></label>`; }
 function form(action, title, body, submit='Submit') { return `<form data-form="${esc(action)}" class="card form-card"><h3>${esc(title)}</h3>${body}<button class="primary" ${state.busy?'disabled':''}>${state.busy?'Working…':esc(submit)} <b>↗</b></button></form>`; }
 function rows(records, empty) { return records?.length ? `<div class="record-list">${records.map(record => `<button class="record" data-record="${esc(record.id)}"><span><b>${esc(record.name || record.id)}</b><small>${esc(record.id)} · ${esc(record.status || record.version || '')}</small></span><i>↗</i></button>`).join('')}</div>` : `<div class="empty"><b>${esc(empty)}</b><span>There are no matching live records in the configured contract.</span></div>`; }
@@ -57,7 +59,8 @@ function releasesPage() {
 }
 
 function gatePage() {
-  return `<section class="page-heading"><div class="eyebrow"><i></i> DETERMINISTIC AUTHORIZATION GATE</div><h1>Ask the contract before adopting.</h1><p>Authorization reads latest finalized state and fails closed when the agent, release, charter version, freeze, appeal, reassessment, or release status does not qualify.</p></section><div class="grid-two align-start">${form('check-authorization','Query the live adoption gate',`${field('Agent ID','agent_id','checkout-agent')}${field('Release ID','release_id','payments-2.0.0')}`,'Check authorization')}<section class="card result-panel"><span class="eyebrow">LATEST FINALIZED RESULT</span>${state.gateResult?`<div class="gate-result ${state.gateResult.allow?'allow':'deny'}"><b>${state.gateResult.allow?'ALLOW':'DENY'}</b><small>${esc(state.gateResult.reason||'Contract returned a boolean authorization decision.')}</small></div><pre>${jsonPretty(state.gateResult)}</pre>`:`<div class="empty"><b>No gate result yet</b><span>Enter an agent and release identity to query StudioNet.</span></div>`}</section></div>`;
+  const currentResult = gateResultMatchesQuery(state.gateResult, state.gateQuery) ? state.gateResult : null;
+  return `<section class="page-heading"><div class="eyebrow"><i></i> DETERMINISTIC AUTHORIZATION GATE</div><h1>Ask the contract before adopting.</h1><p>Authorization reads latest finalized state and fails closed when the agent, release, charter version, freeze, appeal, reassessment, or release status does not qualify.</p></section><div class="grid-two align-start">${form('check-authorization','Query the live adoption gate',`${field('Agent ID','agent_id','checkout-agent','text',state.gateQuery?.agentId??null)}${field('Release ID','release_id','payments-2.0.0','text',state.gateQuery?.releaseId??null)}`,'Check authorization')}<section class="card result-panel"><span class="eyebrow">LATEST FINALIZED RESULT</span>${currentResult?`<div class="gate-result ${currentResult.allow?'allow':'deny'}"><b>${currentResult.allow?'ALLOW':'DENY'}</b><small>Finalized result for ${esc(currentResult.agent_id)} → ${esc(currentResult.release_id)}. ${esc(currentResult.reason||'Contract returned a boolean authorization decision.')}</small></div><pre>${jsonPretty(currentResult)}</pre>`:`<div class="empty"><b>No gate result for these inputs</b><span>Enter an agent and release identity, then query latest-final StudioNet state.</span></div>`}</section></div>`;
 }
 
 function safetyPage() {
@@ -152,13 +155,26 @@ app.addEventListener('click', async event => {
   if(target.dataset.action) await action(target.dataset.action,target);
 });
 
+app.addEventListener('input', event => {
+  const input = event.target;
+  const formNode = input.closest('form[data-form="check-authorization"]');
+  if (!formNode || !['agent_id', 'release_id'].includes(input.name)) return;
+  state.gateQuery = {
+    agentId: String(formNode.elements.agent_id.value).trim(),
+    releaseId: String(formNode.elements.release_id.value).trim(),
+  };
+  state.gateResult = null;
+  const panel = app.querySelector('.result-panel');
+  if (panel) panel.innerHTML = '<span class="eyebrow">LATEST FINALIZED RESULT</span><div class="empty"><b>Inputs changed; query again</b><span>Previous results are cleared when the agent or release changes.</span></div>';
+});
+
 app.addEventListener('submit', async event => {
   const formNode=event.target.closest('form[data-form]');if(!formNode)return;event.preventDefault();
   const actionName=formNode.dataset.form;const data=new FormData(formNode);
   try {
     if(actionName==='check-authorization') {
-      state.busy=true;state.error='';state.gateResult=null;render();
       const agentId=String(data.get('agent_id')).trim(),releaseId=String(data.get('release_id')).trim();
+      state.busy=true;state.error='';state.gateQuery={agentId,releaseId};state.gateResult=null;render();
       const result=await v2Read('get_authorization',[releaseId,agentId]);
       if(!result||typeof result.allow!=='boolean'||result.agent_id!==agentId||result.release_id!==releaseId)throw Error('Contract returned a malformed authorization value.');
       state.gateResult={...result,agentId,releaseId,state:'LATEST_FINAL'};

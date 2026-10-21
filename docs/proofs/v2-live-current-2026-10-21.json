@@ -1,0 +1,57 @@
+{
+  "recorded_at": "2026-10-21",
+  "network": {
+    "name": "GenLayer StudioNet",
+    "chain_id": 61999,
+    "rpc_url": "https://studio.genlayer.com/api",
+    "contract_address": "0xEf72A2db4EbeD151273B137D8a741e4C537415f9",
+    "explorer_url": "https://explorer-studio.genlayer.com/address/0xef72a2db4ebed151273b137d8a741e4c537415f9"
+  },
+  "deployment": {
+    "status": "FINALIZED",
+    "transaction_hash": "0xa40625af8b4a3b0ad83564e30f22cd149d399e7cd229dcf6189791662e41518e",
+    "source_commit": "f74a37a053c2c14278221e17632cd26fca038e4c",
+    "source_sha256": "98c783f80a04caccab8077f55c6de8ee1ff792afb0c47594c26e4dcb92ec13ab"
+  },
+  "latest_final_overview": {
+    "agents": 4,
+    "releases": 2,
+    "decisions": 4
+  },
+  "latest_final_authorizations": [
+    {"agent_id":"checkout-live-20261020","release_id":"v2api-20261020","status":"BLOCKED","allow":false},
+    {"agent_id":"analytics-live-20261020","release_id":"v2api-20261020","status":"ALLOW","decision":"APPROVED","revision":2,"allow":true,"passport_hash":"9c1faa0103660734288b4fe7c205bb0a50c4e72c21511b64249a7b88f3959ab0"},
+    {"agent_id":"refund-live-20261020","release_id":"v2api-20261020","status":"BLOCKED","decision":"BLOCKED","appeal_outcome":"UPHELD","allow":false},
+    {"agent_id":"eventtrace-live-20261021","release_id":"eventtrace-v2-20261021","status":"REVIEW_REQUIRED","decision":"REVIEW_REQUIRED","revision":2,"allow":false}
+  ],
+  "lifecycle_transactions": [
+    {"hash":"0xecfcf0b8fd5d21728153c0294c6d381ee81cd2ff37d4ca6dd4aa35e5c24a5cae","method":"register_agent","fixture":"checkout-live-20261020","execution":"SUCCESS","finality":"FINALIZED"},
+    {"hash":"0x7149bf8be55f2ae9abcba8c5906b4551b54aec24b46ba580378b60059575a3ef","method":"register_agent","fixture":"analytics-live-20261020","execution":"SUCCESS","finality":"FINALIZED"},
+    {"hash":"0x03c67e15ad6c786c4bd5ef85a3e6809cecd7002fc603990bf6a9b89f63d4c14b","method":"register_agent","fixture":"refund-live-20261020","execution":"SUCCESS","finality":"FINALIZED"},
+    {"hash":"0x436148a09e93b54a5a5cd009e3d06a6bfc3a5edf7ad8ee112932cf2e08d5bde9","method":"register_agent","fixture":"eventtrace-live-20261021","execution":"SUCCESS","finality":"FINALIZED"},
+    {"hash":"0xc3b6b4441ab12d4a1b6a4b7d24f592e525f3fe0851d2089105fe859c47873193","method":"register_release","fixture":"v2api-20261020","execution":"SUCCESS","finality":"FINALIZED"},
+    {"hash":"0x68bc2245a04785d8a0f1161a957db43f24544f942f9051db62b2e968a09ed844","method":"register_release","fixture":"eventtrace-v2-20261021","execution":"SUCCESS","finality":"FINALIZED"},
+    {"hash":"0x10b143e7b1805822069135fbba588ec96aea6568cc3612ee11f1fda149cca966","method":"adjudicate","fixture":"checkout-live-20261020","outcome":"BLOCKED","execution":"SUCCESS","finality":"FINALIZED"},
+    {"hash":"0x6b4f5c9e98bb57b1ae2584a7ba7efb629e7ac9d81be33d3b0f5a2a48408697c2","method":"adjudicate","fixture":"analytics-live-20261020","outcome":"APPROVED","revision":1,"execution":"SUCCESS","finality":"FINALIZED"},
+    {"hash":"0x769306345bed876d69b5a897cb8897e319b6aa3a5a08cd29aef40ae66b04a986","method":"freeze_authorization","fixture":"analytics-live-20261020","execution":"SUCCESS","finality":"FINALIZED"},
+    {"hash":"0x1a8ea7efbbc8e9ccd9a60b74af8fd5147a28e6d3ca8cf018f2716ffe9316896a","method":"resolve_freeze","fixture":"analytics-live-20261020","execution":"SUCCESS","finality":"FINALIZED"},
+    {"hash":"0xb5ed7eaa73cd8dc18be058d46c0ba1dafcd23629bbfd9cee7fad7854cad6fa0f","method":"adjudicate","fixture":"analytics-live-20261020","outcome":"APPROVED","revision":2,"execution":"SUCCESS","finality":"FINALIZED"},
+    {"hash":"0x99a665c59ae973afe674831313635db508ba9f1b40c2afc0ca254becf7e9bd67","method":"adjudicate","fixture":"refund-live-20261020","outcome":"BLOCKED","risk":"HIGH","execution":"SUCCESS","finality":"FINALIZED"},
+    {"hash":"0x1a44acd94fa1af6246a5ed5dc849310ce06ee671b33b09672365d4d597ba5446","method":"open_appeal","fixture":"refund-live-20261020","execution":"SUCCESS","finality":"FINALIZED"},
+    {"hash":"0x1cef6a238c52949429666ffc86e5ef6926fab326d7b31a233690ad603a7e72da","method":"respond_to_appeal","fixture":"refund-live-20261020","execution":"SUCCESS","finality":"FINALIZED"},
+    {"hash":"0x61ee795b0ecc3c2e25fcc5eb9d350ca12c9837d4a97db52f669cf43fa3a81852","method":"resolve_appeal","fixture":"refund-live-20261020","outcome":"UPHELD","revised_decision":"BLOCKED","execution":"SUCCESS","finality":"FINALIZED"},
+    {"hash":"0x2b0d41ade8555eb8dad2541e0c0c25f19cf16cf795bd16318dbda2c132614411","method":"adjudicate","fixture":"eventtrace-live-20261021","outcome":"APPROVED","revision":1,"evidence":"publisher-controlled synthetic fixture","execution":"SUCCESS","finality":"FINALIZED"},
+    {"hash":"0x93dceac0db06dc2c2ca6cea9734939315d3137ddce71f0cdcd6bc9d8171749a4","method":"open_safety_challenge","fixture":"eventtrace-live-20261021","outcome":"SAFETY_CHALLENGE_PENDING","execution":"SUCCESS","finality":"FINALIZED"},
+    {"hash":"0xa8df0b635ab13062f05a69de0f7d8ac79a2c30e0671d6ab44d1b255d2cf0edc9","method":"respond_to_safety_challenge","fixture":"eventtrace-live-20261021","execution":"SUCCESS","finality":"FINALIZED"},
+    {"hash":"0xbb00ec455eb6522fccb3f822c761ad1f2c5e3f88dd79290a78e68638edddf75c","method":"resolve_safety_challenge","fixture":"eventtrace-live-20261021","outcome":"REVIEW_REQUIRED","execution":"SUCCESS","finality":"FINALIZED"},
+    {"hash":null,"method":"adjudicate","fixture":"eventtrace-live-20261021","outcome":"REVIEW_REQUIRED","revision":2,"evidence":"publisher-controlled synthetic fixture","execution":"not independently linked to a captured receipt","finality":"LATEST_FINAL_STATE_OBSERVED","receipt_hash_note":"Latest-final revision is observed, but its transaction hash was not captured; no hash is inferred."}
+  ],
+  "fee_evidence": "Explorer shows zero GEN transaction value; this does not establish total protocol fees, which were not independently observable.",
+  "limits": [
+    "Live StudioNet transactions demonstrate real GenVM execution; automated gltest runtime is separately unverified.",
+    "SHA-256 verification proves content bytes match a commitment, not that claims are true or independent.",
+    "EventTrace evidence is publisher-controlled synthetic test content, not production consumer evidence.",
+    "Historical APPROVED decisions do not guarantee current authorization; query the pair-specific latest-final gate."
+  ],
+  "superseded_proof": "v2-live.json records earlier lifecycle state for 0x367C2B9f8B52EEd57977B84c458eaD4c3105E718 and is retained as historical evidence."
+}

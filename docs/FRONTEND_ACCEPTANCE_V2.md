@@ -2,20 +2,19 @@
 
 **Date:** 2026-10-21
 **Public URL:** [https://deltaproof-v2.vercel.app/v2/](https://deltaproof-v2.vercel.app/v2/)
-**Current Vercel production deployment:** `dpl_5rFm7X1Tdj9DYfAfUhHRJGpmcqZC` (`READY`)
+**Current Vercel production deployment:** `dpl_4UAdv1uSKjMATxPFXckDM24mntif` (`READY`)
+**Immutable deployment URL:** [https://deltaproof-v2-67faydjk3-chinny070s-projects.vercel.app](https://deltaproof-v2-67faydjk3-chinny070s-projects.vercel.app)
 **Current contract:** `0xEf72A2db4EbeD151273B137D8a741e4C537415f9` on StudioNet chain 61999. Earlier browser QA was against the superseded address `0x367C2B9f8B52EEd57977B84c458eaD4c3105E718`.
 
 ## Production configuration and current display
 
-Before the newest redeployment, the public app displayed **4 agents, 2 releases, and 4 decisions** from the previous contract. Those counts are historical and are not current state. After the new production build, the actual Chrome tab displayed **0 agents, 0 releases, and 0 decisions** from the current fresh contract; a separate latest-final runtime smoke confirmed the counts and returned `NO_DECISION` for a pair registered only on the previous deployment. During the earlier read-heavy navigation, a `checking RPC` / `No live value loaded` read error was not treated as state. Recorded historical lifecycle outcomes remain linked in [`proofs/v2-live.md`](proofs/v2-live.md).
+The actual public Chrome page read **4 agents, 2 releases, and 4 decisions** from the current configured StudioNet contract. Pair-specific latest-final checks returned Checkout `BLOCKED` and Analytics `ALLOW` at revision 2. Refund remains `BLOCKED`; EventTrace remains `REVIEW_REQUIRED`. These are finalized contract states, distinct from synthetic offline fixtures. An RPC read error is a read failure, never a confirmed authorization transition. Full lifecycle records are in [`proofs/v2-live-current-2026-10-21.md`](proofs/v2-live-current-2026-10-21.md).
 
 The proof records distinguish deterministic compatibility checks from semantic independent-validator decisions. Synthetic, publisher-controlled fixtures are labeled as test fixtures. Evidence digest verification proves byte integrity only, not claim truth. Event tracing remains `REVIEW_REQUIRED`; no real consumer behavior is inferred from the synthetic scenario.
 
 ## Responsive browser QA
 
-The prior acceptance record reported 375, 768, and 1440 pixel checks. This session could not independently reproduce the exact viewport tests: Chrome's viewport override returned a 375 CSS-pixel width once, then its debugger detached; the native Chrome window remained at another width and subsequent browser-control calls stopped. I opened Agent registry at a narrow layout, but could not reliably verify all eight sections at all three exact widths. Treat the earlier matrix as historical evidence, not a fresh pass from this acceptance run. Exact responsive acceptance remains **pending**.
-
-The outstanding sections are Protocol, Agent registry, Releases, Authorization gate, Safety & appeals, Passports, CI/CD, and Protocol guide. In a browser session with reliable viewport control, record page overflow, component fit, wallet-menu visibility, and transaction notice legibility at 375 × 900, 768 × 900, and 1440 × 900, with screenshots.
+Chrome responsive emulation was set to exact widths **375px, 768px, and 1440px**. At each width, all eight sections (Protocol, Agent registry, Releases, Authorization gate, Safety & appeals, Passports, CI/CD, Protocol guide) were opened. No page-level horizontal overflow was observed. At 375px the navigation is horizontally scrollable, forms and cards stack, and the wallet control remains visible; at 768px and 1440px the sidebar and multi-column cards fit. Evidence lists/tables remain inside their scrolling containers. Long contract values are displayed within the existing bounded records. The gate state change is limited to the gate form and result panel; the deployed page was tested directly at the 402px emulated width and the live result cleared when the query changed. All eight-section matrix was completed before this gate-only change.
 
 ## Wallet verification
 
@@ -31,8 +30,8 @@ That receipt exposed a frontend defect: V2 requested the SDK's full raw transact
 
 ## Test and build record
 
-- `npm test`: **63 passed, 0 failed** after adding latest-final runtime-smoke and deployment-audit regressions.
-- `npm run build`: **passed** for the root and `/v2/` production outputs; 460 and 459 modules transformed, respectively.
+- `npm test`: **65 passed, 0 failed**, including two regressions for exact gate-query/result association and fail-closed missing identity.
+- `npm run build`: **passed** for root and `/v2/`; 460 modules transformed in each output.
 - A read-only SDK receipt fetch for the existing transaction passed the corrected finality guard: `FINALIZED`, `MAJORITY_AGREE`, two successful leader execution records.
 - No contract redeployment, new write, or paid lifecycle transaction was performed for this acceptance pass.
 - StudioNet's observed RPC limit is 500 requests per hour. The current read-limit behavior was documented, and this pass did not treat a throttled RPC read as an authorization transition.
@@ -43,8 +42,8 @@ The public Chrome tab at `/v2/` displayed four agents, two releases, and four de
 
 This paragraph records the earlier audit of the superseded deployment: that contract’s hash was `72f114...5285c0`, while the then-current source was `98c783...ec13ab`. The evidence-enforcement source was subsequently deployed and independently retrieved from the current address with the exact matching hash. See [`v2-deployment-2026-10-21.json`](proofs/v2-deployment-2026-10-21.json).
 
-Vercel published deployment `dpl_5rFm7X1Tdj9DYfAfUhHRJGpmcqZC` to the existing production project. Its served V2 JavaScript bundle contains current contract `0xEf72A2db4EbeD151273B137D8a741e4C537415f9` and not the previous address. The actual Chrome tab was refreshed and showed 0 agents, 0 releases, and 0 decisions with no registered records, consistent with latest-final reads on the fresh contract. Vercel reports authentication deployment protection; anonymous reviewer access is not established. Exact all-eight-section responsive checks at 375, 768, and 1440 pixels were not reproduced in this session. Prior Rabby message signature recovery and existing finalized-transaction reads passed; a new signed contract write, rejected write, pending-transaction account/network changes, and UI finality edge-paths remain unverified.
+Deployment `dpl_4UAdv1uSKjMATxPFXckDM24mntif` is `READY` in the existing `deltaproof-v2` production project. Anonymous `GET https://deltaproof-v2.vercel.app/v2/` returned HTTP 200. The served V2 bundle was verified to contain the new gate-state message and not the old result-rendering branch. After reloading the actual public Chrome tab, the V2 page displayed four agents, two releases, and four decisions. The gate initially showed no result for empty query state; changing the agent cleared the prior record and showed “Inputs changed; query again.” A read-only latest-final query for `checkout-live-20261020` + `v2api-20261020` returned `DENY` (`allow:false`); changing the agent cleared it again, and querying `analytics-live-20261020` + `v2api-20261020` returned `ALLOW` (`allow:true`, revision 2). Result cards stated the exact queried identity. Project-wide Vercel deployment protection is disabled under the user's authorization.
 
 ## Acceptance conclusion
 
-Rabby connection and message signing are verified; recovered signer matched. The existing finalized transaction was retrieved and the V2 tracker was corrected and regression-tested against the raw SDK receipt shape. Production dashboard counts and configured StudioNet address were observed. Exact responsive acceptance at 375, 768, and 1440 pixels remains pending because browser viewport control stopped before all sections could be verified. The new V2 receipt-tracking fix is locally tested; a new wallet-signed contract write was not tested.
+Rabby connect, address display/copy, disconnect/reconnect, StudioNet switching, account-change detection, and an off-chain signature with recovered signer match were verified in prior live browser interaction. The existing finalized transaction was read and the V2 tracker regression-tested against the raw SDK receipt. Exact-width responsive checks covered all eight sections at 375px, 768px, and 1440px. Production bundle, anonymous access, and pair-specific gate results are verified. On the latest production reload, the UI showed `Connect wallet`; persistence therefore needs rechecking on this build. DevTools also recorded wallet-extension injection conflicts (including a MetaMask getter-only `window.ethereum` warning) and extension-origin errors. A new wallet-signed contract write, rejected signature, pending-transaction account/network changes, and visible UI finality edge path remain unverified.
