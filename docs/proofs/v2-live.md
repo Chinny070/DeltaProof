@@ -98,7 +98,7 @@ Latest-final state confirms the appeal is `RESOLVED` / `UPHELD`, Refund remains 
 
 ## Remaining live lifecycle work
 
-The Refund appeal lifecycle is complete and upheld with all submitted evidence digests verified. No reassessment is indicated because the decision remains BLOCKED. Analytics is unaffected and ineligible for a challenge; a separate affected pair is prepared but not yet registered or approved. A read-only Watchtower now polls that fixture pair and has only recorded its initial `NO_DECISION`; no transition has yet occurred. The CI gate baseline for the unregistered pair returned `NO_DECISION`, deny, exit code 1. The previous account-wide CI checks still show Checkout BLOCKED, Analytics ALLOW at revision 2, and Refund BLOCKED.
+The Refund appeal lifecycle is complete and upheld with all submitted evidence digests verified. No reassessment is indicated because the decision remains BLOCKED. Analytics is unaffected and ineligible for a challenge; a separate affected pair is prepared but not yet registered or approved. A read-only Watchtower polled that fixture pair at 15-second intervals. The raw JSONL has four `NO_DECISION` observations and three transient `READ_ERROR` entries during failed RPC fetches; it recovered to `NO_DECISION` at `2026-10-21T07:06:44.096Z`, then was stopped. No authorization transition was observed. The CI gate baseline for the unregistered pair returned `NO_DECISION`, deny, exit code 1. The previous account-wide CI checks still show Checkout BLOCKED, Analytics ALLOW at revision 2, and Refund BLOCKED.
 
 ## Watchtower and CI gate latest-final verification
 
@@ -117,7 +117,7 @@ Both transaction receipts were independently fetched again with GenLayerJS 1.1.8
 
 ## Safety fixture and observer start
 
-The new affected-pair fixture `eventtrace-live-20261021` / `eventtrace-v2-20261021` is explicitly synthetic and publisher-controlled. Its bounded compatibility evidence is pinned to a public GitHub commit and preflight fetched the exact bytes and verified SHA-256 `dab5d3a1431c08b850ebe09f910ec28a8c4a56a6108654d55a944422e0f08d25`. Read-only preflight found the agent, release, and decision do not yet exist; no transaction was sent. Before any safety writes, Watchtower polling began at 15-second intervals. The first raw JSONL observation is `NO_DECISION`, allow false, revision 0, `LATEST_FINAL`, timestamp `2026-10-21T06:47:44.656Z`. No approval, challenge, or resolution transition has been observed. The separate command runner cannot access the signer cached in the user's unlocked PowerShell terminal, so these remaining writes require that terminal.
+The new affected-pair fixture `eventtrace-live-20261021` / `eventtrace-v2-20261021` is explicitly synthetic and publisher-controlled. Its bounded compatibility evidence is pinned to a public GitHub commit and preflight fetched the exact bytes and verified SHA-256 `dab5d3a1431c08b850ebe09f910ec28a8c4a56a6108654d55a944422e0f08d25`. Read-only preflight found the agent, release, and decision do not yet exist; no transaction was sent. Before any safety writes, Watchtower polling began at 15-second intervals. The raw log contains four `NO_DECISION` entries and three transient `READ_ERROR` entries from failed RPC fetches. It returned to `NO_DECISION` at `2026-10-21T07:06:44.096Z` and was stopped; no approval, challenge, or resolution transition was observed. The separate command runner cannot access the signer cached in the user's unlocked PowerShell terminal, so these remaining writes require that terminal.
 
 ## Browser checks and public copy
 
