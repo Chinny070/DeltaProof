@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-21T06:53:00Z",
+  "recorded_at_utc": "2026-10-21T08:06:16Z",
   "network": {
     "name": "GenLayer StudioNet",
     "chain_id": 61999,
@@ -522,6 +522,154 @@
       "settled_fee_gen": null,
       "fee_note": "Explorer value is 0 GEN; SDK gas limit is 3008; settled protocol fee is not exposed.",
       "source": "User-provided StudioNet transaction details plus independently queried GenLayerJS 1.1.8 receipt and latest-final contract reads."
+    },
+    {
+      "scenario": "Register event-tracing consumer",
+      "hash": "0x28dda8c481db53abf235f8c0d623ccc1448c1cd074272ac20001f9c4f680776b",
+      "method": "register_agent",
+      "nonce": 3038,
+      "return_value": "c75ec2c295a91206136fc359c1ba8db2ea99c2fe0c03a0c2e2837fed01328292",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0x28dda8c481db53abf235f8c0d623ccc1448c1cd074272ac20001f9c4f680776b",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "explorer_consensus": "ACCEPTED",
+      "transaction_value_gen": "0",
+      "settled_fee_gen": null,
+      "fee_note": "Explorer transaction value was 0 GEN; the settled protocol fee was not exposed in the verified receipt and is not inferred."
+    },
+    {
+      "scenario": "Register event-tracing compatibility release",
+      "hash": "0x51ab176ab86748291787e3a55190ac98a8667c38b63b1c48fb39b630afc650de",
+      "method": "register_release",
+      "nonce": 3039,
+      "return_value": "db6fd22ff869a582c7b1f0eeb298a4eb5b82db446d32a37548d59ca495604692",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0x51ab176ab86748291787e3a55190ac98a8667c38b63b1c48fb39b630afc650de",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "explorer_consensus": "ACCEPTED",
+      "transaction_value_gen": "0",
+      "settled_fee_gen": null,
+      "fee_note": "Explorer transaction value was 0 GEN; the settled protocol fee was not exposed in the verified receipt and is not inferred."
+    },
+    {
+      "scenario": "Initial event-tracing semantic adjudication",
+      "hash": "0x7f0ceaa5fd391d44d1e71890433000149a427803e07ecf0ac55a0b7883f7f496",
+      "method": "adjudicate",
+      "nonce": 3040,
+      "return_value": "9d739f57b9b8ac5d6624d50396088efd3b511e4f494db0bca0fc84fef24aa786",
+      "decision": "APPROVED",
+      "risk": "LOW",
+      "mode": "GENLAYER_INDEPENDENT_CONSENSUS",
+      "evidence_sha256": "dab5d3a1431c08b850ebe09f910ec28a8c4a56a6108654d55a944422e0f08d25",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0x7f0ceaa5fd391d44d1e71890433000149a427803e07ecf0ac55a0b7883f7f496",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "explorer_consensus": "ACCEPTED",
+      "transaction_value_gen": "0",
+      "settled_fee_gen": null,
+      "fee_note": "Explorer transaction value was 0 GEN; the settled protocol fee was not exposed in the verified receipt and is not inferred."
+    },
+    {
+      "scenario": "Open event-tracing safety challenge",
+      "hash": "0x4778b15ea4ccc12da2af3ebd829710b78e9437053f3b9d20292a20a0fa3d960f",
+      "method": "open_safety_challenge",
+      "nonce": 3041,
+      "return_value": "dbb0340434b1954c665c2a88d6fe4d26a8912dec5f5fac28c3da0c9531fb02da",
+      "screening": "CREDIBLE",
+      "counterevidence_sha256": "947ad0040e20bfc997e0254f3c5acaca569599a7f2b22a9a62a7626b2e48f7d1",
+      "targeted_authorization": "SAFETY_CHALLENGE_PENDING",
+      "unrelated_analytics": "ALLOW",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0x4778b15ea4ccc12da2af3ebd829710b78e9437053f3b9d20292a20a0fa3d960f",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "explorer_consensus": "ACCEPTED",
+      "transaction_value_gen": "0",
+      "settled_fee_gen": null,
+      "fee_note": "Explorer transaction value was 0 GEN; the settled protocol fee was not exposed in the verified receipt and is not inferred."
+    },
+    {
+      "scenario": "Submit event-tracing safety publisher response",
+      "hash": "0xfa986d45c1dfc5773cb13ab374180e8bc129ee270ae0027ab8c2baacb7329e62",
+      "method": "respond_to_safety_challenge",
+      "nonce": 3042,
+      "response_sha256": "9d1367b4a320ea98c7fdf03dddb6c6e4c1c40b28c66c0c4abe90f0a6c337b6f8",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0xfa986d45c1dfc5773cb13ab374180e8bc129ee270ae0027ab8c2baacb7329e62",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "explorer_consensus": "ACCEPTED",
+      "transaction_value_gen": "0",
+      "settled_fee_gen": null,
+      "fee_note": "Explorer transaction value was 0 GEN; the settled protocol fee was not exposed in the verified receipt and is not inferred."
+    },
+    {
+      "scenario": "Resolve event-tracing safety challenge",
+      "hash": "0x3ec964e9d026318c1d9c725f83ed6d5d87a0ca5d3ea38429be1b856f8c13937e",
+      "method": "resolve_safety_challenge",
+      "nonce": 3043,
+      "return_value": "a197579c69779bd8ddfdc341d00355c8450664b47ef32e9ac8f3251915e316b6",
+      "outcome": "REVIEW_REQUIRED",
+      "risk": "MEDIUM",
+      "evidence_sufficient": false,
+      "evidence_profile": [
+        {
+          "kind": "counterevidence",
+          "characters": 2682,
+          "sha256": "947ad0040e20bfc997e0254f3c5acaca569599a7f2b22a9a62a7626b2e48f7d1",
+          "status": "VERIFIED"
+        },
+        {
+          "kind": "publisher_response",
+          "characters": 1847,
+          "sha256": "9d1367b4a320ea98c7fdf03dddb6c6e4c1c40b28c66c0c4abe90f0a6c337b6f8",
+          "status": "VERIFIED"
+        },
+        {
+          "kind": "initial_compatibility_evidence",
+          "characters": 1799,
+          "sha256": "dab5d3a1431c08b850ebe09f910ec28a8c4a56a6108654d55a944422e0f08d25",
+          "status": "VERIFIED"
+        }
+      ],
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0x3ec964e9d026318c1d9c725f83ed6d5d87a0ca5d3ea38429be1b856f8c13937e",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "explorer_consensus": "ACCEPTED",
+      "transaction_value_gen": "0",
+      "settled_fee_gen": null,
+      "fee_note": "Explorer transaction value was 0 GEN; the settled protocol fee was not exposed in the verified receipt and is not inferred."
+    },
+    {
+      "scenario": "Fresh event-tracing adjudication after safety challenge",
+      "hash": "0x1568c7b546c075ee01b3e8d777781489173989e273a59adcb91f300e825f9198",
+      "method": "adjudicate",
+      "nonce": 3044,
+      "return_value": "5609a8732ec63b7a16890a365458bfff05881fa085686f9b59f90f1f518fead9",
+      "decision": "REVIEW_REQUIRED",
+      "revision": 2,
+      "risk": "MEDIUM",
+      "mode": "GENLAYER_INDEPENDENT_CONSENSUS",
+      "previous_passport_hash": "9d739f57b9b8ac5d6624d50396088efd3b511e4f494db0bca0fc84fef24aa786",
+      "explorer_url": "https://explorer-studio.genlayer.com/tx/0x1568c7b546c075ee01b3e8d777781489173989e273a59adcb91f300e825f9198",
+      "contract": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+      "from": "0xaffe15eec45b68835cc9E5B4Ab85dD5deaE8e70b",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "explorer_consensus": "ACCEPTED",
+      "transaction_value_gen": "0",
+      "settled_fee_gen": null,
+      "fee_note": "Explorer transaction value was 0 GEN; the settled protocol fee was not exposed in the verified receipt and is not inferred."
     }
   ],
   "latest_final_state_after_registration": {
@@ -683,7 +831,7 @@
     "evidence_hash": "7ca7f285d0c1bd846472eebcae4dc2f2bda799b182be791093d2688860b38bb7",
     "evidence_profile_status": "NOT_YET_RETRIEVED_BY_ADJUDICATION"
   },
-  "lifecycle_status": "CHECKOUT_BLOCKED; ANALYTICS_FREEZE_RESOLVED_AND_REVISION_2_ALLOW; REFUND_SEMANTIC_BLOCKED_AND_APPEAL_UPHELD; SAFETY_CHALLENGE_NOT_STARTED_PENDING_USER_TERMINAL_SIGNER; WATCHTOWER_RUNNING_AWAITING_SAFETY_PAIR_TRANSITIONS",
+  "lifecycle_status": "CHECKOUT_BLOCKED; ANALYTICS_ALLOW_REVISION_2; REFUND_BLOCKED_APPEAL_UPHELD; EVENTTRACE_SAFETY_CHALLENGE_RESOLVED_REVIEW_REQUIRED_REVISION_2; EVENTTRACE_AUTHORIZATION_DENIED; SAFETY_CYCLE_COMPLETE",
   "signer_diagnostic": {
     "authorized_public_address": "0xaffe15eec45b68835cc9e5b4ab85dd5deae8e70b",
     "unlocked_in_user_codex_terminal": true,
@@ -1366,5 +1514,129 @@
     "revision": 2,
     "exit_code": 0,
     "verified_at_utc": "2026-10-21T07:14:35Z"
-  }
+  },
+  "latest_final_state_after_safety_challenge": {
+    "verified_at_utc": "2026-10-21T08:06:16Z",
+    "network": "GenLayer StudioNet",
+    "chain_id": 61999,
+    "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+    "pair": {
+      "release_id": "eventtrace-v2-20261021",
+      "agent_id": "eventtrace-live-20261021"
+    },
+    "challenge": {
+      "status": "RESOLVED",
+      "outcome": "REVIEW_REQUIRED",
+      "sufficient": false,
+      "risk": "MEDIUM",
+      "resolution_hash": "a197579c69779bd8ddfdc341d00355c8450664b47ef32e9ac8f3251915e316b6",
+      "all_three_evidence_sources": "VERIFIED"
+    },
+    "current_decision": {
+      "revision": 2,
+      "decision": "REVIEW_REQUIRED",
+      "risk": "MEDIUM",
+      "mode": "GENLAYER_INDEPENDENT_CONSENSUS",
+      "passport_hash": "5609a8732ec63b7a16890a365458bfff05881fa085686f9b59f90f1f518fead9",
+      "previous_passport_hash": "9d739f57b9b8ac5d6624d50396088efd3b511e4f494db0bca0fc84fef24aa786",
+      "impacted_dependencies": [
+        {
+          "method": "GET",
+          "path": "/events/{event_id}",
+          "critical": true
+        }
+      ]
+    },
+    "current_authorization": {
+      "allow": false,
+      "status": "REVIEW_REQUIRED",
+      "revision": 2,
+      "reason": "The latest decision is not an approval."
+    },
+    "previous_decision": {
+      "revision": 1,
+      "decision": "APPROVED",
+      "risk": "LOW",
+      "passport_hash": "9d739f57b9b8ac5d6624d50396088efd3b511e4f494db0bca0fc84fef24aa786"
+    },
+    "unrelated_analytics_authorization": {
+      "allow": true,
+      "status": "ALLOW",
+      "revision": 2,
+      "passport_hash": "9c1faa0103660734288b4fe7c205bb0a50c4e72c21511b64249a7b88f3959ab0"
+    },
+    "note": "Latest-final reads independently verified the challenge, revision history, targeted deny state and unaffected Analytics ALLOW."
+  },
+  "latest_final_ci_gate_after_safety_challenge": {
+    "verified_at_unix": 1792569902,
+    "network": "GenLayer StudioNet",
+    "chain_id": 61999,
+    "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+    "pair": {
+      "release_id": "eventtrace-v2-20261021",
+      "agent_id": "eventtrace-live-20261021"
+    },
+    "output": {
+      "allow": false,
+      "status": "REVIEW_REQUIRED",
+      "revision": 2,
+      "state": "LATEST_FINAL",
+      "chainId": 61999
+    },
+    "process_exit_code": 1,
+    "transaction_sent": false
+  },
+  "safety_watchtower_lifecycle": {
+    "status": "STOPPED_AFTER_VERIFIED_TRANSITIONS_AND_RPC_RATE_LIMIT",
+    "contract_address": "0x367C2B9f8B52EEd57977B84c458eaD4c3105E718",
+    "interval_ms": 15000,
+    "transitions": [
+      {
+        "agent_id": "eventtrace-live-20261021",
+        "release_id": "eventtrace-v2-20261021",
+        "status": "ALLOW",
+        "allow": true,
+        "revision": 1,
+        "observed_at": "2026-10-21T07:38:27.459Z"
+      },
+      {
+        "agent_id": "eventtrace-live-20261021",
+        "release_id": "eventtrace-v2-20261021",
+        "status": "SAFETY_CHALLENGE_PENDING",
+        "allow": false,
+        "revision": 1,
+        "observed_at": "2026-10-21T07:44:36.109Z"
+      },
+      {
+        "agent_id": "eventtrace-live-20261021",
+        "release_id": "eventtrace-v2-20261021",
+        "status": "REASSESSMENT_REQUIRED",
+        "allow": false,
+        "revision": 1,
+        "observed_at": "2026-10-21T07:54:24.742Z"
+      },
+      {
+        "agent_id": "eventtrace-live-20261021",
+        "release_id": "eventtrace-v2-20261021",
+        "status": "REVIEW_REQUIRED",
+        "allow": false,
+        "revision": 2,
+        "observed_at": "2026-10-21T08:01:02.205Z"
+      },
+      {
+        "agent_id": "analytics-live-20261020",
+        "release_id": "v2api-20261020",
+        "status": "ALLOW",
+        "allow": true,
+        "revision": 2,
+        "observed_at": "2026-10-21T08:01:03.546Z"
+      }
+    ],
+    "transient_read_errors": [
+      "2026-10-21T07:59:52.200Z rate limit exceeded: 500 requests per hour; later read recovered to latest-final Analytics ALLOW and eventtrace REVIEW_REQUIRED."
+    ],
+    "log_path": "docs/proofs/safety-watchtower.jsonl",
+    "note": "Read-only observer. Stopped after the StudioNet RPC rate limit was reached; no write was sent by Watchtower."
+  },
+  "deployment_readiness_assessment": "PARTIAL: safety challenge lifecycle is complete and evidence/decisions are recorded. Event-tracing release is fail-closed at REVIEW_REQUIRED pending real consumer/schema evidence or an implementation change and a new separately authorized adjudication. Browser wallet acceptance and Vercel deployment of corrected public copy remain outstanding."
 }
