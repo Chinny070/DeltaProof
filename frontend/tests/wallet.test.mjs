@@ -19,6 +19,17 @@ test('disconnect clears site session and detaches listeners',async()=>{const p=n
 test('network switch moves to the right chain',async()=>{const p=new Provider({chainId:'0x1'});const {wallet}=ctl(p);await wallet.connect();assert.equal(wallet.state.chainId,1);await wallet.switchNetwork();assert.equal(wallet.state.chainId,61999);assert.ok(p.calls.includes('wallet_switchEthereumChain'));});
 test('unknown chain uses wallet_addEthereumChain',async()=>{const p=new Provider({chainId:'0x1',needsAdd:true});const {wallet}=ctl(p);await wallet.connect();await wallet.switchNetwork();assert.ok(p.calls.includes('wallet_addEthereumChain'));assert.equal(wallet.state.chainId,61999);});
 test('connect missing provider rejects explicitly',async()=>{const {wallet}=ctl(null);await assert.rejects(wallet.connect(),/No injected wallet/);});
+test('connect prefers an EIP-6963 Rabby provider over a competing window.ethereum',async()=>{
+ const competing=new Provider(),rabby=new Provider();let announce;
+ const discovery={ethereum:competing,addEventListener:(name,fn)=>{if(name==='eip6963:announceProvider')announce=fn;},removeEventListener(){},dispatchEvent(){announce?.({detail:{info:{name:'Rabby Wallet',rdns:'io.rabby'},provider:rabby}});}};
+ const wallet=createWalletController({storage:new MemoryStorage(),discovery});wallet.discover();await wallet.connect();
+ assert.equal(wallet.state.address,ACCOUNT);assert.ok(rabby.calls.includes('eth_requestAccounts'));assert.equal(competing.calls.length,0);
+});
+test('empty account response gives a visible connection error and detaches provider',async()=>{
+ const p=new Provider({accounts:[]});const {wallet}=ctl(p);
+ await assert.rejects(wallet.connect(),/Wallet returned no accounts/);
+ assert.match(wallet.state.error,/Select or authorize an account in Rabby/);assert.equal(wallet.state.provider,null);assert.equal(wallet.state.address,'');
+});
 test('account change reflected and hint cleared if disconnected by extension',async()=>{const p=new Provider();const {wallet,storage}=ctl(p);await wallet.connect();p.events.accountsChanged([]);assert.equal(wallet.state.address,'');assert.equal(storage.getItem('deltaproof.wallet.preferred.v1'),null);});
 test('wrong network does not auto-sign or auto-switch',async()=>{const p=new Provider({chainId:'0x1'});const {wallet}=ctl(p);await wallet.connect();assert.equal(wallet.state.chainId,1);assert.equal(p.calls.includes('wallet_switchEthereumChain'),false);});
 

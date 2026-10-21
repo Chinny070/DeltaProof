@@ -12,7 +12,16 @@ export function createWalletController({storage=window.localStorage, discovery=w
     listeners = [[provider,'accountsChanged',accountsChanged],[provider,'chainChanged',chainChanged]];
   }
   function detach() { for(const [p, event,fn] of listeners) p.removeListener?.(event,fn); listeners=[]; }
-  function injected() { return state.provider || discovery.ethereum || state.providers[0]?.provider || null; }
+  function injected() {
+    if (state.provider) return state.provider;
+    // Prefer an explicitly announced Rabby provider over the legacy global.
+    // Multiple extensions may compete for window.ethereum, which can point at
+    // a different wallet (or a read-only proxy) than the user's chosen wallet.
+    const rabby = state.providers.find(({info}) =>
+      /rabby/i.test(`${info?.name || ''} ${info?.rdns || ''}`)
+    )?.provider;
+    return rabby || discovery.ethereum || state.providers[0]?.provider || null;
+  }
   function discover() {
     const announce = event => {
       const info = event.detail;
@@ -26,6 +35,9 @@ export function createWalletController({storage=window.localStorage, discovery=w
     if (!provider) throw Error('No injected wallet detected. Install a compatible wallet extension.');
     attach(provider);
     const accounts=await provider.request({method: request ? 'eth_requestAccounts':'eth_accounts'});
+    if (request && !accounts?.length) {
+      throw Error('Wallet returned no accounts. Select or authorize an account in Rabby, then retry.');
+    }
     state.address=accounts?.[0] || '';
     const chain=await provider.request({method:'eth_chainId'});
     state.chainId=Number(chain);
@@ -35,7 +47,10 @@ export function createWalletController({storage=window.localStorage, discovery=w
   async function connect(provider=injected()) {
     state.loading=true;state.error='';emit();
     try { return await refresh(provider,true); }
-    catch(e) { state.error=e?.message||'Wallet connection failed';emit();throw e; }
+    catch(e) {
+      if (!state.address) { detach(); state.provider=null; state.chainId=null; }
+      state.error=e?.message||'Wallet connection failed';emit();throw e;
+    }
     finally{state.loading=false;emit();}
   }
   async function restore() {
